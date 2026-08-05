@@ -367,6 +367,7 @@ namespace VCheckListenerWorker
                     if (sIMessage.Message.Message.GetType() == typeof(NHapi.Model.V251.Message.OUL_R22))
                     {
                         Lib.Logic.HL7.V251.HL7Repository.ProcessMessage(sIMessage, sSystemName);
+                        //Lib.Logic.HL7.V251.tempHL7.ProcessMessage(sIMessage, sSystemName);
                         Console.WriteLine("Data processed...");
                     }
                     else

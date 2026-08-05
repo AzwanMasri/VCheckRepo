@@ -214,6 +214,9 @@ namespace VCheckListenerWorker.Lib.Models
         //public string? TestResultStatus { get; set; }
         //public Decimal? TestResultValue { get; set; }
         //public string? TestResultRules { get; set; }
+        public string? Species { get; set; }
+        public string? Age { get; set; }
+        public string? Weight { get; set; }
         public string? DeviceSerialNo { get; set; }
         public int IsDeleted { get; set; }
         public long Analyze_TableRowID { get; set; }

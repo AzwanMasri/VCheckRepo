@@ -156,7 +156,8 @@ namespace VCheckViewer.Views.Pages.Results
             }
             else
             {
-                App.MainViewModel.Origin = "SelectAdditionalTestResult";
+                //App.MainViewModel.Origin = "SelectAdditionalTestResult";
+                App.MainViewModel.Origin = "AskAdditionalTestResult";
                 App.PopupHandler(null, null);
             }
 

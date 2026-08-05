@@ -730,6 +730,63 @@ namespace VCheckViewer.Views.Windows
 
                 PopupContent.Text = Properties.Resources.General_Message_ErrorOccured;
             }
+
+            if (App.MainViewModel.Origin == "SelectTestID")
+            {
+                PopupSetup(false, false, true, true, false, false, false, true);
+
+                parameterList.Items.Clear();
+
+                int currentTest = 1;
+                int remainder = 0;
+                bool excess = false;
+
+                const int columnCount = 2;
+
+                int totalRow = Math.DivRem(App.Device.Count - 1, columnCount, out remainder);
+
+                if (remainder > 0)
+                {
+                    totalRow += 1;
+                    excess = true;
+                }
+
+                for (int i = 0; i < totalRow; i++)
+                {
+                    StackPanel stackPanel = new StackPanel();
+                    stackPanel.Orientation = System.Windows.Controls.Orientation.Horizontal;
+                    stackPanel.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+
+                    int elementPerRow = (i == totalRow - 1 && excess)
+                        ? remainder
+                        : columnCount;
+
+                    for (int j = 0; j < elementPerRow; j++)
+                    {
+                        CheckBox checkBox = new CheckBox();
+                        checkBox.Foreground = Brushes.White;
+                        checkBox.BorderBrush = Brushes.White;
+
+                        checkBox.Width = 420;
+                        checkBox.Margin = new Thickness(10);
+
+                        checkBox.Content =
+                            $"{App.Device[currentTest].DeviceName} | " +
+                            $"{App.Device[currentTest].TestResultType} | " +
+                            $"{App.Device[currentTest].CreatedDate:yyyy-MM-dd HH:mm}";
+
+                        checkBox.Tag = App.Device[currentTest].TestID;
+
+                        stackPanel.Children.Add(checkBox);
+
+                        currentTest++;
+                    }
+
+                    parameterList.Items.Add(stackPanel);
+                }
+
+                PopupContent.Text = "Select Test Result";
+            }
             if (App.MainViewModel.Origin == "SelectParameters")
             {
                 PopupSetup(false, false, true, true, false, false, false, true);
@@ -791,11 +848,18 @@ namespace VCheckViewer.Views.Windows
                     PopupContent.Text = Properties.Resources.Popup_Message_SelectParameterDownload;
                 }
             }
+            if (App.MainViewModel.Origin == "AskAdditionalTestResult")
+            {
+                PopupSetup(true, true, false, false, false, false, false, false);
+
+                PopupContent.Text = "Do you want to include another analyzer's test result?";
+            }
             if (App.MainViewModel.Origin == "SelectAdditionalTestResult")
             {
                 PopupSetup(false, false, true, true, false, false, false, true);
 
-                App.Device.AddRange(TestResultsRepository.GetRelatedTestResultByPatientID(ConfigSettings.GetConfigurationSettings(), App.DowloadPrintObject[0].TestResult.PatientID, App.Device[0].DeviceName));                
+                //App.Device.AddRange(TestResultsRepository.GetRelatedTestResultsByPatientIDAndAnalyzer(ConfigSettings.GetConfigurationSettings(),App.DowloadPrintObject[0].TestResult.PatientID,App.Device[0].DeviceName));
+                App.Device.AddRange(TestResultsRepository.GetRelatedTestResultByPatientID(ConfigSettings.GetConfigurationSettings(),App.DowloadPrintObject[0].TestResult.PatientID,App.Device[0].DeviceName));
 
                 if(App.Device.Count > 1)
                 {
@@ -804,7 +868,11 @@ namespace VCheckViewer.Views.Windows
                     int currentParameter = 1;
                     int remainder = 0;
                     bool excess = false;
-                    int totalRow = Math.DivRem(App.Device.Count - 1, 5, out remainder);
+
+                    //int totalRow = Math.DivRem(App.Device.Count - 1, 5, out remainder);
+                    const int columnCount = 2;
+                    int totalRow = Math.DivRem(App.Device.Count - 1, columnCount, out remainder);
+
                     if (remainder > 0)
                     {
                         totalRow += 1;
@@ -816,7 +884,9 @@ namespace VCheckViewer.Views.Windows
                         StackPanel stackPanel = new StackPanel();
                         stackPanel.Orientation = System.Windows.Controls.Orientation.Horizontal;
                         stackPanel.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
-                        int elementPerRow = (i == (totalRow - 1) && excess) ? remainder : 5;
+                        int elementPerRow = (i == (totalRow - 1) && excess)
+                            ? remainder
+                            : columnCount;
 
                         for (int j = 0; j < elementPerRow; j++)
                         {
@@ -947,10 +1017,28 @@ namespace VCheckViewer.Views.Windows
                 }
             }
             if (App.MainViewModel.Origin == "ResetPassword") { ResetPasswordHandler(e, sender); }
+
+            if (App.MainViewModel.Origin == "AskAdditionalTestResult")
+            {
+                App.MainViewModel.Origin = "SelectAdditionalTestResult";
+                App.PopupHandler(e, sender);
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
+            if (App.MainViewModel.Origin == "AskAdditionalTestResult")
+            {
+                popup.IsOpen = false;
+                PopupBackground.Background = null;
+
+                PopupSetup(true, true, false, false, false, false, false, false);
+
+                App.MainViewModel.Origin = "SelectParameters";
+                App.PopupHandler(e, sender);
+
+                return;
+            }
             // Enable main window
             this.IsEnabled = true;
             // Close the popup
@@ -1064,8 +1152,58 @@ namespace VCheckViewer.Views.Windows
                 GetSelectedParameters(e, sender);
             }
 
+            //edited by aqil
             else if (App.MainViewModel.Origin == "SelectAdditionalTestResult")
             {
+                var stackPanels = parameterList.Items.OfType<StackPanel>();
+
+                List<string> selectedAnalyzers = new();
+
+                foreach (var panel in stackPanels)
+                {
+                    selectedAnalyzers.AddRange(
+                        panel.Children
+                             .OfType<CheckBox>()
+                             .Where(x => x.IsChecked == true)
+                             .Select(x => x.Content.ToString())
+                    );
+                }
+
+                if (selectedAnalyzers.Count == 0)
+                    return;
+
+                var currentDevice = App.Device[0];
+
+                App.Device.Clear();
+                App.Device.Add(currentDevice);
+
+                foreach (var analyzerName in selectedAnalyzers)
+                {
+                    var selectedTests =
+                        TestResultsRepository.GetRelatedTestResultsByPatientIDAndAnalyzer(
+                            ConfigSettings.GetConfigurationSettings(),
+                            App.DowloadPrintObject[0].TestResult.PatientID,
+                            analyzerName,
+                            App.DowloadPrintObject[0].TestResult.ID
+                        );
+
+                    App.Device.AddRange(selectedTests);
+                }
+
+                App.MainViewModel.Origin = "SelectTestID";
+                App.PopupHandler(e, sender);
+            }
+
+            //edited by aqil
+            else if (App.MainViewModel.Origin == "SelectTestID")
+            {
+                this.IsEnabled = true;
+                popup.IsOpen = false;
+
+                PopupBackground.Background = null;
+
+                PopupSetup(true, true, false, false, false, false, false, false);
+
                 GetTestResult(e, sender);
             }
         }
@@ -1701,11 +1839,13 @@ namespace VCheckViewer.Views.Windows
             //TestResultsRepository.UpdateTestResult(ConfigSettings.GetConfigurationSettings(), App.TestResultInfo);
             ResultPage.UpdatePatientNameHandler(e, sender);
 
+            //edited by aqil
             if (App.isEmptyName)
             {
                 App.DowloadPrintObject[0].TestResult.PatientName = App.TestResultInfo.PatientName;
 
-                App.MainViewModel.Origin = "SelectAdditionalTestResult";
+                //App.MainViewModel.Origin = "SelectAdditionalTestResult";
+                App.MainViewModel.Origin = "AskAdditionalTestResult";
                 App.PopupHandler(e, sender);
             }
             else
@@ -1738,7 +1878,9 @@ namespace VCheckViewer.Views.Windows
 
             foreach(var test in selectedTest)
             {
-                var TestID = App.Device.FirstOrDefault(x => x.DeviceName == test.Content).TestID;
+                //edited by aqil
+                //var TestID = App.Device.FirstOrDefault(x => x.DeviceName == test.Content).TestID;
+                long TestID = Convert.ToInt64(test.Tag);
                 var TestResult = TestResultsRepository.GetTestResultByID(ConfigSettings.GetConfigurationSettings(), TestID);
 
                 DownloadPrintResultModel downloadPrintModelTemp = new DownloadPrintResultModel();

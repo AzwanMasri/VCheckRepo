@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using Microsoft.Extensions.Hosting;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
@@ -50,6 +51,9 @@ namespace VCheckViewer.Views.Pages.Results
             PatientNameLabel.Text = Properties.Resources.Results_Label_PatientName + ":";
             DateTimeLabel.Text = Properties.Resources.Report_Label_DateTime + ":";
             DoctorNameLabel.Text = Properties.Resources.Results_Label_Doctor + ":";
+            SpeciesLabel.Text = "Species:";
+            AgeLabel.Text = "Age:";
+            WeightLabel.Text = "Weight:";
 
             //PreviousDatetime = "(" + DateTime.Now.ToString("dd/MM/yyyy hh:mm") + ")";
         }
@@ -99,7 +103,50 @@ namespace VCheckViewer.Views.Pages.Results
 
             PatientID.Text = sTestResult.PatientID;
             PatientName.Text = sTestResult.PatientName;
+            Species.Text = sTestResult.Species;
+            Age.Text = sTestResult.Age;
+            Weight.Text = sTestResult.Weight;
             DoctorName.Text = sTestResult.InchargePerson;
+
+            /*// Species
+            if (!string.IsNullOrWhiteSpace(sTestResult.Species))
+            {
+                SpeciesRow.Visibility = Visibility.Visible;
+
+                SpeciesLabel.Text = "Species:";
+                Species.Text = sTestResult.Species;
+            }
+            else
+            {
+                SpeciesRow.Visibility = Visibility.Collapsed;
+            }
+
+            // Age
+            if (!string.IsNullOrWhiteSpace(sTestResult.Age))
+            {
+                AgeRow.Visibility = Visibility.Visible;
+
+                AgeLabel.Text = "Age:";
+                Age.Text = sTestResult.Age;
+            }
+            else
+            {
+                AgeRow.Visibility = Visibility.Collapsed;
+            }
+
+            // Weight
+            if (!string.IsNullOrWhiteSpace(sTestResult.Weight))
+            {
+                WeightRow.Visibility = Visibility.Visible;
+
+                WeightLabel.Text = "Weight:";
+                Weight.Text = sTestResult.Weight;
+            }
+            else
+            {
+                WeightRow.Visibility = Visibility.Collapsed;
+            }
+            */
 
             var sConfigObj = configDBContext.GetConfigurationData("System_DateFormat").FirstOrDefault();
 

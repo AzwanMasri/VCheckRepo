@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckAutoNotificationTask\\VCheckAutoNotificationTask.csproj": {}
+    "C:\\Users\\SVRITL-0003\\source\\repos\\VCheckRepo\\VCheckAutoNotificationTask\\VCheckAutoNotificationTask.csproj": {}
   },
   "projects": {
-    "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
+    "C:\\Users\\SVRITL-0003\\source\\repos\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj",
+        "projectUniqueName": "C:\\Users\\SVRITL-0003\\source\\repos\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj",
         "projectName": "VCheck.Lib.Data",
-        "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj",
-        "packagesPath": "C:\\Users\\azwan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\obj\\",
+        "projectPath": "C:\\Users\\SVRITL-0003\\source\\repos\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj",
+        "packagesPath": "C:\\Users\\SVRITL-0003\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\SVRITL-0003\\source\\repos\\VCheckRepo\\Library\\VCheck.Lib.Data\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\azwan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\SVRITL-0003\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -27,10 +27,12 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
           "net8.0": {
+            "framework": "net8.0",
             "targetAlias": "net8.0",
             "projectReferences": {}
           }
@@ -45,10 +47,11 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
         "net8.0": {
+          "framework": "net8.0",
           "targetAlias": "net8.0",
           "dependencies": {
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
@@ -98,24 +101,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckAutoNotificationTask\\VCheckAutoNotificationTask.csproj": {
+    "C:\\Users\\SVRITL-0003\\source\\repos\\VCheckRepo\\VCheckAutoNotificationTask\\VCheckAutoNotificationTask.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckAutoNotificationTask\\VCheckAutoNotificationTask.csproj",
+        "projectUniqueName": "C:\\Users\\SVRITL-0003\\source\\repos\\VCheckRepo\\VCheckAutoNotificationTask\\VCheckAutoNotificationTask.csproj",
         "projectName": "VCheckAutoNotificationTask",
-        "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckAutoNotificationTask\\VCheckAutoNotificationTask.csproj",
-        "packagesPath": "C:\\Users\\azwan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckAutoNotificationTask\\obj\\",
+        "projectPath": "C:\\Users\\SVRITL-0003\\source\\repos\\VCheckRepo\\VCheckAutoNotificationTask\\VCheckAutoNotificationTask.csproj",
+        "packagesPath": "C:\\Users\\SVRITL-0003\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\SVRITL-0003\\source\\repos\\VCheckRepo\\VCheckAutoNotificationTask\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\azwan\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\SVRITL-0003\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -124,14 +127,16 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "C:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "net8.0-windows7.0": {
+          "net8.0-windows": {
+            "framework": "net8.0-windows7.0",
             "targetAlias": "net8.0-windows",
             "projectReferences": {
-              "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
-                "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj"
+              "C:\\Users\\SVRITL-0003\\source\\repos\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
+                "projectPath": "C:\\Users\\SVRITL-0003\\source\\repos\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj"
               }
             }
           }
@@ -146,10 +151,11 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "10.0.300"
       },
       "frameworks": {
-        "net8.0-windows7.0": {
+        "net8.0-windows": {
+          "framework": "net8.0-windows7.0",
           "targetAlias": "net8.0-windows",
           "dependencies": {
             "Microsoft.Extensions.Configuration.Json": {
@@ -173,7 +179,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

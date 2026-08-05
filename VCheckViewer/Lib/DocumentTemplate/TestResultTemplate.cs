@@ -149,6 +149,45 @@ namespace VCheckViewer.Lib.DocumentTemplate
                                             .MinHeight(20)
                                             .Text(text =>
                                             {
+                                                text.Span("Species : ").Bold();
+                                                text.Span(sDownloadPrintResultModels[0].TestResult.Species);
+                                            });
+                                    });
+
+                                    rightColumn.Item().Column(col =>
+                                    {
+                                        col.Item()
+                                            .PaddingLeft(5)
+                                            .PaddingTop(10)
+                                            .MinHeight(20)
+                                            .Text(text =>
+                                            {
+                                                text.Span("Age : ").Bold();
+                                                text.Span(sDownloadPrintResultModels[0].TestResult.Age);
+                                            });
+                                    });
+
+                                    rightColumn.Item().Column(col =>
+                                    {
+                                        col.Item()
+                                            .PaddingLeft(5)
+                                            .PaddingTop(10)
+                                            .MinHeight(20)
+                                            .Text(text =>
+                                            {
+                                                text.Span("Weight : ").Bold();
+                                                text.Span(sDownloadPrintResultModels[0].TestResult.Weight);
+                                            });
+                                    });
+
+                                    rightColumn.Item().Column(col =>
+                                    {
+                                        col.Item()
+                                            .PaddingLeft(5)
+                                            .PaddingTop(10)
+                                            .MinHeight(20)
+                                            .Text(text =>
+                                            {
                                                 text.Span(Properties.Resources.Results_Label_Doctor + " : ").Bold();
                                                 text.Span(sDownloadPrintResultModels[0].TestResult.InchargePerson);
                                             });
@@ -349,7 +388,7 @@ namespace VCheckViewer.Lib.DocumentTemplate
                                                     float resultValue = 0;
                                                     var testResultValue = !string.IsNullOrEmpty(d.TestResultValue) && !(d.TestResultValue.Contains("-") && !d.TestResultValue.StartsWith("-"));
                                                     testResultValue = testResultValue ? float.TryParse(d.TestResultValue.Replace("< ", "").Replace("> ", "").Replace("=", ""), CultureInfo.InvariantCulture, out resultValue) : false;
-
+                                                    //
                                                     if (!string.IsNullOrEmpty(d.ReferenceRange) && d.ReferenceRange != "0" && !d.ReferenceRange.Contains("<") && !Regex.IsMatch(d.ReferenceRange, "[A-Za-z]") && !hasIC && testResultValue)
                                                     {
                                                         var range = d.ReferenceRange.Replace("[", "").Replace("]", "").Contains(";") ? d.ReferenceRange.Replace(" ", "").Replace("[", "").Replace("]", "").Split(";") : d.ReferenceRange.Replace(" ", "").Replace("[", "").Replace("]", "").Split("-"); ;
@@ -375,7 +414,7 @@ namespace VCheckViewer.Lib.DocumentTemplate
                                                     {
                                                         testStatus = Properties.Resources.Dashboard_Label_Positive;
                                                     }
-                                                    else if (d.TestResultStatus.ToLower() == "abnormal")
+                                                    else if (d.TestResultStatus.ToLower() == "abnormal")//
                                                     {
                                                         testStatus = Properties.Resources.Schedule_Label_Abnormal;
                                                         foreground = "#ff0000";
@@ -470,7 +509,7 @@ namespace VCheckViewer.Lib.DocumentTemplate
                                                                     .Text(hasIC ? "-" : reference);
                                                             });
                                                         });
-
+                                                        //
                                                         row.RelativeItem().PaddingRight(5).PaddingTop(1).AlignCenter().AlignMiddle().MinHeight(15).MinWidth(110).Layers(layer =>
                                                         {
                                                             if (haveIndicator && !hasIC)
@@ -672,7 +711,7 @@ namespace VCheckViewer.Lib.DocumentTemplate
                 percentage = (balance / range) * onceWidth;
                 lowNormalHigh = 0;
             }
-            else if (value > end && actualEnd > value)
+            else if (value > end && actualEnd > value)//
             {
                 float balance = value - end;
                 percentage = (balance / range) * onceWidth + twiceWidth;
