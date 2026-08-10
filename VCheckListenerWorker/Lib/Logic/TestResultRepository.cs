@@ -576,19 +576,19 @@ namespace VCheckListenerWorker.Lib.Logic
 
                     if (string.IsNullOrEmpty(sIP))
                     {
-                        device = ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceSerialNo == sSerialNo);
+                        device = ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceSerialNo == sSerialNo && x.status == 1);
                     }
                     else if (string.IsNullOrEmpty(sSerialNo))
                     {
-                        device = ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceIPAddress == sIP);
+                        device = ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceIPAddress == sIP && x.status == 1);
                     }
                     else
                     {
-                        device = ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceSerialNo == sSerialNo);
+                        device = ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceSerialNo == sSerialNo && x.status == 1);
 
                         if(device == null)
                         {
-                            device = ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceIPAddress == sIP);
+                            device = ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceIPAddress == sIP && x.status == 1);
                         }
                     }
 

@@ -216,6 +216,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
                 msh.Field(15, "NE");
                 msh.Field(16, "NE");
                 msh.Field(18, "UNICODE UTF-8");
+                msh.Field(19, "");
                 response.Add(msh);
                 frame.Append(response.SerializeMessage());
                 frame.Append((char)0x0d);
@@ -225,6 +226,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
                 Segment msa = new Segment("MSA");
                 msa.Field(1, NHapi.Base.AcknowledgmentCode.AA.ToString());
                 msa.Field(2, sControlID);
+                msa.Field(3, "");
                 response.Add(msa);
                 frame.Append(response.SerializeMessage());
                 frame.Append((char)0x0d);
@@ -235,6 +237,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
                 qak.Field(1, sControlID);
                 qak.Field(2, "OK");
                 qak.Field(3, "Z01^Query Orders");
+                qak.Field(4, "");
                 response.Add(qak);
                 frame.Append(response.SerializeMessage());
                 frame.Append((char)0x0d);
@@ -245,6 +248,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
                 qpd.Field(1, "Z01^Query Orders");
                 qpd.Field(2, sControlID);
                 qpd.Field(3, "ALL");
+                qpd.Field(4, "");
                 response.Add(qpd);
                 frame.Append(response.SerializeMessage());
                 frame.Append((char)0x0d);
@@ -273,6 +277,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
                     Segment pid = new Segment("PID");
                     pid.Field(1, count.ToString());
                     pid.Field(3, schedule.Schedule.PatientID);
+                    pid.Field(4, "");
                     response.Add(pid);
                     frame.Append(response.SerializeMessage());
                     frame.Append((char)0x0d);
@@ -285,6 +290,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
                         orc.Field(1, "NW");
                         orc.Field(2, barcode);
                         orc.Field(8, DateTime.Now.ToString("yyyyMMddhhmmss"));
+                        orc.Field(19, "");
                         response.Add(orc);
                         frame.Append(response.SerializeMessage());
                         frame.Append((char)0x0d);
@@ -295,6 +301,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
                         obr.Field(1, "1");
                         obr.Field(2, barcode);
                         obr.Field(4, testCode.Item1 + "^" + testCode.Item2);
+                        obr.Field(5, "");
                         response.Add(obr);
                         frame.Append(response.SerializeMessage());
                         frame.Append((char)0x0d);
@@ -306,6 +313,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
                         spm.Field(2, "S12345678");
                         spm.Field(4, "Serum/Plasma");
                         spm.Field(11, "P");
+                        spm.Field(12, "");
                         response.Add(spm);
                         frame.Append(response.SerializeMessage());
                         frame.Append((char)0x0d);
@@ -313,6 +321,8 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
 
                     await vCheckAPI.UpdateScheduleStatus(schedule.Schedule.LocationID, schedule.Schedule.PatientID, schedule.Schedule.ScheduleUniqueID.Split("-")[1], schedule.Schedule.CreatedBy, 1);
                     await vCheckAPI.UpdateScheduleAnalyzer("V200", schedule.Schedule.ScheduleUniqueID);
+
+                    break;
                 }                
 
                 frame.Append((char)0x1c);

@@ -608,16 +608,18 @@ namespace VCheckViewer.Lib.DocumentTemplate
 
                 if (sIsPrint)
                 {
-                    App.FilePath = "Report-temp.pdf";
-                    sDocument.GeneratePdf(App.FilePath);
+                    //App.FilePath = "Report-temp.pdf";
+                    //sDocument.GeneratePdf(App.FilePath);
 
-                    Process process = new Process();
-                    process.StartInfo = new ProcessStartInfo()
-                    {
-                        FileName = App.FilePath,
-                        UseShellExecute = true
-                    };
-                    process.Start();
+                    //Process process = new Process();
+                    //process.StartInfo = new ProcessStartInfo()
+                    //{
+                    //    FileName = App.FilePath,
+                    //    UseShellExecute = true
+                    //};
+                    //process.Start();
+
+                    sDocument.GeneratePdfAndShow();
                 }
                 else
                 {
@@ -678,7 +680,7 @@ namespace VCheckViewer.Lib.DocumentTemplate
                 percentage = (balance / range) * onceWidth + twiceWidth;
                 lowNormalHigh = 2;
             }
-            else if(value > actualEnd)
+            else if(value >= actualEnd)
             {
                 percentage = fullwidth;
                 lowNormalHigh = 2;

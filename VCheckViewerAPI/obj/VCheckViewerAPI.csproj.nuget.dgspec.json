@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewerAPI\\VCheckViewerAPI.csproj": {}
+    "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\VCheckViewerAPI\\VCheckViewerAPI.csproj": {}
   },
   "projects": {
-    "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.APILogging\\VCheck.APILogging.csproj": {
+    "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\Library\\VCheck.APILogging\\VCheck.APILogging.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.APILogging\\VCheck.APILogging.csproj",
+        "projectUniqueName": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\Library\\VCheck.APILogging\\VCheck.APILogging.csproj",
         "projectName": "VCheck.APILogging",
-        "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.APILogging\\VCheck.APILogging.csproj",
+        "projectPath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\Library\\VCheck.APILogging\\VCheck.APILogging.csproj",
         "packagesPath": "C:\\Users\\azwan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.APILogging\\obj\\",
+        "outputPath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\Library\\VCheck.APILogging\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -83,14 +83,14 @@
         }
       }
     },
-    "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
+    "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj",
+        "projectUniqueName": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj",
         "projectName": "VCheck.Lib.Data",
-        "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj",
+        "projectPath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj",
         "packagesPath": "C:\\Users\\azwan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\obj\\",
+        "outputPath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\Library\\VCheck.Lib.Data\\obj\\",
         "projectStyle": "PackageReference",
         "crossTargeting": true,
         "fallbackFolders": [
@@ -181,14 +181,14 @@
         }
       }
     },
-    "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewerAPI\\VCheckViewerAPI.csproj": {
+    "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\VCheckViewerAPI\\VCheckViewerAPI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewerAPI\\VCheckViewerAPI.csproj",
+        "projectUniqueName": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\VCheckViewerAPI\\VCheckViewerAPI.csproj",
         "projectName": "VCheckViewerAPI",
-        "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewerAPI\\VCheckViewerAPI.csproj",
+        "projectPath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\VCheckViewerAPI\\VCheckViewerAPI.csproj",
         "packagesPath": "C:\\Users\\azwan\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewerAPI\\obj\\",
+        "outputPath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\VCheckViewerAPI\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -209,11 +209,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.APILogging\\VCheck.APILogging.csproj": {
-                "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.APILogging\\VCheck.APILogging.csproj"
+              "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\Library\\VCheck.APILogging\\VCheck.APILogging.csproj": {
+                "projectPath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\Library\\VCheck.APILogging\\VCheck.APILogging.csproj"
               },
-              "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
-                "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj"
+              "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
+                "projectPath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj"
               }
             }
           }

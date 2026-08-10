@@ -11,6 +11,6 @@ namespace VCheckViewerAPI.Message.Location
 
     public class GetLocationDataRequestBody
     {
-
+        public string? ClinicID { get; set; }
     }
 }

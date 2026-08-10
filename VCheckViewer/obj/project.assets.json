@@ -8866,11 +8866,11 @@
   "project": {
     "version": "1.0.0.1",
     "restore": {
-      "projectUniqueName": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\VCheckViewer.csproj",
+      "projectUniqueName": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\VCheckViewer\\VCheckViewer.csproj",
       "projectName": "VCheckViewer",
-      "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\VCheckViewer.csproj",
+      "projectPath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\VCheckViewer\\VCheckViewer.csproj",
       "packagesPath": "C:\\Users\\azwan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewer\\obj\\",
+      "outputPath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\VCheckViewer\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -8891,14 +8891,14 @@
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "projectReferences": {
-            "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Helper\\VCheck.Helper.csproj": {
-              "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Helper\\VCheck.Helper.csproj"
+            "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\Library\\VCheck.Helper\\VCheck.Helper.csproj": {
+              "projectPath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\Library\\VCheck.Helper\\VCheck.Helper.csproj"
             },
-            "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
-              "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj"
+            "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
+              "projectPath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj"
             },
-            "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheck.Interface.API\\VCheck.Interface.API.csproj": {
-              "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheck.Interface.API\\VCheck.Interface.API.csproj"
+            "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\VCheck.Interface.API\\VCheck.Interface.API.csproj": {
+              "projectPath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\VCheck.Interface.API\\VCheck.Interface.API.csproj"
             }
           }
         }

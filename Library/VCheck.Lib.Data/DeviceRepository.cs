@@ -78,7 +78,7 @@ namespace VCheck.Lib.Data
             {
                 using (var ctx = new DeviceDBContext(config))
                 {
-                    return ctx.mst_deviceslist.ToList();
+                    return ctx.mst_deviceslist.Where(x => x.status == 1).ToList();
                 }
             }
             catch (Exception ex)
@@ -100,7 +100,7 @@ namespace VCheck.Lib.Data
             {
                 using (var ctx = new DeviceDBContext(config))
                 {
-                    return ctx.mst_deviceslist.Where(x => x.id == iID).FirstOrDefault();
+                    return ctx.mst_deviceslist.Where(x => x.id == iID && x.status == 1).FirstOrDefault();
                 }
             }
             catch (Exception ex)
@@ -124,7 +124,7 @@ namespace VCheck.Lib.Data
             {
                 var ctx = new DeviceDBContext(config);
 
-                var sDevice = ctx.mst_deviceslist.Where(x => x.id == sDeviceObj.id).FirstOrDefault();
+                var sDevice = ctx.mst_deviceslist.Where(x => x.id == sDeviceObj.id && x.status == 1).FirstOrDefault();
                 if (sDevice != null)
                 {
                     Boolean isUpdate = false;
@@ -333,7 +333,7 @@ namespace VCheck.Lib.Data
             {
                 using (var ctx = new DeviceDBContext(config))
                 {
-                    var device = ctx.mst_deviceslist.FirstOrDefault(x => x.id == deviceID);
+                    var device = ctx.mst_deviceslist.FirstOrDefault(x => x.id == deviceID && x.status == 1);
 
                     device.Next = 1;
 
@@ -361,7 +361,7 @@ namespace VCheck.Lib.Data
                 {
                     var deviceTypeIDs = ctx.mst_devicetype.Where(x => x.PosNegRequired == 1).Select(y => y.id).ToList();
 
-                    return ctx.mst_deviceslist.Where(x => deviceTypeIDs.Contains(x.DeviceTypeID.Value)).ToList();
+                    return ctx.mst_deviceslist.Where(x => deviceTypeIDs.Contains(x.DeviceTypeID.Value) && x.status == 1).ToList();
                 }
             }
             catch (Exception ex)
@@ -384,7 +384,7 @@ namespace VCheck.Lib.Data
             {
                 using (var ctx = new DeviceDBContext(config))
                 {
-                    var device = ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceSerialNo == deviceSerialNo);
+                    var device = ctx.mst_deviceslist.FirstOrDefault(x => x.DeviceSerialNo == deviceSerialNo && x.status == 1);
                     if(device != null) { deviceName = ctx.mst_devicetype.FirstOrDefault(x => x.id == device.DeviceTypeID).TypeName; }                    
 
                     return deviceName;

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6HdWMGsOFrA=",
+  "dgSpecHash": "zarwUlc7uoU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckListenerWorker\\VCheckListenerWorker.csproj",
+  "projectFilePath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\VCheckListenerWorker\\VCheckListenerWorker.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\azwan\\.nuget\\packages\\bouncycastle.cryptography\\2.3.1\\bouncycastle.cryptography.2.3.1.nupkg.sha512",
     "C:\\Users\\azwan\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
@@ -131,9 +131,9 @@
       "code": "NU1902",
       "level": "Warning",
       "message": "Package 'log4net' 3.0.3 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-4f7c-pmjv-c25w",
-      "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckListenerWorker\\VCheckListenerWorker.csproj",
+      "projectPath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\VCheckListenerWorker\\VCheckListenerWorker.csproj",
       "warningLevel": 1,
-      "filePath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckListenerWorker\\VCheckListenerWorker.csproj",
+      "filePath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\VCheckListenerWorker\\VCheckListenerWorker.csproj",
       "libraryId": "log4net",
       "targetGraphs": [
         "net8.0"
@@ -143,9 +143,9 @@
       "code": "NU1701",
       "level": "Warning",
       "message": "Package 'MySql.Data.EntityFramework 9.1.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net8.0'. This package may not be fully compatible with your project.",
-      "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckListenerWorker\\VCheckListenerWorker.csproj",
+      "projectPath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\VCheckListenerWorker\\VCheckListenerWorker.csproj",
       "warningLevel": 1,
-      "filePath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckListenerWorker\\VCheckListenerWorker.csproj",
+      "filePath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\VCheckListenerWorker\\VCheckListenerWorker.csproj",
       "libraryId": "MySql.Data.EntityFramework",
       "targetGraphs": [
         "net8.0"

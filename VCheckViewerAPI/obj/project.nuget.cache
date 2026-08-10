@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "HANDySM9z3M=",
+  "dgSpecHash": "J+GyJt2UKjU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewerAPI\\VCheckViewerAPI.csproj",
+  "projectFilePath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\VCheckViewerAPI\\VCheckViewerAPI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\azwan\\.nuget\\packages\\entityframework\\6.4.4\\entityframework.6.4.4.nupkg.sha512",
     "C:\\Users\\azwan\\.nuget\\packages\\log4net\\3.0.3\\log4net.3.0.3.nupkg.sha512",
@@ -88,9 +88,9 @@
       "code": "NU1902",
       "level": "Warning",
       "message": "Package 'log4net' 3.0.3 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-4f7c-pmjv-c25w",
-      "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewerAPI\\VCheckViewerAPI.csproj",
+      "projectPath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\VCheckViewerAPI\\VCheckViewerAPI.csproj",
       "warningLevel": 1,
-      "filePath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckViewerAPI\\VCheckViewerAPI.csproj",
+      "filePath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\VCheckViewerAPI\\VCheckViewerAPI.csproj",
       "libraryId": "log4net",
       "targetGraphs": [
         "net8.0"

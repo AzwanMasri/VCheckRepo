@@ -645,7 +645,7 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                 Email = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicEmail").ConfigurationValue,
                 Description = "Clinic",
                 Status = 1,
-                CreatedBy = "VCheck Viewer"
+                CreatedBy = Greywind.IsChecked.GetValueOrDefault() ? "Greywind" : "Others"
             };
 
             return await vcheckAPI.UpdateLocation(location);

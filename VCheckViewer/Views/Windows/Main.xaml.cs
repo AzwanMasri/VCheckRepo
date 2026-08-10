@@ -1632,7 +1632,7 @@ namespace VCheckViewer.Views.Windows
                 ConfigurationModel? ClinicID = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
                 ConfigurationModel? PMS = ConfigurationContext.GetConfigurationData("InterfaceSettingsPMS").FirstOrDefault();
 
-                if (ClinicID != null && !string.IsNullOrEmpty(ClinicID.ConfigurationValue))
+                if (ClinicID != null && !string.IsNullOrEmpty(ClinicID.ConfigurationValue) && PMS != null && PMS.ConfigurationValue != "None")
                 {
                     VCheckAPI vcheckAPI = new VCheckAPI();
                     GreywindAPI greywindAPI = new GreywindAPI();
@@ -1652,7 +1652,7 @@ namespace VCheckViewer.Views.Windows
                         ContactName = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicContactName").ConfigurationValue,
                         PhoneNum = phoneNum,
                         Email = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicEmail").ConfigurationValue,
-                        CreatedBy = "VCheck Viewer"
+                        CreatedBy = PMS.ConfigurationValue
                     };
 
                     var locationID = await vcheckAPI.UpdateLocation(location);

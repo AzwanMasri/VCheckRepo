@@ -15,9 +15,9 @@ namespace VCheck.Interface.API
     public class VCheckAPI
     {
         //private string url = "https://localhost:7245/"; // local
-        //private string url = "http://vcheckcentral.inteleon.xyz/"; // Testing
+        private string url = "http://vcheckcentral.inteleon.xyz/"; // Testing
         //private string url = "http://vcheckstaging.inteleon.xyz/"; // Staging
-        private string url = "https://www.vcheckviewer.com/"; // prod with SSL
+        //private string url = "https://www.vcheckviewer.com/"; // prod with SSL
 
         private string clientKey = "qwertyuiop123asdfghjkl456zxcvbnm789";
 
@@ -197,6 +197,53 @@ namespace VCheck.Interface.API
                         var resultString = resp.Content.ReadAsStringAsync().Result;
                         var results = JsonConvert.DeserializeObject<ResponseModel>(resultString);
                                                 
+                        return results.Body.Results != null ? results.Body.Results.ToString() : null;
+                    }
+                    else
+                    {
+                        return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Update Location
+        /// </summary>
+        /// <param name="sResultRequest"></param>
+        /// <returns></returns>
+        public async Task<string> GetLocation(string ClinicID = null)
+        {
+            InitiateCertHandler();
+
+            LocationDataRequest request = new LocationDataRequest() { Header = new HeaderModel(), Body = new GetLocationDataRequestBody() };
+
+            request.Header.timestamp = DateTime.Now.ToUniversalTime().ToString("yyyy-MM-ddTHH:mm:ssZ");
+            request.Header.clientKey = clientKey;
+
+            request.Body.ClinicID = ClinicID;
+
+            String strJson = JsonConvert.SerializeObject(request);
+            HttpContent content = new StringContent(strJson, Encoding.UTF8, "application/json");
+
+            try
+            {
+                using (var client = new HttpClient(handler))
+                {
+                    client.DefaultRequestHeaders.Accept.Clear();
+                    client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("*/*"));
+
+
+                    HttpResponseMessage resp = await client.PostAsync(url + "Api/GetLocationList", content);
+                    if (resp.IsSuccessStatusCode)
+                    {
+                        var resultString = resp.Content.ReadAsStringAsync().Result;
+                        var results = JsonConvert.DeserializeObject<ResponseModel>(resultString);
+
                         return results.Body.Results != null ? results.Body.Results.ToString() : null;
                     }
                     else

@@ -38,7 +38,7 @@ namespace VCheckViewer
     public partial class App
     {
         public static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private string currentVersion = "1.7";
+        private string currentVersion = "1.8";
         public static MainViewModel MainViewModel { get; } = new MainViewModel();
 
         public static event EventHandler GoPreviousPage;

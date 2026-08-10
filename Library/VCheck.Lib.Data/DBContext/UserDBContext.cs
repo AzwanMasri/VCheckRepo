@@ -189,6 +189,14 @@ namespace VCheck.Lib.Data.DBContext
         public UserModel GetUserByID(string userID)
         {
             UserModel model = new UserModel();
+            // Get the current culture (local format)
+            CultureInfo currentCulture = CultureInfo.CurrentCulture;
+
+            // Get the calendar used by the current culture
+            Calendar calendar = currentCulture.DateTimeFormat.Calendar;
+
+            // Check if it's a Thai Buddhist calendar
+            bool isBuddhistEra = calendar is ThaiBuddhistCalendar;
 
             try
             {
@@ -201,6 +209,7 @@ namespace VCheck.Lib.Data.DBContext
                     {
                         while (reader.Read())
                         {
+                            var CreatedDatetime = isBuddhistEra ? Convert.ToDateTime(reader["CreatedDate"]).AddYears(-543) : Convert.ToDateTime(reader["CreatedDate"]);
 
                             model.UserId = reader["UserId"].ToString();
                             model.EmployeeID = reader["EmployeeID"].ToString();
@@ -219,7 +228,7 @@ namespace VCheck.Lib.Data.DBContext
                             model.Role = reader["Role"].ToString();
                             model.RoleID = reader["RoleID"].ToString();
                             model.LoginID = reader["LoginID"].ToString();
-                            model.CreatedDate = Convert.ToDateTime(reader["CreatedDate"]).ToString("yyyy-MM-dd HH:mm:ss");
+                            model.CreatedDate = CreatedDatetime.ToString("yyyy-MM-dd HH:mm:ss");
 
                         }
                     }

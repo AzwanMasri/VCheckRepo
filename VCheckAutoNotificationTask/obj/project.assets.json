@@ -2367,11 +2367,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckAutoNotificationTask\\VCheckAutoNotificationTask.csproj",
+      "projectUniqueName": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\VCheckAutoNotificationTask\\VCheckAutoNotificationTask.csproj",
       "projectName": "VCheckAutoNotificationTask",
-      "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckAutoNotificationTask\\VCheckAutoNotificationTask.csproj",
+      "projectPath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\VCheckAutoNotificationTask\\VCheckAutoNotificationTask.csproj",
       "packagesPath": "C:\\Users\\azwan\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\VCheckAutoNotificationTask\\obj\\",
+      "outputPath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\VCheckAutoNotificationTask\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -2392,8 +2392,8 @@
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "projectReferences": {
-            "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
-              "projectPath": "C:\\Users\\azwan\\Work\\Repo\\Git Repo\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj"
+            "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj": {
+              "projectPath": "C:\\Users\\azwan\\source\\repos\\VCheckRepo\\Library\\VCheck.Lib.Data\\VCheck.Lib.Data.csproj"
             }
           }
         }
