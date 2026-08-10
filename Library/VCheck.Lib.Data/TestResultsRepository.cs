@@ -943,18 +943,64 @@ namespace VCheck.Lib.Data
                 {
                     var deviceName = DeviceRepository.GetDeviceNameBySerialNo(config, test.DeviceSerialNo);
 
-                    if(deviceName != excludeDeviceName) 
+                    testDeviceNames.Add(new TestDeviceName()
                     {
-                        testDeviceNames.Add(new TestDeviceName() { TestID = test.ID, DeviceName = deviceName });
-                    }
-                    
+                        TestID = test.ID,
+                        DeviceName = deviceName
+                    });
                 }
+
+                testDeviceNames = testDeviceNames.GroupBy(x => x.DeviceName).Select(g => g.First()).ToList();
 
                 return testDeviceNames;
             }
             catch (Exception ex)
             {
                 log.Error("Error >>> " + ex.ToString());
+            }
+
+            return null;
+        }
+
+        //edited by aqil
+        public static List<TestDeviceName> GetRelatedTestResultsByPatientIDAndAnalyzer(IConfiguration config,string patientID,string deviceName,long currentTestID)
+        {
+            List<TestDeviceName> testDeviceNames = new List<TestDeviceName>();
+
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    var testList = ctx.txn_testResults
+                        .Where(x => x.PatientID == patientID)
+                        .Where(x => x.ID != currentTestID)
+                        .OrderByDescending(x => x.CreatedDate)
+                        .ToList();
+
+                    foreach (var test in testList)
+                    {
+                        var analyzer = DeviceRepository.GetDeviceNameBySerialNo(
+                            config,
+                            test.DeviceSerialNo);
+
+                        if (analyzer == deviceName)
+                        {
+                            testDeviceNames.Add(new TestDeviceName()
+                            {
+                                TestID = test.ID,
+                                DeviceName = analyzer,
+                                TestResultType = test.TestResultType,
+                                CreatedDate = test.CreatedDate
+                            });
+                        }
+                    }
+                }
+
+                return testDeviceNames;
+            }
+            catch (Exception ex)
+            {
+                log.Error(ex.ToString());
             }
 
             return null;

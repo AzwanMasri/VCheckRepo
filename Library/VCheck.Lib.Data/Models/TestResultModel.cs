@@ -22,6 +22,9 @@ namespace VCheck.Lib.Data.Models
         public String? PatientName { get; set; } //added to include patient name in report (azwan - 20250214)
         public String? InchargePerson { get; set; }
         //public String? ObservationStatus { get; set; }
+        public String? Species { get; set; }
+        public String? Age { get; set; }
+        public String? Weight { get; set; }
         public String? OverallStatus { get; set; }
         //public String? TestResultStatus { get; set; }
         //public Decimal? TestResultValue { get; set;  }
@@ -245,5 +248,7 @@ namespace VCheck.Lib.Data.Models
     {
         public long TestID { get; set; }
         public string DeviceName { get; set; }
+        public string TestResultType { get; set; }
+        public DateTime? CreatedDate { get; set; }
     }
 }

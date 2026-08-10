@@ -45,7 +45,9 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                 String? sDoctorName = "";
                 Decimal iResultValue = 0;
                 DateTime dAnalysisDateTime = DateTime.MinValue;
-                string sSpecies = "General";
+                String sSpecies = "General";
+                String? sAge = "";
+                String? sWeight = "";
 
                 var sSPMObj = new tbltestanalyze_results_specimen();
                 var sSACObj = new tbltestanalyze_results_specimencontainer();
@@ -101,9 +103,16 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                     sPID.PatientIdentifierList = (sRU_R01.PATIENT.PID.GetPatientIdentifierList().Length > 0) ?
                                                  sRU_R01.PATIENT.PID.GetPatientIdentifierList().FirstOrDefault().IDNumber.ToString() : null;
 
+                    /*
                     if (sRU_R01.PATIENT.PID.SpeciesCode != null && string.IsNullOrEmpty(sRU_R01.PATIENT.PID.SpeciesCode.Text.ToString()))
                     {
-                        sSpecies = sRU_R01.PATIENT.PID.SpeciesCode.Text.ToString();
+                        sSpecies = sRU_R01.PATIENT.PID.SpeciesCode.Text.ToString(); 
+                    }
+                    */
+
+                    if (sRU_R01.PATIENT.PID.SpeciesCode != null && !string.IsNullOrEmpty(sRU_R01.PATIENT.PID.SpeciesCode.Identifier.Value))
+                    {
+                        sSpecies = sRU_R01.PATIENT.PID.SpeciesCode.Identifier.Value;
                     }
 
 
@@ -622,7 +631,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                             isRangeReference = true;
                         }
 
-
+                        /*
                         if (!(observationDetail.OBX.ObservationIdentifier.Text.Value.ToLower() == "age") &&
                             !(observationDetail.OBX.ObservationIdentifier.Text.Value.ToLower() == "weight"))
                         {
@@ -633,6 +642,40 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                             sTestResultDetails.Add(new txn_testresults_details
                             {
                                 TestParameter = observationDetail.OBX.ObservationIdentifier.Text.Value.Replace("?", ""),
+                                SubID = observationDetail.OBX.ObservationSubID.Value,
+                                ProceduralControl = strResultObservStatus,
+                                TestResultStatus = sStatus,
+                                TestResultValue = sObservValue,
+                                TestResultUnit = observationDetail.OBX.Units.Identifier.Value,
+                                ReferenceRange = observationDetail.OBX.ReferencesRange.Value,
+                                Interpretation = sInterpretation
+                            });
+                        }
+                        */
+
+                        string parameter = observationDetail.OBX.ObservationIdentifier.Text.Value;
+
+                        sObservValue = sObservValue.Replace("*", "").Replace(" ", "");
+
+                        if (parameter.Equals("Age", StringComparison.OrdinalIgnoreCase))
+                        {
+                            sAge = sObservValue;
+                        }
+                        else if (parameter.Equals("Weight", StringComparison.OrdinalIgnoreCase))
+                        {
+                            sWeight = sObservValue;
+                        }
+                        else
+                        {
+                            String sStatus = General.ProcessObservationResultStatusValue(
+                                isRangeReference,
+                                sObservValue,
+                                observationDetail.OBX.ReferencesRange.Value,
+                                iResultValue);
+
+                            sTestResultDetails.Add(new txn_testresults_details
+                            {
+                                TestParameter = parameter.Replace("?", ""),
                                 SubID = observationDetail.OBX.ObservationSubID.Value,
                                 ProceduralControl = strResultObservStatus,
                                 TestResultStatus = sStatus,
@@ -670,6 +713,9 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
                 sTestResultObj.DeviceSerialNo = Worker.MainModel.DeviceSerialNum != null && sSerialNo == "VCheck C10" ? Worker.MainModel.DeviceSerialNum : sSerialNo;
                 sTestResultObj.PMSFunction = "Visible";
                 sTestResultObj.PatientName = sPatientName;
+                sTestResultObj.Species = sSpecies;
+                sTestResultObj.Age = sAge;
+                sTestResultObj.Weight = sWeight;
 
                 tbltestanalyze_results sResultObj = new tbltestanalyze_results
                 {
