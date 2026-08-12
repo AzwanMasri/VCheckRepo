@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VCheckListener", "VcheckLis
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vcheck Listener", "Vcheck Listener\Vcheck Listener.csproj", "{6762C1D5-9F11-4F3D-AEE5-6EB61F670F3E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VCheckViewer_Others", "VCheckViewer (Others)\VCheckViewer_Others.csproj", "{7774CFB2-B6E8-EE30-8EB7-F320D2BD736A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -406,6 +408,26 @@ Global
 		{6762C1D5-9F11-4F3D-AEE5-6EB61F670F3E}.Release|x64.Build.0 = Release|Any CPU
 		{6762C1D5-9F11-4F3D-AEE5-6EB61F670F3E}.Release|x86.ActiveCfg = Release|Any CPU
 		{6762C1D5-9F11-4F3D-AEE5-6EB61F670F3E}.Release|x86.Build.0 = Release|Any CPU
+		{7774CFB2-B6E8-EE30-8EB7-F320D2BD736A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7774CFB2-B6E8-EE30-8EB7-F320D2BD736A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7774CFB2-B6E8-EE30-8EB7-F320D2BD736A}.Debug|ARM.ActiveCfg = Debug|Any CPU
+		{7774CFB2-B6E8-EE30-8EB7-F320D2BD736A}.Debug|ARM.Build.0 = Debug|Any CPU
+		{7774CFB2-B6E8-EE30-8EB7-F320D2BD736A}.Debug|ARM64.ActiveCfg = Debug|Any CPU
+		{7774CFB2-B6E8-EE30-8EB7-F320D2BD736A}.Debug|ARM64.Build.0 = Debug|Any CPU
+		{7774CFB2-B6E8-EE30-8EB7-F320D2BD736A}.Debug|x64.ActiveCfg = Debug|x64
+		{7774CFB2-B6E8-EE30-8EB7-F320D2BD736A}.Debug|x64.Build.0 = Debug|x64
+		{7774CFB2-B6E8-EE30-8EB7-F320D2BD736A}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7774CFB2-B6E8-EE30-8EB7-F320D2BD736A}.Debug|x86.Build.0 = Debug|Any CPU
+		{7774CFB2-B6E8-EE30-8EB7-F320D2BD736A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7774CFB2-B6E8-EE30-8EB7-F320D2BD736A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7774CFB2-B6E8-EE30-8EB7-F320D2BD736A}.Release|ARM.ActiveCfg = Release|Any CPU
+		{7774CFB2-B6E8-EE30-8EB7-F320D2BD736A}.Release|ARM.Build.0 = Release|Any CPU
+		{7774CFB2-B6E8-EE30-8EB7-F320D2BD736A}.Release|ARM64.ActiveCfg = Release|Any CPU
+		{7774CFB2-B6E8-EE30-8EB7-F320D2BD736A}.Release|ARM64.Build.0 = Release|Any CPU
+		{7774CFB2-B6E8-EE30-8EB7-F320D2BD736A}.Release|x64.ActiveCfg = Release|x64
+		{7774CFB2-B6E8-EE30-8EB7-F320D2BD736A}.Release|x64.Build.0 = Release|x64
+		{7774CFB2-B6E8-EE30-8EB7-F320D2BD736A}.Release|x86.ActiveCfg = Release|Any CPU
+		{7774CFB2-B6E8-EE30-8EB7-F320D2BD736A}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

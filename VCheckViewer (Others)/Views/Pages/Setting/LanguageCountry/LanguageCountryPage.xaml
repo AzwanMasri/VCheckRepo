@@ -1,0 +1,205 @@
+﻿<Page x:Class="VCheckViewer_Others.Views.Pages.Setting.LanguageCountry.LanguageCountryPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:VCheckViewer_Others.Views.Pages.Setting.LanguageCountry" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+      mc:Ignorable="d" 
+      Title="LanguageCountryPage">
+
+    <Page.Resources>
+        <!--// TextBox //-->
+        <Style x:Key="TextBoxStyle" TargetType="TextBox">
+            <Setter Property="Background" Value="{DynamicResource Themes_SearchFieldBackground}" />
+            <Setter Property="VerticalContentAlignment" Value="Center" />
+            <Setter Property="Foreground" Value="{DynamicResource Themes_SearchFieldFontColor}" />
+            <Setter Property="Padding" Value="5, 2, 0, 0" />
+        </Style>
+
+        <!-- Custom RadioButton Style -->
+        <Style TargetType="RadioButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <StackPanel Orientation="Horizontal">
+                            <!-- Outer Border -->
+                            <Border x:Name="OuterBorder"
+                                    Width="16" Height="16"
+                                    CornerRadius="8"
+                                    BorderThickness="1"
+                                    BorderBrush="{DynamicResource Themes_SearchFieldFontColor}"
+                                    Background="White"
+                                    Margin="0,0,5,0">
+                                <!-- Inner Circle -->
+                                <Ellipse x:Name="InnerCircle"
+                                         Fill="Transparent"
+                                         Width="8" Height="8"
+                                         HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"/>
+                            </Border>
+                            <ContentPresenter VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <!-- Change border color when checked -->
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="OuterBorder" Property="BorderBrush" Value="Blue"/>
+                                <Setter TargetName="InnerCircle" Property="Fill" Value="Blue"/>
+                            </Trigger>
+                            <!-- Change border color on hover -->
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="OuterBorder" Property="BorderBrush" Value="Blue"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+    
+    <Grid Margin="0,10,0,10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <!--<Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" MaxWidth="600">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" MinWidth="90"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="auto" MinWidth="90"/>
+                    <ColumnDefinition Width="auto" MinWidth="90"/>
+                    <ColumnDefinition Width="auto" MinWidth="90"/>
+                    <ColumnDefinition Width="auto" MinWidth="90"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Margin="2">
+                    <Button Name="btnUserSetting" Content="{Binding Path=Setting_Label_User, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="UserPage"></Button>
+                </Border>
+                <Border Grid.Column="1" Margin="2">
+                    <Button Content="{Binding Path=Setting_Label_LanguageCountry, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="{DynamicResource Themes_ButtonColor}" Style="{DynamicResource RoundButton}"></Button>
+                </Border>
+                <Border Grid.Column="2" Margin="2">
+                    <Button Name="btnSettings" Content="PMS/LIS/HIS" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnSettings_Click"></Button>
+                </Border>
+                <Border Grid.Column="3" Margin="2">
+                    <Button Name="btnDeviceSetting" Content="{Binding Path=Setting_Label_Device, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnDevice_Click"></Button>
+                </Border>
+                <Border Grid.Column="4" Margin="2">
+                    <Button Content="{Binding Path=Report_Label_Report, Source={StaticResource Resources}}" Name="btnReport" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnReport_Click"></Button>
+                </Border>
+                <Border Grid.Column="5" Margin="2">
+                    <Button Content="{Binding Path=ClinicInfo_Label_ClinicInfo, Source={StaticResource Resources}}" Name="btnClinic" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ClinicInfoPage"></Button>
+                </Border>
+            </Grid>
+        </Border>-->
+        <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" MaxWidth="600">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="0" Margin="2">
+                    <Button Name="btnUserSetting" Content="{Binding Path=Setting_Label_User, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="UserPage"></Button>
+                </Border>
+                <Border Grid.Column="1" Margin="2">
+                    <Button Content="{Binding Path=Setting_Label_LanguageCountry, Source={StaticResource Resources}}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="{DynamicResource Themes_ButtonColor}" Style="{DynamicResource RoundButton}"></Button>
+                </Border>
+                <Border Grid.Column="2" Margin="2">
+                    <Button Content="{Binding Path=Report_Label_Report, Source={StaticResource Resources}}" Name="btnReport" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnReport_Click"></Button>
+                </Border>
+                <Border Grid.Column="3" Margin="2">
+                    <Button Content="{Binding Path=ClinicInfo_Label_ClinicInfo, Source={StaticResource Resources}}" Name="btnClinic" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ClinicInfoPage"></Button>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Border Grid.ColumnSpan="4" Grid.Row="1">
+            <TextBlock Name="ErrorText" HorizontalAlignment="Center" Foreground="Red" Margin="10" Visibility="Hidden"/>
+        </Border>
+        <Border x:Name="languageBorder" Grid.Column="1" Grid.Row="1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border x:Name="languageLabelBorder" Grid.Row="0" Margin="30,30,30,10" BorderThickness="1" BorderBrush="{DynamicResource Themes_CountryLangFrameBackground}" CornerRadius="7" Height="40" Background="{DynamicResource Themes_CountryLangFrameBackground}">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Path=Setting_Label_Language, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Column="0" VerticalAlignment="Center" FontWeight="Bold"/>
+                        <TextBlock x:Name="SelectedLanguage" Text="{Binding Path=Setting_Label_SelectLanguage, Source={StaticResource Resources}}" Grid.Column="1" VerticalAlignment="Center" Foreground="Orange" FontWeight="Bold"/>
+                    </Grid>
+                </Border>
+                <Border Grid.Row="1" Margin="30,0,30,0" BorderThickness="1" BorderBrush="{DynamicResource Themes_CountryLangFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_CountryLangFrameBackground}">
+                    <ListView Name="LanguageListView" BorderBrush="{DynamicResource Themes_CountryLangFrameBackground}" HorizontalContentAlignment="Stretch" Padding="0,0,20,0" Background="{DynamicResource Themes_CountryLangFrameBackground}">
+                    </ListView>
+                </Border>
+            </Grid>
+        </Border>
+        <Border x:Name="countryBorder" Grid.Column="2" Grid.Row="1">
+            <Grid VerticalAlignment="Top">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Border x:Name="countryLabelBorder" Grid.Row="0" Margin="30,30,30,10" BorderThickness="1" BorderBrush="{DynamicResource Themes_CountryLangFrameBackground}" CornerRadius="7" Height="40" Background="{DynamicResource Themes_CountryLangFrameBackground}">
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="2*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="{Binding Path=Setting_Label_Country, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Column="0" VerticalAlignment="Center" FontWeight="Bold" />
+                        <TextBlock x:Name="SelectedCountry" Text="{Binding Path=Setting_Label_SelectCountry, Source={StaticResource Resources}}" Grid.Column="1" VerticalAlignment="Center" FontWeight="Bold" Foreground="Orange"/>
+                    </Grid>
+                </Border>
+                <Border x:Name="countryListBorder" Grid.Row="1" Margin="30,0,30,0" BorderThickness="1" BorderBrush="{DynamicResource Themes_CountryLangFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_CountryLangFrameBackground}" >
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border HorizontalAlignment="Stretch" VerticalAlignment="Top" Grid.Column="2" Grid.Row="0" Margin="10,0,10,0" BorderThickness="1" BorderBrush="{DynamicResource Themes_SearchFieldFontColor}" CornerRadius="7">
+                            <Border Background="{DynamicResource Themes_CountryLangSearchBackground}" CornerRadius="7" Padding="5" BorderThickness="1" BorderBrush="{DynamicResource Themes_CountryLangSearchBackground}">
+                                <Grid>
+                                    <Image Source="{DynamicResource Themes_SearchIcon}" Width="24" HorizontalAlignment="Left" Margin="5, 2, 0, 0" />
+
+                                    <TextBox x:Name="CountrySearchBar" BorderThickness="0" Margin="30,0,10,0" VerticalAlignment="Center" KeyUp="CountrySearchBar_KeyUp" Style="{StaticResource TextBoxStyle}"/>
+                                    <TextBlock IsHitTestVisible="False" Text="{Binding Path=General_Label_Searchbar, Source={StaticResource Resources}}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="40,0,10,0" Foreground="DarkGray">
+                                        <TextBlock.Style>
+                                            <Style TargetType="{x:Type TextBlock}">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                <Style.Triggers>
+                                                    <DataTrigger Binding="{Binding Text, ElementName=CountrySearchBar}" Value="">
+                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                    </DataTrigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </TextBlock.Style>
+                                    </TextBlock>
+                                </Grid>
+                            </Border>
+                        </Border>
+                        <Border Grid.Row="1">
+                            <ListView Name="CountryListView" Background="Transparent" BorderThickness="0" Margin="0,10,0,0" HorizontalContentAlignment="Stretch" Padding="0,0,20,0">
+                            </ListView>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+        <Button x:Name="SaveButton" Content="{Binding Path=General_Label_Save, Source={StaticResource Resources}}" 
+                VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Height="40" Grid.Column="3" Grid.Row="2"  Margin="30,0,30,0"
+                Background="{DynamicResource Themes_ButtonColor}" Foreground="{DynamicResource Themes_ButtonFontColor}" 
+                Style="{DynamicResource RoundButton}" BorderBrush="{DynamicResource Themes_ButtonColor}" 
+                Click="SaveButton_Click" />
+    </Grid>
+</Page>

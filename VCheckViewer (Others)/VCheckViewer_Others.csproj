@@ -1,0 +1,976 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <ApplicationIcon>Content\Images\Icons\Vcheck Viewer Icon.ico</ApplicationIcon>
+    <UseWindowsForms>True</UseWindowsForms>
+	<InterceptorsPreviewNamespaces>$(InterceptorsPreviewNamespaces);Microsoft.Extensions.Configuration.Binder.SourceGeneration</InterceptorsPreviewNamespaces>
+	<Version>1.0.0.1</Version>
+	<RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+	<RuntimeIdentifier>win-x64</RuntimeIdentifier>
+	<PlatformTarget>x64</PlatformTarget>
+	<Platforms>AnyCPU;x64</Platforms>
+	<!--<ApplicationManifest>app.manifest</ApplicationManifest>-->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Lib\Base\ApplicationDBContext.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Content\Images\ArrowDown_White.png" />
+    <None Remove="Content\Images\avatar.png" />
+    <None Remove="Content\Images\Avatar_Orange.png" />
+    <None Remove="Content\Images\BackArrow.png" />
+    <None Remove="Content\Images\BackArrowRound.png" />
+    <None Remove="Content\Images\BackArrowRound_while.png" />
+    <None Remove="Content\Images\BackArrowRound_white.png" />
+    <None Remove="Content\Images\BackArrow_White.png" />
+    <None Remove="Content\Images\bell.png" />
+    <None Remove="Content\Images\bell_white.png" />
+    <None Remove="Content\Images\bio_logo.png" />
+    <None Remove="Content\Images\bio_logo_dark.png" />
+    <None Remove="Content\Images\bio_logo_light.png" />
+    <None Remove="Content\Images\bio_logo_report.png" />
+    <None Remove="Content\Images\BrightnessWhite.png" />
+    <None Remove="Content\Images\Calendar_Dark.png" />
+    <None Remove="Content\Images\Calendar_White.png" />
+    <None Remove="Content\Images\Cat photo.png" />
+    <None Remove="Content\Images\clock.png" />
+    <None Remove="Content\Images\clock_white.png" />
+    <None Remove="Content\Images\Collapse_Arrow.png" />
+    <None Remove="Content\Images\Collapse_Arrow_Right.png" />
+    <None Remove="Content\Images\Collapse_BlackArrow_Right.png" />
+    <None Remove="Content\Images\Collapse_WhiteArrow_Right.png" />
+    <None Remove="Content\Images\Connection Icon Dark.png" />
+    <None Remove="Content\Images\Connection Icon Light.png" />
+    <None Remove="Content\Images\DarkWhite.png" />
+    <None Remove="Content\Images\dashboard.png" />
+    <None Remove="Content\Images\dashboard_white.png" />
+    <None Remove="Content\Images\Down-Arrow-Dark.png" />
+    <None Remove="Content\Images\Download.png" />
+    <None Remove="Content\Images\Download_White.png" />
+    <None Remove="Content\Images\Email Icon.png" />
+    <None Remove="Content\Images\group_640.png" />
+    <None Remove="Content\Images\Hide password.png" />
+    <None Remove="Content\Images\Icons\dashboard.png" />
+    <None Remove="Content\Images\Icons\de.png" />
+    <None Remove="Content\Images\Icons\en.png" />
+    <None Remove="Content\Images\Icons\es.png" />
+    <None Remove="Content\Images\Icons\favicon.ico" />
+    <None Remove="Content\Images\Icons\favicon.png" />
+    <None Remove="Content\Images\Icons\fr.png" />
+    <None Remove="Content\Images\Icons\hi.png" />
+    <None Remove="Content\Images\Icons\icon_dog.png" />
+    <None Remove="Content\Images\Icons\icon_dog_dark.png" />
+    <None Remove="Content\Images\Icons\id.png" />
+    <None Remove="Content\Images\Icons\ja.png" />
+    <None Remove="Content\Images\Icons\ko.png" />
+    <None Remove="Content\Images\Icons\pt.png" />
+    <None Remove="Content\Images\Icons\results.png" />
+    <None Remove="Content\Images\Icons\ru.png" />
+    <None Remove="Content\Images\Icons\Vcheck Viewer Icon.ico" />
+    <None Remove="Content\Images\Icons\vi.png" />
+    <None Remove="Content\Images\Icons\zh-Hans.png" />
+    <None Remove="Content\Images\Icons\zh-Hant.png" />
+    <None Remove="Content\Images\Img_Doctor.png" />
+    <None Remove="Content\Images\Img_Pets.png" />
+    <None Remove="Content\Images\left-arrow-black.png" />
+    <None Remove="Content\Images\left-arrow-white.png" />
+    <None Remove="Content\Images\LoginDevice.png" />
+    <None Remove="Content\Images\LoginLogo_Light.png" />
+    <None Remove="Content\Images\LoginLogo_Light2.png" />
+    <None Remove="Content\Images\mask_group_1.png" />
+    <None Remove="Content\Images\mask_group_4.png" />
+    <None Remove="Content\Images\mask_group_5.png" />
+    <None Remove="Content\Images\more.png" />
+    <None Remove="Content\Images\more_white.png" />
+    <None Remove="Content\Images\path_33946.png" />
+    <None Remove="Content\Images\path_3550.png" />
+    <None Remove="Content\Images\path_4002.png" />
+    <None Remove="Content\Images\path_4004.png" />
+    <None Remove="Content\Images\paw_dark.png" />
+    <None Remove="Content\Images\paw_light.png" />
+    <None Remove="Content\Images\Print.png" />
+    <None Remove="Content\Images\Print_White.png" />
+    <None Remove="Content\Images\Report Logo Default.png" />
+    <None Remove="Content\Images\Report Logo.png" />
+    <None Remove="Content\Images\results.png" />
+    <None Remove="Content\Images\results_white.png" />
+    <None Remove="Content\Images\right-arrow-black.png" />
+    <None Remove="Content\Images\right-arrow-white.png" />
+    <None Remove="Content\Images\Screenshot 2024-04-15 152644.png" />
+    <None Remove="Content\Images\Search_Dark.png" />
+    <None Remove="Content\Images\Search_White.png" />
+    <None Remove="Content\Images\See password.png" />
+    <None Remove="Content\Images\setting.png" />
+    <None Remove="Content\Fonts\Orbitron-Medium.ttf" />
+    <None Remove="Content\Fonts\Roboto-Light.ttf" />
+    <None Remove="Content\Images\setting_white.png" />
+    <None Remove="Content\Images\Up-Arrow.png" />
+    <None Remove="Content\Images\VCheck200Image.png" />
+    <None Remove="Content\Images\VCheck200Image2.png" />
+    <None Remove="Content\Images\VCheck2400Image.png" />
+    <None Remove="Content\Images\VCheck2400Image2.png" />
+    <None Remove="Content\Images\VCheckM10Image.png" />
+    <None Remove="Storage\Certificates\Sectigo Public Server Authentication Root R46.crt" />
+    <None Remove="Storage\Device\Img_F200.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Content\Images\Login photo.png" />
+    <None Remove="Content\Images\Password icon.png" />
+    <None Remove="Content\Images\stroke_1_ek2.png" />
+    <None Remove="Content\Images\stroke_1_ek4.png" />
+    <None Remove="Content\Images\stroke_4.png" />
+    <None Remove="Content\Images\Username icon.png" />
+    <None Remove="Storage\Device\Img_M10.png" />
+    <None Remove="Storage\Device\VCheck2400Image.png" />
+    <None Remove="Storage\Device\VCheckC1.png" />
+    <None Remove="Storage\Device\VCheckC10.png" />
+    <None Remove="Storage\Device\VCheckH6.png" />
+    <None Remove="Storage\Device\VCheckU3.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="bin\Debug\net8.0-windows\appsettings.json" />
+    <Content Include="bin\Debug\net8.0-windows\Content\Images\bio_logo_report.png" />
+    <Content Include="bin\Debug\net8.0-windows\LatoFont\Lato-Black.ttf" />
+    <Content Include="bin\Debug\net8.0-windows\LatoFont\Lato-BlackItalic.ttf" />
+    <Content Include="bin\Debug\net8.0-windows\LatoFont\Lato-Bold.ttf" />
+    <Content Include="bin\Debug\net8.0-windows\LatoFont\Lato-BoldItalic.ttf" />
+    <Content Include="bin\Debug\net8.0-windows\LatoFont\Lato-ExtraBold.ttf" />
+    <Content Include="bin\Debug\net8.0-windows\LatoFont\Lato-ExtraBoldItalic.ttf" />
+    <Content Include="bin\Debug\net8.0-windows\LatoFont\Lato-ExtraLight.ttf" />
+    <Content Include="bin\Debug\net8.0-windows\LatoFont\Lato-ExtraLightItalic.ttf" />
+    <Content Include="bin\Debug\net8.0-windows\LatoFont\Lato-Italic.ttf" />
+    <Content Include="bin\Debug\net8.0-windows\LatoFont\Lato-Light.ttf" />
+    <Content Include="bin\Debug\net8.0-windows\LatoFont\Lato-LightItalic.ttf" />
+    <Content Include="bin\Debug\net8.0-windows\LatoFont\Lato-Medium.ttf" />
+    <Content Include="bin\Debug\net8.0-windows\LatoFont\Lato-MediumItalic.ttf" />
+    <Content Include="bin\Debug\net8.0-windows\LatoFont\Lato-Regular.ttf" />
+    <Content Include="bin\Debug\net8.0-windows\LatoFont\Lato-SemiBold.ttf" />
+    <Content Include="bin\Debug\net8.0-windows\LatoFont\Lato-SemiBoldItalic.ttf" />
+    <Content Include="bin\Debug\net8.0-windows\LatoFont\Lato-Thin.ttf" />
+    <Content Include="bin\Debug\net8.0-windows\LatoFont\Lato-ThinItalic.ttf" />
+    <Content Include="bin\Debug\net8.0-windows\LatoFont\OFL.txt" />
+    <Content Include="bin\Debug\net8.0-windows\obfuscar.xml" />
+    <Content Include="bin\Debug\net8.0-windows\VCheckViewer_Others.deps.json" />
+    <Content Include="bin\Debug\net8.0-windows\VCheckViewer_Others.runtimeconfig.json" />
+    <Content Include="bin\Release\net8.0-windows\appsettings.json" />
+    <Content Include="bin\Release\net8.0-windows\Content\Images\bio_logo_report.png" />
+    <Content Include="bin\Release\net8.0-windows\LatoFont\Lato-Black.ttf" />
+    <Content Include="bin\Release\net8.0-windows\LatoFont\Lato-BlackItalic.ttf" />
+    <Content Include="bin\Release\net8.0-windows\LatoFont\Lato-Bold.ttf" />
+    <Content Include="bin\Release\net8.0-windows\LatoFont\Lato-BoldItalic.ttf" />
+    <Content Include="bin\Release\net8.0-windows\LatoFont\Lato-ExtraBold.ttf" />
+    <Content Include="bin\Release\net8.0-windows\LatoFont\Lato-ExtraBoldItalic.ttf" />
+    <Content Include="bin\Release\net8.0-windows\LatoFont\Lato-ExtraLight.ttf" />
+    <Content Include="bin\Release\net8.0-windows\LatoFont\Lato-ExtraLightItalic.ttf" />
+    <Content Include="bin\Release\net8.0-windows\LatoFont\Lato-Italic.ttf" />
+    <Content Include="bin\Release\net8.0-windows\LatoFont\Lato-Light.ttf" />
+    <Content Include="bin\Release\net8.0-windows\LatoFont\Lato-LightItalic.ttf" />
+    <Content Include="bin\Release\net8.0-windows\LatoFont\Lato-Medium.ttf" />
+    <Content Include="bin\Release\net8.0-windows\LatoFont\Lato-MediumItalic.ttf" />
+    <Content Include="bin\Release\net8.0-windows\LatoFont\Lato-Regular.ttf" />
+    <Content Include="bin\Release\net8.0-windows\LatoFont\Lato-SemiBold.ttf" />
+    <Content Include="bin\Release\net8.0-windows\LatoFont\Lato-SemiBoldItalic.ttf" />
+    <Content Include="bin\Release\net8.0-windows\LatoFont\Lato-Thin.ttf" />
+    <Content Include="bin\Release\net8.0-windows\LatoFont\Lato-ThinItalic.ttf" />
+    <Content Include="bin\Release\net8.0-windows\LatoFont\OFL.txt" />
+    <Content Include="bin\Release\net8.0-windows\obfuscar.xml" />
+    <Content Include="bin\Release\net8.0-windows\VCheckViewer_Others.deps.json" />
+    <Content Include="bin\Release\net8.0-windows\VCheckViewer_Others.runtimeconfig.json" />
+    <Content Include="bin\Release\Publish\appsettings.json" />
+    <Content Include="bin\Release\Publish\Content\Images\bio_logo_report.png" />
+    <Content Include="bin\Release\Publish\LatoFont\Lato-Black.ttf" />
+    <Content Include="bin\Release\Publish\LatoFont\Lato-BlackItalic.ttf" />
+    <Content Include="bin\Release\Publish\LatoFont\Lato-Bold.ttf" />
+    <Content Include="bin\Release\Publish\LatoFont\Lato-BoldItalic.ttf" />
+    <Content Include="bin\Release\Publish\LatoFont\Lato-ExtraBold.ttf" />
+    <Content Include="bin\Release\Publish\LatoFont\Lato-ExtraBoldItalic.ttf" />
+    <Content Include="bin\Release\Publish\LatoFont\Lato-ExtraLight.ttf" />
+    <Content Include="bin\Release\Publish\LatoFont\Lato-ExtraLightItalic.ttf" />
+    <Content Include="bin\Release\Publish\LatoFont\Lato-Italic.ttf" />
+    <Content Include="bin\Release\Publish\LatoFont\Lato-Light.ttf" />
+    <Content Include="bin\Release\Publish\LatoFont\Lato-LightItalic.ttf" />
+    <Content Include="bin\Release\Publish\LatoFont\Lato-Medium.ttf" />
+    <Content Include="bin\Release\Publish\LatoFont\Lato-MediumItalic.ttf" />
+    <Content Include="bin\Release\Publish\LatoFont\Lato-Regular.ttf" />
+    <Content Include="bin\Release\Publish\LatoFont\Lato-SemiBold.ttf" />
+    <Content Include="bin\Release\Publish\LatoFont\Lato-SemiBoldItalic.ttf" />
+    <Content Include="bin\Release\Publish\LatoFont\Lato-Thin.ttf" />
+    <Content Include="bin\Release\Publish\LatoFont\Lato-ThinItalic.ttf" />
+    <Content Include="bin\Release\Publish\LatoFont\OFL.txt" />
+    <Content Include="bin\Release\Publish\VCheckViewer_Others.deps.json" />
+    <Content Include="bin\Release\Publish\VCheckViewer_Others.runtimeconfig.json" />
+    <Content Include="Content\Images\Down-Arrow-Dark.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\Icons\Bionote-favicon.ico" />
+    <Content Include="Content\Images\bio_logo_report.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Images\Icons\Vcheck Viewer Icon.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="bin\Release\PublishObfuscated\" />
+    <Folder Include="Content\Style\" />
+    <Folder Include="Content\Scripts\" />
+    <Folder Include="Lib\Base\" />
+    <Folder Include="EmailTemplate\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net8.0-windows\BouncyCastle.Cryptography.dll" />
+    <None Include="bin\Debug\net8.0-windows\ClosedXML.dll" />
+    <None Include="bin\Debug\net8.0-windows\ClosedXML.Parser.dll" />
+    <None Include="bin\Debug\net8.0-windows\CommunityToolkit.Mvvm.dll" />
+    <None Include="bin\Debug\net8.0-windows\cs\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\cs\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\de\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\de\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\de\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\de\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\DocumentFormat.OpenXml.dll" />
+    <None Include="bin\Debug\net8.0-windows\DocumentFormat.OpenXml.Framework.dll" />
+    <None Include="bin\Debug\net8.0-windows\en\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\es\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\es\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\es\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\es\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\ExcelNumberFormat.dll" />
+    <None Include="bin\Debug\net8.0-windows\fr\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\fr\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\fr\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\Google.Protobuf.dll" />
+    <None Include="bin\Debug\net8.0-windows\hi\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\Humanizer.dll" />
+    <None Include="bin\Debug\net8.0-windows\id\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\it\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\it\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\it\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\ja\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\ja\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\ja\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\K4os.Compression.LZ4.dll" />
+    <None Include="bin\Debug\net8.0-windows\K4os.Compression.LZ4.Streams.dll" />
+    <None Include="bin\Debug\net8.0-windows\K4os.Hash.xxHash.dll" />
+    <None Include="bin\Debug\net8.0-windows\ko\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\ko\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\ko\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\log4net.config" />
+    <None Include="bin\Debug\net8.0-windows\log4net.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.AspNetCore.Authentication.Abstractions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.AspNetCore.Authentication.Cookies.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.AspNetCore.Authentication.Core.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.AspNetCore.Authentication.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.AspNetCore.Cryptography.Internal.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.AspNetCore.DataProtection.Abstractions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.AspNetCore.DataProtection.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.AspNetCore.Hosting.Abstractions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.AspNetCore.Http.Abstractions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.AspNetCore.Http.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.AspNetCore.Http.Extensions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.AspNetCore.Http.Features.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.AspNetCore.Identity.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.AspNetCore.WebUtilities.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Bcl.AsyncInterfaces.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.CodeAnalysis.CSharp.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.CodeAnalysis.CSharp.Workspaces.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.CodeAnalysis.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.CodeAnalysis.Workspaces.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.EntityFrameworkCore.Abstractions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.EntityFrameworkCore.Design.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.EntityFrameworkCore.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.EntityFrameworkCore.Relational.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Caching.Abstractions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Caching.Memory.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.Abstractions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.Binder.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.CommandLine.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.EnvironmentVariables.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.FileExtensions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.Json.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Configuration.UserSecrets.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyModel.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Diagnostics.Abstractions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Diagnostics.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.FileProviders.Abstractions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.FileProviders.Physical.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.FileSystemGlobbing.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Hosting.Abstractions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Hosting.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Identity.Core.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Identity.Stores.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Abstractions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Configuration.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Console.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Debug.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.EventLog.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.EventSource.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.ObjectPool.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Options.ConfigurationExtensions.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Options.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.Primitives.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Extensions.WebEncoders.dll" />
+    <None Include="bin\Debug\net8.0-windows\Microsoft.Net.Http.Headers.dll" />
+    <None Include="bin\Debug\net8.0-windows\Mono.TextTemplating.dll" />
+    <None Include="bin\Debug\net8.0-windows\MySql.Data.dll" />
+    <None Include="bin\Debug\net8.0-windows\MySqlConnector.dll" />
+    <None Include="bin\Debug\net8.0-windows\Newtonsoft.Json.dll" />
+    <None Include="bin\Debug\net8.0-windows\pl\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\pl\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\Pomelo.EntityFrameworkCore.MySql.dll" />
+    <None Include="bin\Debug\net8.0-windows\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\pt-BR\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\pt\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\QuestPDF.dll" />
+    <None Include="bin\Debug\net8.0-windows\RBush.dll" />
+    <None Include="bin\Debug\net8.0-windows\runtimes\linux-arm64\native\libQuestPdfSkia.so" />
+    <None Include="bin\Debug\net8.0-windows\runtimes\linux-musl-x64\native\libQuestPdfSkia.so" />
+    <None Include="bin\Debug\net8.0-windows\runtimes\linux-x64\native\libQuestPdfSkia.so" />
+    <None Include="bin\Debug\net8.0-windows\runtimes\osx-arm64\native\libQuestPdfSkia.dylib" />
+    <None Include="bin\Debug\net8.0-windows\runtimes\osx-x64\native\libQuestPdfSkia.dylib" />
+    <None Include="bin\Debug\net8.0-windows\runtimes\osx\native\libSkiaSharp.dylib" />
+    <None Include="bin\Debug\net8.0-windows\runtimes\tizen-armel\native\libSkiaSharp.so" />
+    <None Include="bin\Debug\net8.0-windows\runtimes\tizen-x86\native\libSkiaSharp.so" />
+    <None Include="bin\Debug\net8.0-windows\runtimes\win-x64\native\comerr64.dll" />
+    <None Include="bin\Debug\net8.0-windows\runtimes\win-x64\native\gssapi64.dll" />
+    <None Include="bin\Debug\net8.0-windows\runtimes\win-x64\native\k5sprt64.dll" />
+    <None Include="bin\Debug\net8.0-windows\runtimes\win-x64\native\krb5_64.dll" />
+    <None Include="bin\Debug\net8.0-windows\runtimes\win-x64\native\krbcc64.dll" />
+    <None Include="bin\Debug\net8.0-windows\runtimes\win-x64\native\libSkiaSharp.dll" />
+    <None Include="bin\Debug\net8.0-windows\runtimes\win-x64\native\QuestPdfSkia.dll" />
+    <None Include="bin\Debug\net8.0-windows\runtimes\win-x86\native\libSkiaSharp.dll" />
+    <None Include="bin\Debug\net8.0-windows\runtimes\win-x86\native\QuestPdfSkia.dll" />
+    <None Include="bin\Debug\net8.0-windows\runtimes\win\lib\net7.0\System.Management.dll" />
+    <None Include="bin\Debug\net8.0-windows\runtimes\win\lib\net8.0\System.Diagnostics.EventLog.dll" />
+    <None Include="bin\Debug\net8.0-windows\runtimes\win\lib\net8.0\System.Runtime.Caching.dll" />
+    <None Include="bin\Debug\net8.0-windows\ru\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\ru\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\ru\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\SixLabors.Fonts.dll" />
+    <None Include="bin\Debug\net8.0-windows\SkiaSharp.dll" />
+    <None Include="bin\Debug\net8.0-windows\Spire.XLS.dll" />
+    <None Include="bin\Debug\net8.0-windows\System.Composition.AttributedModel.dll" />
+    <None Include="bin\Debug\net8.0-windows\System.Composition.Convention.dll" />
+    <None Include="bin\Debug\net8.0-windows\System.Composition.Hosting.dll" />
+    <None Include="bin\Debug\net8.0-windows\System.Composition.Runtime.dll" />
+    <None Include="bin\Debug\net8.0-windows\System.Composition.TypedParts.dll" />
+    <None Include="bin\Debug\net8.0-windows\System.Configuration.ConfigurationManager.dll" />
+    <None Include="bin\Debug\net8.0-windows\System.Diagnostics.EventLog.dll" />
+    <None Include="bin\Debug\net8.0-windows\System.IO.Pipelines.dll" />
+    <None Include="bin\Debug\net8.0-windows\System.Management.dll" />
+    <None Include="bin\Debug\net8.0-windows\System.Runtime.Caching.dll" />
+    <None Include="bin\Debug\net8.0-windows\tr\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\tr\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\VCheck.Helper.dll" />
+    <None Include="bin\Debug\net8.0-windows\VCheck.Helper.pdb" />
+    <None Include="bin\Debug\net8.0-windows\VCheck.Interface.API.dll" />
+    <None Include="bin\Debug\net8.0-windows\VCheck.Interface.API.pdb" />
+    <None Include="bin\Debug\net8.0-windows\VCheck.Lib.Data.dll" />
+    <None Include="bin\Debug\net8.0-windows\VCheck.Lib.Data.dll.config" />
+    <None Include="bin\Debug\net8.0-windows\VCheck.Lib.Data.pdb" />
+    <None Include="bin\Debug\net8.0-windows\VCheckViewer_Others.dll" />
+    <None Include="bin\Debug\net8.0-windows\VCheckViewer_Others.exe" />
+    <None Include="bin\Debug\net8.0-windows\VCheckViewer_Others.pdb" />
+    <None Include="bin\Debug\net8.0-windows\vi\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\Wpf.Ui.dll" />
+    <None Include="bin\Debug\net8.0-windows\WPFLocalizeExtension.dll" />
+    <None Include="bin\Debug\net8.0-windows\XAMLMarkupExtensions.dll" />
+    <None Include="bin\Debug\net8.0-windows\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\zh-Hans\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\zh-Hans\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\zh-Hant\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\zh-Hant\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\zh\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Debug\net8.0-windows\ZstdSharp.dll" />
+    <None Include="bin\Release\net8.0-windows\BouncyCastle.Cryptography.dll" />
+    <None Include="bin\Release\net8.0-windows\ClosedXML.dll" />
+    <None Include="bin\Release\net8.0-windows\ClosedXML.Parser.dll" />
+    <None Include="bin\Release\net8.0-windows\CommunityToolkit.Mvvm.dll" />
+    <None Include="bin\Release\net8.0-windows\cs\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\cs\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\cs\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\cs\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\de\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\de\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\de\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\de\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\de\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\DocumentFormat.OpenXml.dll" />
+    <None Include="bin\Release\net8.0-windows\DocumentFormat.OpenXml.Framework.dll" />
+    <None Include="bin\Release\net8.0-windows\en\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\es\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\es\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\es\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\es\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\es\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ExcelNumberFormat.dll" />
+    <None Include="bin\Release\net8.0-windows\fr\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\fr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\fr\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\fr\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\fr\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\Google.Protobuf.dll" />
+    <None Include="bin\Release\net8.0-windows\hi\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\Humanizer.dll" />
+    <None Include="bin\Release\net8.0-windows\id\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\it\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\it\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\it\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\it\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ja\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ja\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ja\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ja\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ja\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\K4os.Compression.LZ4.dll" />
+    <None Include="bin\Release\net8.0-windows\K4os.Compression.LZ4.Streams.dll" />
+    <None Include="bin\Release\net8.0-windows\K4os.Hash.xxHash.dll" />
+    <None Include="bin\Release\net8.0-windows\ko\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ko\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ko\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ko\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ko\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\log4net.config" />
+    <None Include="bin\Release\net8.0-windows\log4net.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.AspNetCore.Authentication.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.AspNetCore.Authentication.Cookies.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.AspNetCore.Authentication.Core.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.AspNetCore.Authentication.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.AspNetCore.Cryptography.Internal.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.AspNetCore.DataProtection.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.AspNetCore.DataProtection.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.AspNetCore.Hosting.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.AspNetCore.Http.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.AspNetCore.Http.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.AspNetCore.Http.Extensions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.AspNetCore.Http.Features.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.AspNetCore.Identity.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.AspNetCore.WebUtilities.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Bcl.AsyncInterfaces.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.CodeAnalysis.CSharp.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.CodeAnalysis.CSharp.Workspaces.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.CodeAnalysis.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.CodeAnalysis.Workspaces.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.EntityFrameworkCore.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.EntityFrameworkCore.Design.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.EntityFrameworkCore.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.EntityFrameworkCore.Relational.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Caching.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Caching.Memory.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Configuration.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Configuration.Binder.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Configuration.CommandLine.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Configuration.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Configuration.EnvironmentVariables.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Configuration.FileExtensions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Configuration.Json.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Configuration.UserSecrets.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.DependencyInjection.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.DependencyModel.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Diagnostics.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Diagnostics.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.FileProviders.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.FileProviders.Physical.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.FileSystemGlobbing.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Hosting.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Hosting.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Identity.Core.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Identity.Stores.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Logging.Abstractions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Logging.Configuration.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Logging.Console.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Logging.Debug.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Logging.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Logging.EventLog.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Logging.EventSource.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.ObjectPool.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Options.ConfigurationExtensions.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Options.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.Primitives.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Extensions.WebEncoders.dll" />
+    <None Include="bin\Release\net8.0-windows\Microsoft.Net.Http.Headers.dll" />
+    <None Include="bin\Release\net8.0-windows\Mono.TextTemplating.dll" />
+    <None Include="bin\Release\net8.0-windows\MySql.Data.dll" />
+    <None Include="bin\Release\net8.0-windows\MySqlConnector.dll" />
+    <None Include="bin\Release\net8.0-windows\Newtonsoft.Json.dll" />
+    <None Include="bin\Release\net8.0-windows\pl\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\pl\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\pl\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\pl\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\Pomelo.EntityFrameworkCore.MySql.dll" />
+    <None Include="bin\Release\net8.0-windows\pt-BR\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\pt-BR\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\pt-BR\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\pt-BR\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\pt\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\QuestPDF.dll" />
+    <None Include="bin\Release\net8.0-windows\RBush.dll" />
+    <None Include="bin\Release\net8.0-windows\runtimes\linux-arm64\native\libQuestPdfSkia.so" />
+    <None Include="bin\Release\net8.0-windows\runtimes\linux-musl-x64\native\libQuestPdfSkia.so" />
+    <None Include="bin\Release\net8.0-windows\runtimes\linux-x64\native\libQuestPdfSkia.so" />
+    <None Include="bin\Release\net8.0-windows\runtimes\osx-arm64\native\libQuestPdfSkia.dylib" />
+    <None Include="bin\Release\net8.0-windows\runtimes\osx-x64\native\libQuestPdfSkia.dylib" />
+    <None Include="bin\Release\net8.0-windows\runtimes\osx\native\libSkiaSharp.dylib" />
+    <None Include="bin\Release\net8.0-windows\runtimes\tizen-armel\native\libSkiaSharp.so" />
+    <None Include="bin\Release\net8.0-windows\runtimes\tizen-x86\native\libSkiaSharp.so" />
+    <None Include="bin\Release\net8.0-windows\runtimes\win-x64\native\comerr64.dll" />
+    <None Include="bin\Release\net8.0-windows\runtimes\win-x64\native\gssapi64.dll" />
+    <None Include="bin\Release\net8.0-windows\runtimes\win-x64\native\k5sprt64.dll" />
+    <None Include="bin\Release\net8.0-windows\runtimes\win-x64\native\krb5_64.dll" />
+    <None Include="bin\Release\net8.0-windows\runtimes\win-x64\native\krbcc64.dll" />
+    <None Include="bin\Release\net8.0-windows\runtimes\win-x64\native\libSkiaSharp.dll" />
+    <None Include="bin\Release\net8.0-windows\runtimes\win-x64\native\QuestPdfSkia.dll" />
+    <None Include="bin\Release\net8.0-windows\runtimes\win-x86\native\libSkiaSharp.dll" />
+    <None Include="bin\Release\net8.0-windows\runtimes\win-x86\native\QuestPdfSkia.dll" />
+    <None Include="bin\Release\net8.0-windows\runtimes\win\lib\net7.0\System.Management.dll" />
+    <None Include="bin\Release\net8.0-windows\runtimes\win\lib\net8.0\System.Diagnostics.EventLog.dll" />
+    <None Include="bin\Release\net8.0-windows\runtimes\win\lib\net8.0\System.Runtime.Caching.dll" />
+    <None Include="bin\Release\net8.0-windows\ru\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ru\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ru\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ru\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ru\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\SixLabors.Fonts.dll" />
+    <None Include="bin\Release\net8.0-windows\SkiaSharp.dll" />
+    <None Include="bin\Release\net8.0-windows\Spire.XLS.dll" />
+    <None Include="bin\Release\net8.0-windows\System.Composition.AttributedModel.dll" />
+    <None Include="bin\Release\net8.0-windows\System.Composition.Convention.dll" />
+    <None Include="bin\Release\net8.0-windows\System.Composition.Hosting.dll" />
+    <None Include="bin\Release\net8.0-windows\System.Composition.Runtime.dll" />
+    <None Include="bin\Release\net8.0-windows\System.Composition.TypedParts.dll" />
+    <None Include="bin\Release\net8.0-windows\System.Configuration.ConfigurationManager.dll" />
+    <None Include="bin\Release\net8.0-windows\System.Diagnostics.EventLog.dll" />
+    <None Include="bin\Release\net8.0-windows\System.IO.Pipelines.dll" />
+    <None Include="bin\Release\net8.0-windows\System.Management.dll" />
+    <None Include="bin\Release\net8.0-windows\System.Runtime.Caching.dll" />
+    <None Include="bin\Release\net8.0-windows\tr\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\tr\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\tr\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\tr\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\VCheck.Helper.dll" />
+    <None Include="bin\Release\net8.0-windows\VCheck.Helper.pdb" />
+    <None Include="bin\Release\net8.0-windows\VCheck.Interface.API.dll" />
+    <None Include="bin\Release\net8.0-windows\VCheck.Interface.API.pdb" />
+    <None Include="bin\Release\net8.0-windows\VCheck.Lib.Data.dll" />
+    <None Include="bin\Release\net8.0-windows\VCheck.Lib.Data.dll.config" />
+    <None Include="bin\Release\net8.0-windows\VCheck.Lib.Data.pdb" />
+    <None Include="bin\Release\net8.0-windows\VCheckViewer_Others.dll" />
+    <None Include="bin\Release\net8.0-windows\VCheckViewer_Others.exe" />
+    <None Include="bin\Release\net8.0-windows\VCheckViewer_Others.pdb" />
+    <None Include="bin\Release\net8.0-windows\vi\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\Wpf.Ui.dll" />
+    <None Include="bin\Release\net8.0-windows\WPFLocalizeExtension.dll" />
+    <None Include="bin\Release\net8.0-windows\XAMLMarkupExtensions.dll" />
+    <None Include="bin\Release\net8.0-windows\zh-Hans\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\zh-Hans\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\zh-Hans\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\zh-Hans\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\zh-Hans\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\zh-Hant\Microsoft.CodeAnalysis.CSharp.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\zh-Hant\Microsoft.CodeAnalysis.CSharp.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\zh-Hant\Microsoft.CodeAnalysis.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\zh-Hant\Microsoft.CodeAnalysis.Workspaces.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\zh-Hant\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\zh\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\net8.0-windows\ZstdSharp.dll" />
+    <None Include="bin\Release\Publish\BouncyCastle.Cryptography.dll" />
+    <None Include="bin\Release\Publish\ClosedXML.dll" />
+    <None Include="bin\Release\Publish\comerr64.dll" />
+    <None Include="bin\Release\Publish\CommunityToolkit.Mvvm.dll" />
+    <None Include="bin\Release\Publish\de\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\Publish\DocumentFormat.OpenXml.dll" />
+    <None Include="bin\Release\Publish\en\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\Publish\es\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\Publish\ExcelNumberFormat.dll" />
+    <None Include="bin\Release\Publish\fr\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\Publish\Google.Protobuf.dll" />
+    <None Include="bin\Release\Publish\gssapi64.dll" />
+    <None Include="bin\Release\Publish\hi\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\Publish\id\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\Publish\Irony.dll" />
+    <None Include="bin\Release\Publish\ja\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\Publish\K4os.Compression.LZ4.dll" />
+    <None Include="bin\Release\Publish\K4os.Compression.LZ4.Streams.dll" />
+    <None Include="bin\Release\Publish\K4os.Hash.xxHash.dll" />
+    <None Include="bin\Release\Publish\k5sprt64.dll" />
+    <None Include="bin\Release\Publish\ko\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\Publish\krb5_64.dll" />
+    <None Include="bin\Release\Publish\krbcc64.dll" />
+    <None Include="bin\Release\Publish\libSkiaSharp.dll" />
+    <None Include="bin\Release\Publish\log4net.config" />
+    <None Include="bin\Release\Publish\log4net.dll" />
+    <None Include="bin\Release\Publish\Log\DailyErrorLog_20241105.log" />
+    <None Include="bin\Release\Publish\Microsoft.AspNetCore.Authentication.Abstractions.dll" />
+    <None Include="bin\Release\Publish\Microsoft.AspNetCore.Authentication.Cookies.dll" />
+    <None Include="bin\Release\Publish\Microsoft.AspNetCore.Authentication.Core.dll" />
+    <None Include="bin\Release\Publish\Microsoft.AspNetCore.Authentication.dll" />
+    <None Include="bin\Release\Publish\Microsoft.AspNetCore.Cryptography.Internal.dll" />
+    <None Include="bin\Release\Publish\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll" />
+    <None Include="bin\Release\Publish\Microsoft.AspNetCore.DataProtection.Abstractions.dll" />
+    <None Include="bin\Release\Publish\Microsoft.AspNetCore.DataProtection.dll" />
+    <None Include="bin\Release\Publish\Microsoft.AspNetCore.Hosting.Abstractions.dll" />
+    <None Include="bin\Release\Publish\Microsoft.AspNetCore.Hosting.Server.Abstractions.dll" />
+    <None Include="bin\Release\Publish\Microsoft.AspNetCore.Http.Abstractions.dll" />
+    <None Include="bin\Release\Publish\Microsoft.AspNetCore.Http.dll" />
+    <None Include="bin\Release\Publish\Microsoft.AspNetCore.Http.Extensions.dll" />
+    <None Include="bin\Release\Publish\Microsoft.AspNetCore.Http.Features.dll" />
+    <None Include="bin\Release\Publish\Microsoft.AspNetCore.Identity.dll" />
+    <None Include="bin\Release\Publish\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll" />
+    <None Include="bin\Release\Publish\Microsoft.AspNetCore.WebUtilities.dll" />
+    <None Include="bin\Release\Publish\Microsoft.EntityFrameworkCore.Abstractions.dll" />
+    <None Include="bin\Release\Publish\Microsoft.EntityFrameworkCore.dll" />
+    <None Include="bin\Release\Publish\Microsoft.EntityFrameworkCore.Relational.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Caching.Abstractions.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Caching.Memory.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Configuration.Abstractions.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Configuration.Binder.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Configuration.CommandLine.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Configuration.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Configuration.EnvironmentVariables.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Configuration.FileExtensions.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Configuration.Json.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Configuration.UserSecrets.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.DependencyInjection.Abstractions.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.DependencyInjection.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Diagnostics.Abstractions.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Diagnostics.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.FileProviders.Abstractions.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.FileProviders.Physical.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.FileSystemGlobbing.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Hosting.Abstractions.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Hosting.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Identity.Core.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Identity.Stores.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Logging.Abstractions.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Logging.Configuration.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Logging.Console.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Logging.Debug.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Logging.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Logging.EventLog.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Logging.EventSource.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.ObjectPool.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Options.ConfigurationExtensions.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Options.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.Primitives.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Extensions.WebEncoders.dll" />
+    <None Include="bin\Release\Publish\Microsoft.Net.Http.Headers.dll" />
+    <None Include="bin\Release\Publish\MySql.Data.dll" />
+    <None Include="bin\Release\Publish\MySqlConnector.dll" />
+    <None Include="bin\Release\Publish\Newtonsoft.Json.dll" />
+    <None Include="bin\Release\Publish\Pomelo.EntityFrameworkCore.MySql.dll" />
+    <None Include="bin\Release\Publish\pt\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\Publish\QuestPDF.dll" />
+    <None Include="bin\Release\Publish\QuestPdfSkia.dll" />
+    <None Include="bin\Release\Publish\ru\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\Publish\SixLabors.Fonts.dll" />
+    <None Include="bin\Release\Publish\SkiaSharp.dll" />
+    <None Include="bin\Release\Publish\Spire.XLS.dll" />
+    <None Include="bin\Release\Publish\System.Configuration.ConfigurationManager.dll" />
+    <None Include="bin\Release\Publish\System.Diagnostics.EventLog.dll" />
+    <None Include="bin\Release\Publish\System.IO.Pipelines.dll" />
+    <None Include="bin\Release\Publish\System.Management.dll" />
+    <None Include="bin\Release\Publish\System.Runtime.Caching.dll" />
+    <None Include="bin\Release\Publish\VCheck.Helper.dll" />
+    <None Include="bin\Release\Publish\VCheck.Helper.pdb" />
+    <None Include="bin\Release\Publish\VCheck.Interface.API.dll" />
+    <None Include="bin\Release\Publish\VCheck.Interface.API.pdb" />
+    <None Include="bin\Release\Publish\VCheck.Lib.Data.dll" />
+    <None Include="bin\Release\Publish\VCheck.Lib.Data.dll.config" />
+    <None Include="bin\Release\Publish\VCheck.Lib.Data.pdb" />
+    <None Include="bin\Release\Publish\VCheckViewer_Others.dll" />
+    <None Include="bin\Release\Publish\VCheckViewer_Others.exe" />
+    <None Include="bin\Release\Publish\VCheckViewer_Others.pdb" />
+    <None Include="bin\Release\Publish\vi\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\Publish\Wpf.Ui.dll" />
+    <None Include="bin\Release\Publish\WPFLocalizeExtension.dll" />
+    <None Include="bin\Release\Publish\XAMLMarkupExtensions.dll" />
+    <None Include="bin\Release\Publish\XLParser.dll" />
+    <None Include="bin\Release\Publish\zh-Hans\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\Publish\zh-Hant\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\Publish\zh\VCheckViewer_Others.resources.dll" />
+    <None Include="bin\Release\Publish\ZstdSharp.dll" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ArmDot.Client" Version="2024.9.0" />
+    <PackageReference Include="ArmDot.Engine.MSBuildTasks" Version="2024.9.0" />
+    <PackageReference Include="ClosedXML" Version="0.104.1" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.3.2" />
+    <PackageReference Include="FreeSpire.XLS" Version="14.2.0" />
+    <PackageReference Include="log4net" Version="3.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="8.0.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Http" Version="2.2.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.10" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.10">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.1" />
+    <PackageReference Include="NHapiTools" Version="2.0.4" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
+    <PackageReference Include="QuestPDF" Version="2024.10.3" />
+    <PackageReference Include="System.Runtime.Caching" Version="8.0.1" />
+    <PackageReference Include="WPF-UI" Version="3.0.5" />
+    <PackageReference Include="WPFLocalizeExtension" Version="3.10.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Content\Images\ArrowDown_White.png" />
+    <Resource Include="Content\Images\avatar.png" />
+    <Resource Include="Content\Images\Avatar_Orange.png" />
+    <Resource Include="Content\Images\BackArrowRound.png" />
+    <Resource Include="Content\Images\BackArrowRound_white.png" />
+    <Resource Include="Content\Images\BackArrow_White.png" />
+    <ProjectReference Include="..\Library\VCheck.Helper\VCheck.Helper.csproj" />
+    <ProjectReference Include="..\Library\VCheck.Lib.Data\VCheck.Lib.Data.csproj" />
+    <ProjectReference Include="..\VCheck.Interface.API\VCheck.Interface.API.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Content\Images\bell.png" />
+    <Resource Include="Content\Images\bell_white.png" />
+    <Resource Include="Content\Images\bio_logo.png" />
+    <Resource Include="Content\Images\bio_logo_dark.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Content\Images\bio_logo_light.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Content\Images\BrightnessWhite.png" />
+    <Resource Include="Content\Images\Calendar_Dark.png" />
+    <Resource Include="Content\Images\Calendar_White.png" />
+    <Resource Include="Content\Images\Cat photo.png" />
+    <Resource Include="Content\Images\clock.png" />
+    <Resource Include="Content\Images\clock_white.png" />
+    <Resource Include="Content\Images\Collapse_Arrow.png" />
+    <Resource Include="Content\Images\Collapse_Arrow_Right.png" />
+    <Resource Include="Content\Images\Collapse_BlackArrow_Right.png" />
+    <Resource Include="Content\Images\Collapse_WhiteArrow_Right.png" />
+    <Resource Include="Content\Images\Connection Icon Dark.png" />
+    <Resource Include="Content\Images\Connection Icon Light.png" />
+    <Resource Include="Content\Images\DarkWhite.png" />
+    <Resource Include="Content\Images\dashboard.png" />
+    <Resource Include="Content\Images\dashboard_white.png" />
+    <Content Include="Content\Images\Down-Arrow-Light.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Content\Images\Download.png" />
+    <Resource Include="Content\Images\Download_White.png" />
+    <Resource Include="Content\Images\Email Icon.png" />
+    <Resource Include="Content\Images\BackArrow.png" />
+    <Resource Include="Content\Images\Hide password.png">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Content\Images\Icons\de.png" />
+    <Resource Include="Content\Images\Icons\en.png" />
+    <Resource Include="Content\Images\Icons\es.png" />
+    <Resource Include="Content\Images\Icons\favicon.ico" />
+    <Resource Include="Content\Images\Icons\fr.png" />
+    <Resource Include="Content\Images\Icons\hi.png" />
+    <Resource Include="Content\Images\Icons\icon_dog.png" />
+    <Resource Include="Content\Images\Icons\icon_dog_dark.png" />
+    <Resource Include="Content\Images\Icons\id.png" />
+    <Resource Include="Content\Images\Icons\ja.png" />
+    <Resource Include="Content\Images\Icons\ko.png" />
+    <Resource Include="Content\Images\Icons\pt.png" />
+    <Resource Include="Content\Images\Icons\ru.png" />
+    <Resource Include="Content\Images\Icons\vi.png" />
+    <Resource Include="Content\Images\Icons\zh-Hans.png" />
+    <Resource Include="Content\Images\Icons\zh-Hant.png" />
+    <Resource Include="Content\Images\Img_Doctor.png" />
+    <Resource Include="Content\Images\Img_Pets.png" />
+    <Resource Include="Content\Images\left-arrow-black.png" />
+    <Resource Include="Content\Images\left-arrow-white.png" />
+    <Resource Include="Content\Images\LoginDevice.png" />
+    <Resource Include="Content\Images\LoginLogo_Light.png" />
+    <Resource Include="Content\Images\LoginLogo_Light2.png" />
+    <Resource Include="Content\Images\mask_group_1.png" />
+    <Resource Include="Content\Images\mask_group_4.png" />
+    <Resource Include="Content\Images\mask_group_5.png" />
+    <Resource Include="Content\Images\more.png" />
+    <Resource Include="Content\Images\more_white.png" />
+    <Resource Include="Content\Images\path_33946.png" />
+    <Resource Include="Content\Images\path_3550.png" />
+    <Resource Include="Content\Images\path_4002.png" />
+    <Resource Include="Content\Images\path_4004.png" />
+    <Resource Include="Content\Images\paw_dark.png" />
+    <Resource Include="Content\Images\paw_light.png" />
+    <Resource Include="Content\Images\Print.png" />
+    <Resource Include="Content\Images\Print_White.png" />
+    <Resource Include="Content\Images\Report Logo Default.png" />
+    <Resource Include="Content\Images\Report Logo.png" />
+    <Resource Include="Content\Images\results.png" />
+    <Resource Include="Content\Images\results_white.png" />
+    <Resource Include="Content\Images\right-arrow-black.png" />
+    <Resource Include="Content\Images\right-arrow-white.png" />
+    <Resource Include="Content\Images\Search_Dark.png" />
+    <Resource Include="Content\Images\Search_White.png" />
+    <Resource Include="Content\Images\See password.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Content\Images\setting.png" />
+    <Resource Include="Content\Images\setting_white.png" />
+    <Resource Include="Content\Images\stroke_1_ek2.png" />
+    <Resource Include="Content\Images\stroke_1_ek4.png" />
+    <Resource Include="Content\Images\stroke_4.png" />
+    <Resource Include="Content\Fonts\Orbitron-Medium.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Content\Fonts\Roboto-Light.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Content Include="Content\Images\Up-Arrow.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Content\Images\VCheck200Image.png" />
+    <Resource Include="Content\Images\VCheck200Image2.png" />
+    <Resource Include="Content\Images\VCheck2400Image.png" />
+    <Resource Include="Content\Images\VCheck2400Image2.png" />
+    <Resource Include="Content\Images\VCheckM10Image.png" />
+    <Content Include="Storage\Certificates\Sectigo Public Server Authentication Root R46.crt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Resource Include="Storage\Device\Img_F200.png" />
+    <Resource Include="Storage\Device\Img_M10.png" />
+    <Resource Include="Storage\Device\VCheck2400Image.png" />
+    <Resource Include="Storage\Device\VCheckC1.png" />
+    <Resource Include="Storage\Device\VCheckC10.png" />
+    <Resource Include="Storage\Device\VCheckH6.png" />
+    <Resource Include="Storage\Device\VCheckU3.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Resource Include="Content\Images\Login photo.png" />
+    <Resource Include="Content\Images\Password icon.png" />
+    <Resource Include="Content\Images\Username icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.de.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.en.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.es.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.hi.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.id.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.ja.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.ko.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.pt.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.vi.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.zh-Hans.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Properties\Resources.zh-Hant.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  <PackagePath>appsettings.json</PackagePath>
+	  <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </None>
+    <None Update="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="obfuscar.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+  </ItemGroup>
+	<!-- ArmDot -->
+	<!--
+    <Target Name="Protect" AfterTargets="AfterCompile" BeforeTargets="BeforePublish">
+	    <ItemGroup>
+		    <Assemblies Include="$(ProjectDir)$(IntermediateOutputPath)$(TargetFileName)" />
+	    </ItemGroup>
+	    <ArmDot.Engine.MSBuildTasks.ObfuscateTask
+        Inputs="@(Assemblies)"
+        ReferencePaths="@(_ResolveAssemblyReferenceResolvedFiles->'%(RootDir)%(Directory)')"
+        SkipAlreadyObfuscatedAssemblies="true"/>
+    </Target>
+	-->
+</Project>

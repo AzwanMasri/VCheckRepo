@@ -1,0 +1,1017 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Dashboard_Title_PageTitle" xml:space="preserve">
+    <value>仪表板</value>
+  </data>
+  <data name="General_Label_Create" xml:space="preserve">
+    <value>创造</value>
+  </data>
+  <data name="General_Label_Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="General_Label_Edit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="General_Label_Next" xml:space="preserve">
+    <value>下一页</value>
+  </data>
+  <data name="General_Label_No" xml:space="preserve">
+    <value>不</value>
+  </data>
+  <data name="General_Label_OK" xml:space="preserve">
+    <value>知到</value>
+  </data>
+  <data name="General_Label_Number" xml:space="preserve">
+    <value>号码</value>
+  </data>
+  <data name="General_Label_Previous" xml:space="preserve">
+    <value>以前</value>
+  </data>
+  <data name="General_Label_Save" xml:space="preserve">
+    <value>保存</value>
+  </data>
+  <data name="General_Label_Searchbar" xml:space="preserve">
+    <value>搜索</value>
+  </data>
+  <data name="General_Label_Send" xml:space="preserve">
+    <value>发送</value>
+  </data>
+  <data name="General_Label_Update" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="General_Label_View" xml:space="preserve">
+    <value>详细</value>
+  </data>
+  <data name="General_Label_Yes" xml:space="preserve">
+    <value>是的</value>
+  </data>
+  <data name="General_Message_NoChanges" xml:space="preserve">
+    <value>未检测到任何更改。</value>
+  </data>
+  <data name="General_Message_NoData" xml:space="preserve">
+    <value>无可用数据</value>
+  </data>
+  <data name="Login_ErrorMessage_AccountDeactivated" xml:space="preserve">
+    <value>帐户已停用。请联系管理员。</value>
+  </data>
+  <data name="Login_ErrorMessage_AccountLocked" xml:space="preserve">
+    <value>帐户被锁定。请联系管理员。</value>
+  </data>
+  <data name="Login_ErrorMessage_AccountNotConfirmed" xml:space="preserve">
+    <value>帐户尚未确认。请通过电子邮件确认帐户。</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongEmail" xml:space="preserve">
+    <value>链接到帐户的错误电子邮件，请验证它是否是正确的电子邮件，然后重试。</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongLoginID" xml:space="preserve">
+    <value>登录标识错误。</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongLoginIDRecovery" xml:space="preserve">
+    <value>根据登录标识找不到用户，请验证它是否是正确的登录标识，然后重试。</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongPassword" xml:space="preserve">
+    <value>密码错误。&lt;attemptcount&gt; 在帐户被锁定之前，您还有剩余的尝试次数。</value>
+  </data>
+  <data name="Login_Label_BackButton" xml:space="preserve">
+    <value>返回登錄</value>
+  </data>
+  <data name="Login_Label_ConfirmPassword" xml:space="preserve">
+    <value>确认新密码</value>
+  </data>
+  <data name="Login_Label_ForgetPassword" xml:space="preserve">
+    <value>忘记密码？</value>
+  </data>
+  <data name="Login_Label_LeftMain" xml:space="preserve">
+    <value>快速获得准确的&lt;nextline&gt;结果。</value>
+  </data>
+  <data name="Login_Label_LeftSub" xml:space="preserve">
+    <value>请登录以访问您的帐户</value>
+  </data>
+  <data name="Login_Label_LoginButton" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="Login_Label_MainPassword" xml:space="preserve">
+    <value>密码</value>
+  </data>
+  <data name="Login_Label_MainUsername" xml:space="preserve">
+    <value>用户名</value>
+  </data>
+  <data name="Login_Label_NewPassword" xml:space="preserve">
+    <value>新密码</value>
+  </data>
+  <data name="Login_Label_OldPassword" xml:space="preserve">
+    <value>旧密码</value>
+  </data>
+  <data name="Login_Label_PasswordRecovery" xml:space="preserve">
+    <value>密码&lt;nextline&gt;恢复</value>
+  </data>
+  <data name="Login_Label_ResetPassword" xml:space="preserve">
+    <value>重置密码</value>
+  </data>
+  <data name="Login_Message_PasswordNewConfirmMismatch" xml:space="preserve">
+    <value>“新密码”和“确认密码”不匹配。</value>
+  </data>
+  <data name="Login_Message_PasswordRecovery" xml:space="preserve">
+    <value>请输入您的电子邮件地址，我们将向您发送一个链接以重置您的密码。</value>
+  </data>
+  <data name="Login_Message_PasswordRequirement" xml:space="preserve">
+    <value>密码必须至少有一个数字、一个小写字母、一个大写字母，并且由八个字符组成。</value>
+  </data>
+  <data name="Login_Message_PasswordResetted" xml:space="preserve">
+    <value>密码已成功重置。</value>
+  </data>
+  <data name="Login_Title_PageTitle" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="Main_Label_Logout" xml:space="preserve">
+    <value>注销</value>
+  </data>
+  <data name="Main_Label_ResetPassword" xml:space="preserve">
+    <value>重置密码</value>
+  </data>
+  <data name="Main_Label_SideMenuCollapse" xml:space="preserve">
+    <value>折叠</value>
+  </data>
+  <data name="Main_Label_SideMenuDashboard" xml:space="preserve">
+    <value>仪表板</value>
+  </data>
+  <data name="Main_Label_SideMenuNotification" xml:space="preserve">
+    <value>告示板</value>
+  </data>
+  <data name="Main_Label_SideMenuResults" xml:space="preserve">
+    <value>测试结果</value>
+  </data>
+  <data name="Main_Label_SideMenuSchedule" xml:space="preserve">
+    <value>日程表</value>
+  </data>
+  <data name="Main_Label_SideMenuSetting" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="Main_Label_ViewProfile" xml:space="preserve">
+    <value>查看职业档案</value>
+  </data>
+  <data name="Notification_Label_CompletedTest" xml:space="preserve">
+    <value>完成的测试结果</value>
+  </data>
+  <data name="Notification_Label_ShowAll" xml:space="preserve">
+    <value>全部</value>
+  </data>
+  <data name="Notification_Label_UpcomingTest" xml:space="preserve">
+    <value>即将到来的测试</value>
+  </data>
+  <data name="Notification_Label_Updates" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Popup_Message_CreateUser" xml:space="preserve">
+    <value>是否确实要创建此用户配置文件？</value>
+  </data>
+  <data name="Popup_Message_DeleteUser" xml:space="preserve">
+    <value>是否确实要删除此用户配置文件？</value>
+  </data>
+  <data name="Popup_Message_LanguageCountryChange" xml:space="preserve">
+    <value>是否确实要保存此设置？</value>
+  </data>
+  <data name="Popup_Message_Logout" xml:space="preserve">
+    <value>是否确实要注销？</value>
+  </data>
+  <data name="Popup_Message_PasswordRecoveredP1" xml:space="preserve">
+    <value>我们已向您发送电子邮件的临时密码。您可以使用它登录。&lt;nextline&gt; 登录后，您可以将其更改为您的首选密码 </value>
+  </data>
+  <data name="Popup_Message_PasswordRecoveredP2" xml:space="preserve">
+    <value>“重置密码”</value>
+  </data>
+  <data name="Popup_Message_PasswordRecoveredP3" xml:space="preserve">
+    <value> 部分</value>
+  </data>
+  <data name="Popup_Message_RecoverPassword" xml:space="preserve">
+    <value>您确定要恢复密码吗？</value>
+  </data>
+  <data name="Popup_Message_UpdateUser" xml:space="preserve">
+    <value>是否确实要更新此用户配置文件？</value>
+  </data>
+  <data name="Setting_ErrorMessage_DateFormat" xml:space="preserve">
+    <value>请输入正确的日期格式。</value>
+  </data>
+  <data name="Setting_ErrorMessage_EmailFormat" xml:space="preserve">
+    <value>此字段必须包含“@”符号。</value>
+  </data>
+  <data name="Setting_ErrorMessage_FiveCharMin" xml:space="preserve">
+    <value>此字段必须至少包含五个字符。</value>
+  </data>
+  <data name="Setting_ErrorMessage_MandatoryField" xml:space="preserve">
+    <value>这是必填字段。</value>
+  </data>
+  <data name="Setting_ErrorMessage_TwoCharMin" xml:space="preserve">
+    <value>此字段必须至少包含两个字符。</value>
+  </data>
+  <data name="Setting_Label_Country" xml:space="preserve">
+    <value>国家</value>
+  </data>
+  <data name="Setting_Label_CreateUser" xml:space="preserve">
+    <value>加用户</value>
+  </data>
+  <data name="Setting_Label_DateOfBirth" xml:space="preserve">
+    <value>出生日期</value>
+  </data>
+  <data name="Setting_Label_Device" xml:space="preserve">
+    <value>装置</value>
+  </data>
+  <data name="Setting_Label_Email" xml:space="preserve">
+    <value>电子邮件地址</value>
+  </data>
+  <data name="Setting_Label_FullName" xml:space="preserve">
+    <value>全名</value>
+  </data>
+  <data name="Setting_Label_Gender" xml:space="preserve">
+    <value>性别</value>
+  </data>
+  <data name="Setting_Label_Language" xml:space="preserve">
+    <value>语言</value>
+  </data>
+  <data name="Setting_Label_LanguageCountry" xml:space="preserve">
+    <value>语言 &amp; 国家</value>
+  </data>
+  <data name="Setting_Label_LoginID" xml:space="preserve">
+    <value>登录标识</value>
+  </data>
+  <data name="Setting_Label_RegistrationNo" xml:space="preserve">
+    <value>医生注册号码</value>
+  </data>
+  <data name="Setting_Label_Role" xml:space="preserve">
+    <value>用户角色</value>
+  </data>
+  <data name="Setting_Label_SelectCountry" xml:space="preserve">
+    <value>选择国家/地区</value>
+  </data>
+  <data name="Setting_Label_SelectLanguage" xml:space="preserve">
+    <value>选择语言</value>
+  </data>
+  <data name="Setting_Label_StaffID" xml:space="preserve">
+    <value>员工识别</value>
+  </data>
+  <data name="Setting_Label_StaffName" xml:space="preserve">
+    <value>员工姓名</value>
+  </data>
+  <data name="Setting_Label_Status" xml:space="preserve">
+    <value>状况</value>
+  </data>
+  <data name="Setting_Label_Title" xml:space="preserve">
+    <value>标题</value>
+  </data>
+  <data name="Setting_Label_User" xml:space="preserve">
+    <value>用户</value>
+  </data>
+  <data name="Setting_Label_UserBackButton" xml:space="preserve">
+    <value>返回用户列表</value>
+  </data>
+  <data name="Setting_Title_PageTitle" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="Schedule_Title_PageTitle" xml:space="preserve">
+    <value>日程表</value>
+  </data>
+  <data name="Configuration_Label_Button_Update" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Configuration_Label_PMS_LIS_HIS" xml:space="preserve">
+    <value>PMS / LIS / HIS IP位址</value>
+  </data>
+  <data name="Configuration_Label_PMS_LIS_HIS_PortNo" xml:space="preserve">
+    <value>PMS / LIS / HIS 端口号</value>
+  </data>
+  <data name="Device_Label_AddedDevices" xml:space="preserve">
+    <value>添加的设备</value>
+  </data>
+  <data name="Device_Label_Button_Add" xml:space="preserve">
+    <value>添加</value>
+  </data>
+  <data name="Device_Label_Button_BackDevice" xml:space="preserve">
+    <value>返回设备</value>
+  </data>
+  <data name="Device_Label_Button_BackViewDevice" xml:space="preserve">
+    <value>返回查看设备</value>
+  </data>
+  <data name="Device_Label_Button_Cancel" xml:space="preserve">
+    <value>取消</value>
+  </data>
+  <data name="Device_Label_Button_Delete" xml:space="preserve">
+    <value>删除</value>
+  </data>
+  <data name="Device_Label_Button_Edit" xml:space="preserve">
+    <value>编辑</value>
+  </data>
+  <data name="Device_Label_Button_Update" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Device_Label_DeviceIPAddress" xml:space="preserve">
+    <value>设备IP地址</value>
+  </data>
+  <data name="Device_Label_DeviceName" xml:space="preserve">
+    <value>设备名称</value>
+  </data>
+  <data name="General_Label_Prev" xml:space="preserve">
+    <value>上一页</value>
+  </data>
+  <data name="Popup_Message_AddAnalyzer" xml:space="preserve">
+    <value>您确定要添加这个新分析器吗?</value>
+  </data>
+  <data name="Popup_Message_RemoveAnalyzer" xml:space="preserve">
+    <value>您确定要删除这个新分析器吗?</value>
+  </data>
+  <data name="Popup_Message_SavePMSLISHIS" xml:space="preserve">
+    <value>您已更新 PMS/LIS/HIS 设置。 请再次登录以应用更改。</value>
+  </data>
+  <data name="Popup_Message_SaveSettings" xml:space="preserve">
+    <value>您确定要保存此设置吗?</value>
+  </data>
+  <data name="Popup_Message_UpdateAnalyzer" xml:space="preserve">
+    <value>您确定要更新这个新分析仪吗</value>
+  </data>
+  <data name="Schedule_Label_NewPatients" xml:space="preserve">
+    <value>新患者</value>
+  </data>
+  <data name="Schedule_Label_NoScheduleTestAvailable" xml:space="preserve">
+    <value>没有可用的预定测试。</value>
+  </data>
+  <data name="Schedule_Label_NoTestResultAvailable" xml:space="preserve">
+    <value>没有可用的测试结果。</value>
+  </data>
+  <data name="Schedule_Label_PatientID" xml:space="preserve">
+    <value>患者 ID:</value>
+  </data>
+  <data name="Schedule_Label_Patients" xml:space="preserve">
+    <value>患者</value>
+  </data>
+  <data name="Schedule_Label_RecentTestResults" xml:space="preserve">
+    <value>最新测试结果</value>
+  </data>
+  <data name="Schedule_Label_TestsDone" xml:space="preserve">
+    <value>测试完成</value>
+  </data>
+  <data name="Schedule_Label_UpcomingTest" xml:space="preserve">
+    <value>即将进行测试</value>
+  </data>
+  <data name="Schedule_Label_ViewReport" xml:space="preserve">
+    <value>查看报告</value>
+  </data>
+  <data name="Schedule_Label_ViewSchedulePMS" xml:space="preserve">
+    <value>在 PMS 中查看时间表</value>
+  </data>
+  <data name="Setting_ErrorMessage_InvalidIP" xml:space="preserve">
+    <value>输入的 IP 地址无效</value>
+  </data>
+  <data name="Dashboard_Message_DownloadLatest" xml:space="preserve">
+    <value>通过定期更新分析仪软件和固件来确保最佳性能。&lt;nextline&gt;获取最新版本的分析仪。</value>
+  </data>
+  <data name="General_Label_Busy" xml:space="preserve">
+    <value>忙</value>
+  </data>
+  <data name="General_Label_Download" xml:space="preserve">
+    <value>下载</value>
+  </data>
+  <data name="General_Label_Ready" xml:space="preserve">
+    <value>准备</value>
+  </data>
+  <data name="Login_Message_WrongCurrentPassword" xml:space="preserve">
+    <value>当前密码错误。</value>
+  </data>
+  <data name="General_Message_NoCompletedTest" xml:space="preserve">
+    <value>没有可用的完整测试。</value>
+  </data>
+  <data name="General_Message_NoDevice" xml:space="preserve">
+    <value>没有可用的设备。</value>
+  </data>
+  <data name="General_Message_NoNotification" xml:space="preserve">
+    <value>没有可用的通知。</value>
+  </data>
+  <data name="General_Message_NoScheduleTest" xml:space="preserve">
+    <value>没有可用的预定测试。</value>
+  </data>
+  <data name="Setting_Message_NoUserData" xml:space="preserve">
+    <value>不存在用户</value>
+  </data>
+  <data name="General_Label_SelectDuration" xml:space="preserve">
+    <value>选择持续时间</value>
+  </data>
+  <data name="General_Message_Error" xml:space="preserve">
+    <value>无法处理。请联系管理员。</value>
+  </data>
+  <data name="Login_Message_CreatePasswordError" xml:space="preserve">
+    <value>创建密码时出错。请联系管理员。</value>
+  </data>
+  <data name="Login_Message_RemovePasswordError" xml:space="preserve">
+    <value>刪除密碼時發生錯誤。請聯繫管理員。</value>
+  </data>
+  <data name="ResetPassword_Title_PageTitle" xml:space="preserve">
+    <value>重设密码</value>
+  </data>
+  <data name="Results_Label_Doctor" xml:space="preserve">
+    <value>医生</value>
+  </data>
+  <data name="Results_Label_Download" xml:space="preserve">
+    <value>下载</value>
+  </data>
+  <data name="Results_Label_Lot" xml:space="preserve">
+    <value>批号</value>
+  </data>
+  <data name="Results_Label_No" xml:space="preserve">
+    <value>号码</value>
+  </data>
+  <data name="Results_Label_OperatorID" xml:space="preserve">
+    <value>操作员 ID</value>
+  </data>
+  <data name="Results_Label_PatientID" xml:space="preserve">
+    <value>患者 ID</value>
+  </data>
+  <data name="Results_Label_Print" xml:space="preserve">
+    <value>打印</value>
+  </data>
+  <data name="Results_Label_ProceduralCont" xml:space="preserve">
+    <value>程序控制</value>
+  </data>
+  <data name="Results_Label_Result" xml:space="preserve">
+    <value>结果</value>
+  </data>
+  <data name="Results_Label_Searchbar" xml:space="preserve">
+    <value>按关键字搜索</value>
+  </data>
+  <data name="Results_Label_Time" xml:space="preserve">
+    <value>时间</value>
+  </data>
+  <data name="Results_Label_Units" xml:space="preserve">
+    <value>单位</value>
+  </data>
+  <data name="Results_Label_UpdateFilter" xml:space="preserve">
+    <value>更新筛选</value>
+  </data>
+  <data name="Results_Label_Valid" xml:space="preserve">
+    <value>有效期至</value>
+  </data>
+  <data name="Results_Message_DownloadComplete" xml:space="preserve">
+    <value>下载结果列表已完成。</value>
+  </data>
+  <data name="Results_Message_TestResultDownloadCompleted" xml:space="preserve">
+    <value>测试结果下载完成。</value>
+  </data>
+  <data name="Results_Title_PageTitle" xml:space="preserve">
+    <value>测试结果</value>
+  </data>
+  <data name="Popup_Message_FailedDownloadListing" xml:space="preserve">
+    <value>无法下载测试结果列表</value>
+  </data>
+  <data name="Popup_Message_FailedOpenPrint" xml:space="preserve">
+    <value>无法打开打印。</value>
+  </data>
+  <data name="Results_Label_SortBy" xml:space="preserve">
+    <value>排序 :</value>
+  </data>
+  <data name="Notification_Title_PageTitle" xml:space="preserve">
+    <value>告示板</value>
+  </data>
+  <data name="Popup_Message_FailedAddDevice" xml:space="preserve">
+    <value>添加设备失败，请联系系统管理员。</value>
+  </data>
+  <data name="Popup_Message_FailedDeleteDevice" xml:space="preserve">
+    <value>无法删除设备，请联系系统管理员。</value>
+  </data>
+  <data name="Popup_Message_FailedUpdateDevice" xml:space="preserve">
+    <value>无法更新设备，请联系系统管理员。</value>
+  </data>
+  <data name="Notification_Label_UpdateFilter" xml:space="preserve">
+    <value>更新筛选</value>
+  </data>
+  <data name="General_Message_ErrorOccured" xml:space="preserve">
+    <value>发生错误。请联系管理员。</value>
+  </data>
+  <data name="Dashboard_Label_Negative" xml:space="preserve">
+    <value>阴性</value>
+  </data>
+  <data name="Dashboard_Label_Positive" xml:space="preserve">
+    <value>阳性</value>
+  </data>
+  <data name="Login_Label_RegisterButton" xml:space="preserve">
+    <value>注册</value>
+  </data>
+  <data name="Popup_Message_APIUpdateFailed" xml:space="preserve">
+    <value>更新结果 API 失败。</value>
+  </data>
+  <data name="Popup_Message_APIUpdateSuccess" xml:space="preserve">
+    <value>更新结果 API 成功。</value>
+  </data>
+  <data name="Popup_Message_CanceledSendToAnalyzer" xml:space="preserve">
+    <value>向分析仪发送请求的时间太长。</value>
+  </data>
+  <data name="Popup_Message_EnterUniqueID" xml:space="preserve">
+    <value>请输入唯一 ID。</value>
+  </data>
+  <data name="Popup_Message_FailedToSendToAnalyzer" xml:space="preserve">
+    <value>无法向分析仪发送请求。</value>
+  </data>
+  <data name="Popup_Message_NoDeviceFound" xml:space="preserve">
+    <value>未找到可以接收请求的设备。</value>
+  </data>
+  <data name="Popup_Message_PatientNameUpdated" xml:space="preserve">
+    <value>患者姓名已更新。</value>
+  </data>
+  <data name="Popup_Message_SelectDevice" xml:space="preserve">
+    <value>请选择要发送请求的设备。</value>
+  </data>
+  <data name="Popup_Message_SentToAnalyzer" xml:space="preserve">
+    <value>请求已发送到分析仪</value>
+  </data>
+  <data name="Popup_Message_UpdatePatientName" xml:space="preserve">
+    <value>输入患者姓名。</value>
+  </data>
+  <data name="Popup_Message_WrongID" xml:space="preserve">
+    <value>唯一 ID 错误。</value>
+  </data>
+  <data name="Results_Label_DeviceSerialNo" xml:space="preserve">
+    <value>设备序列号</value>
+  </data>
+  <data name="Results_Label_EditPatientName" xml:space="preserve">
+    <value>编辑患者姓名</value>
+  </data>
+  <data name="Results_Label_PatientName" xml:space="preserve">
+    <value>患者姓名</value>
+  </data>
+  <data name="Results_Label_SendToPMS" xml:space="preserve">
+    <value>发送至 PMS</value>
+  </data>
+  <data name="Results_Label_TestResultType" xml:space="preserve">
+    <value>测试结果类型</value>
+  </data>
+  <data name="Results_Label_View" xml:space="preserve">
+    <value>查看</value>
+  </data>
+  <data name="Schedule_Label_Abnormal" xml:space="preserve">
+    <value>异常</value>
+  </data>
+  <data name="Schedule_Label_Normal" xml:space="preserve">
+    <value>正常</value>
+  </data>
+  <data name="Schedule_Label_SendToAnalyzer" xml:space="preserve">
+    <value>发送到分析仪</value>
+  </data>
+  <data name="Schedule_Label_UniqueID" xml:space="preserve">
+    <value>唯一 ID：</value>
+  </data>
+  <data name="Setting_Label_DeviceType" xml:space="preserve">
+    <value>设备类型</value>
+  </data>
+  <data name="Popup_Message_CancelSchedule" xml:space="preserve">
+    <value>您确定要取消此计划吗？</value>
+  </data>
+  <data name="Popup_Message_ReportSettingUpdated" xml:space="preserve">
+    <value>报告设置已成功更新。</value>
+  </data>
+  <data name="Popup_Message_SelectParameterDownload" xml:space="preserve">
+    <value>请选择您要下载的参数。</value>
+  </data>
+  <data name="Popup_Message_SelectParameterPrint" xml:space="preserve">
+    <value>请选择您要打印的参数。</value>
+  </data>
+  <data name="Popup_Message_TheFileIsAt" xml:space="preserve">
+    <value>该文件位于</value>
+  </data>
+  <data name="Report_Label_ClinicAddress" xml:space="preserve">
+    <value>诊所地址</value>
+  </data>
+  <data name="Report_Label_ClinicName" xml:space="preserve">
+    <value>诊所名称</value>
+  </data>
+  <data name="Report_Label_DateTime" xml:space="preserve">
+    <value>日期和时间</value>
+  </data>
+  <data name="Report_Label_High" xml:space="preserve">
+    <value>高</value>
+  </data>
+  <data name="Report_Label_Low" xml:space="preserve">
+    <value>低</value>
+  </data>
+  <data name="Report_Label_MaxSize" xml:space="preserve">
+    <value>最大文件大小为 2MB</value>
+  </data>
+  <data name="Report_Label_Parameter" xml:space="preserve">
+    <value>参数</value>
+  </data>
+  <data name="Report_Label_PoweredBy" xml:space="preserve">
+    <value>技术支持</value>
+  </data>
+  <data name="Report_Label_PrintedBy" xml:space="preserve">
+    <value>打印者</value>
+  </data>
+  <data name="Report_Label_PrintedOn" xml:space="preserve">
+    <value>打印日期</value>
+  </data>
+  <data name="Report_Label_Reference" xml:space="preserve">
+    <value>参考</value>
+  </data>
+  <data name="Report_Label_Report" xml:space="preserve">
+    <value>报告</value>
+  </data>
+  <data name="Report_Label_ReportHeaders" xml:space="preserve">
+    <value>报告标题</value>
+  </data>
+  <data name="Report_Label_ReportSample" xml:space="preserve">
+    <value>报告样本</value>
+  </data>
+  <data name="Report_Label_ReportTitle" xml:space="preserve">
+    <value>报告标题</value>
+  </data>
+  <data name="Report_Label_ResultStatus" xml:space="preserve">
+    <value>结果状态</value>
+  </data>
+  <data name="Report_Label_ResultValue" xml:space="preserve">
+    <value>结果值</value>
+  </data>
+  <data name="Report_Label_Test" xml:space="preserve">
+    <value>测试</value>
+  </data>
+  <data name="Report_Label_UploadLogo" xml:space="preserve">
+    <value>上传徽标</value>
+  </data>
+  <data name="Schedule_Label_CancelSchedule" xml:space="preserve">
+    <value>取消计划</value>
+  </data>
+  <data name="Login_ErrorMessage_NoLowerCase" xml:space="preserve">
+    <value>至少一个小写字母。</value>
+  </data>
+  <data name="Login_ErrorMessage_NoNumberChar" xml:space="preserve">
+    <value>至少一个数字。</value>
+  </data>
+  <data name="Login_ErrorMessage_NoSpecialChar" xml:space="preserve">
+    <value>至少一个特殊字符。</value>
+  </data>
+  <data name="Login_ErrorMessage_NoUpperCase" xml:space="preserve">
+    <value>至少一个大写字母。</value>
+  </data>
+  <data name="Login_ErrorMessage_PasswordLessEightChar" xml:space="preserve">
+    <value>此字段必须至少包含 8 个字符。</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongUsernameEmail" xml:space="preserve">
+    <value>登录 ID 和电子邮件地址不匹配。</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongUsernamePassword" xml:space="preserve">
+    <value>登录 ID 或密码不正确。</value>
+  </data>
+  <data name="Login_Message_WrongNewPassword" xml:space="preserve">
+    <value>新密码错误。</value>
+  </data>
+  <data name="Notification_Label_Show" xml:space="preserve">
+    <value>显示：</value>
+  </data>
+  <data name="Popup_Message_CheckPassword" xml:space="preserve">
+    <value>请再次检查密码。</value>
+  </data>
+  <data name="Popup_Message_CheckUsername" xml:space="preserve">
+    <value>请再次检查用户名。</value>
+  </data>
+  <data name="Popup_Message_ConfirmPasswordDoNotMatch" xml:space="preserve">
+    <value>密码和确认密码不匹配。</value>
+  </data>
+  <data name="Popup_Message_InputPassword" xml:space="preserve">
+    <value>请输入密码。</value>
+  </data>
+  <data name="Popup_Message_InputUsername" xml:space="preserve">
+    <value>请输入用户名。</value>
+  </data>
+  <data name="Popup_Message_ResetPassword" xml:space="preserve">
+    <value>您确定要重置密码吗？</value>
+  </data>
+  <data name="Results_Label_Ascending" xml:space="preserve">
+    <value>结果（升序）</value>
+  </data>
+  <data name="Results_Label_Descending" xml:space="preserve">
+    <value>结果（降序）</value>
+  </data>
+  <data name="Results_Label_Earliest" xml:space="preserve">
+    <value>最早</value>
+  </data>
+  <data name="Results_Label_Latest" xml:space="preserve">
+    <value>最新</value>
+  </data>
+  <data name="Popup_Message_FailedToDownload" xml:space="preserve">
+    <value>下载失败。</value>
+  </data>
+  <data name="Popup_Message_FailedToPrint" xml:space="preserve">
+    <value>打印失败。</value>
+  </data>
+  <data name="Popup_Message_SelectAdditionalTestResult" xml:space="preserve">
+    <value>选择要包含在报告中的其他测试结果。</value>
+  </data>
+  <data name="Dashboard_Label_Loading" xml:space="preserve">
+    <value>加载中...</value>
+  </data>
+  <data name="Popup_Message_FailedUpdateLISInfo" xml:space="preserve">
+    <value>无法更新 LIS 信息。</value>
+  </data>
+  <data name="Popup_Message_IpPortUnavailable" xml:space="preserve">
+    <value>无法分配 IP 地址和端口号。请键入其他值。</value>
+  </data>
+  <data name="Maintenance_Label_Checking" xml:space="preserve">
+    <value>正在检查..</value>
+  </data>
+  <data name="Maintenance_Label_NotRunning" xml:space="preserve">
+    <value>未运行</value>
+  </data>
+  <data name="Maintenance_Label_Refresh" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="Maintenance_Label_Running" xml:space="preserve">
+    <value>正在运行</value>
+  </data>
+  <data name="Maintenance_Title_PageTitle" xml:space="preserve">
+    <value>维护</value>
+  </data>
+  <data name="Setting_Label_BackButton" xml:space="preserve">
+    <value>返回</value>
+  </data>
+  <data name="Configuration_Label_Other" xml:space="preserve">
+    <value>其他</value>
+  </data>
+  <data name="Configuration_Label_UsernameClientID" xml:space="preserve">
+    <value>用户名/客户端 ID</value>
+  </data>
+  <data name="Configuration_Label_UsernameClientSecret" xml:space="preserve">
+    <value>密码/客户端密钥</value>
+  </data>
+  <data name="Maintenance_Label_Information" xml:space="preserve">
+    <value>信息</value>
+  </data>
+  <data name="Popup_Message_ScheduleCancel" xml:space="preserve">
+    <value>计划已成功取消</value>
+  </data>
+  <data name="Popup_Message_SelectAll" xml:space="preserve">
+    <value>选择全部</value>
+  </data>
+  <data name="ClinicInfo_Button_Connect" xml:space="preserve">
+    <value>连接</value>
+  </data>
+  <data name="ClinicInfo_Label_City" xml:space="preserve">
+    <value>城市</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicAddress" xml:space="preserve">
+    <value>诊所地址</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicInfo" xml:space="preserve">
+    <value>诊所信息</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicInformation" xml:space="preserve">
+    <value>诊所信息</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicName" xml:space="preserve">
+    <value>诊所名称</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicPhoneNumber" xml:space="preserve">
+    <value>诊所电话号码</value>
+  </data>
+  <data name="ClinicInfo_Label_CountryCode" xml:space="preserve">
+    <value>国家/地区代码</value>
+  </data>
+  <data name="ClinicInfo_Label_PhoneNumber" xml:space="preserve">
+    <value>电话号码</value>
+  </data>
+  <data name="ClinicInfo_Label_PrimaryContactName" xml:space="preserve">
+    <value>主要联系人姓名</value>
+  </data>
+  <data name="ClinicInfo_Label_State" xml:space="preserve">
+    <value>州/省</value>
+  </data>
+  <data name="Maintenance_Label_Connected" xml:space="preserve">
+    <value>已连接</value>
+  </data>
+  <data name="Maintenance_Label_NotConnected" xml:space="preserve">
+    <value>未连接</value>
+  </data>
+  <data name="Popup_Message_APINoLinkFound" xml:space="preserve">
+    <value>未找到与结果关联的预约。</value>
+  </data>
+  <data name="Popup_Message_ClinicInfoUpdate" xml:space="preserve">
+    <value>保存诊所详情？</value>
+  </data>
+  <data name="Popup_Message_ClinicInfoUpdateCompleted" xml:space="preserve">
+    <value>已成功更新诊所详情。</value>
+  </data>
+  <data name="Popup_Message_FailedGreywindConnect" xml:space="preserve">
+    <value>无法连接 Greywind。</value>
+  </data>
+  <data name="Popup_Message_FailedToCancelSchedule" xml:space="preserve">
+    <value>无法取消预约。</value>
+  </data>
+  <data name="Popup_Message_GreywindConnected" xml:space="preserve">
+    <value>已成功连接 Greywind。</value>
+  </data>
+  <data name="ClinicInfo_Label_SearchClinic" xml:space="preserve">
+    <value>搜索诊所</value>
+  </data>
+  <data name="General_Label_ThreeDaysReminder" xml:space="preserve">
+    <value>3天后提醒我</value>
+  </data>
+  <data name="General_Message_NewVersionAvailable" xml:space="preserve">
+    <value>新版Vcheck Viewer已发布，请下载新版本？</value>
+  </data>
+  <data name="General_Message_NewVersionNotification" xml:space="preserve">
+    <value>新版本通知</value>
+  </data>
+  <data name="Maintenance_Label_ApplicationInformation" xml:space="preserve">
+    <value>应用信息</value>
+  </data>
+  <data name="Maintenance_Label_EnvironmentInformation" xml:space="preserve">
+    <value>环境信息</value>
+  </data>
+  <data name="Maintenance_Label_None" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="Maintenance_Label_Version" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="Popup_Message_NoScheduleFound" xml:space="preserve">
+    <value>未找到日程安排。</value>
+  </data>
+  <data name="Popup_Message_SelectSchedule" xml:space="preserve">
+    <value>请选择日程安排以发送测试结果数据。</value>
+  </data>
+  <data name="Schedule_Label_Cancelled" xml:space="preserve">
+    <value>已取消</value>
+  </data>
+  <data name="Schedule_Label_General" xml:space="preserve">
+    <value>常规</value>
+  </data>
+  <data name="Schedule_Label_OrderedTest" xml:space="preserve">
+    <value>已预约测试</value>
+  </data>
+  <data name="Schedule_Label_Pending" xml:space="preserve">
+    <value>待处理</value>
+  </data>
+  <data name="Schedule_Label_ResultSentToVV" xml:space="preserve">
+    <value>结果已发送至VV</value>
+  </data>
+  <data name="Schedule_Label_SentToAnalyzer" xml:space="preserve">
+    <value>已发送至分析仪</value>
+  </data>
+  <data name="Schedule_Label_SentToPIMS" xml:space="preserve">
+    <value>已发送至PIMS</value>
+  </data>
+  <data name="Schedule_Label_Tests" xml:space="preserve">
+    <value>测试</value>
+  </data>
+  <data name="General_Message_RemindThreeDays" xml:space="preserve">
+    <value>3 天后再次提醒。</value>
+  </data>
+  <data name="General_Message_VCheckAlreadyOpen" xml:space="preserve">
+    <value>VCheck Viewer 实例已打开。请先关闭旧实例，再打开新实例。</value>
+  </data>
+  <data name="Maintenance_Label_API" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Maintenance_Label_Listener" xml:space="preserve">
+    <value>监听器</value>
+  </data>
+  <data name="Maintenance_Label_ListenerIPAddr" xml:space="preserve">
+    <value>监听器 IP 地址</value>
+  </data>
+  <data name="Maintenance_Label_ListenerPortNo" xml:space="preserve">
+    <value>监听器端口号</value>
+  </data>
+  <data name="Maintenance_Label_VCheckAPI" xml:space="preserve">
+    <value>VCheck API</value>
+  </data>
+  <data name="Maintenance_Label_VCheckListener" xml:space="preserve">
+    <value>VCheck 监听器</value>
+  </data>
+  <data name="Main_Label_Exit" xml:space="preserve">
+    <value>退出</value>
+  </data>
+  <data name="Notification_Button_MarkAllAsRead" xml:space="preserve">
+    <value>全部标记为已读</value>
+  </data>
+  <data name="Popup_Message_AnalyzerCannotReceive" xml:space="preserve">
+    <value>分析仪无法手动接收日程安排。</value>
+  </data>
+  <data name="Popup_Message_ConnectPIMSSuccess" xml:space="preserve">
+    <value>已成功连接到 PIMS。</value>
+  </data>
+  <data name="Popup_Message_NoClinicFound" xml:space="preserve">
+    <value>未找到与该电话号码匹配的诊所。</value>
+  </data>
+  <data name="Report_Label_PreviousRecord" xml:space="preserve">
+    <value>上一次记录</value>
+  </data>
+</root>

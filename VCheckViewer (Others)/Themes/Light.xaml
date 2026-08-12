@@ -1,0 +1,92 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <SolidColorBrush Color="#f7f7f7"  x:Key="Themes_FrameBackground"></SolidColorBrush>
+    <SolidColorBrush Color="white" x:Key="Themes_PageBackground"></SolidColorBrush>
+    <SolidColorBrush Color="Black" x:Key="Themes_LoginPageFontColor"></SolidColorBrush>
+    
+    <!-- Login -->
+    <BitmapImage UriSource=".../../../Content/Images/bio_logo_light.png" x:Key="Themes_BioLogo"></BitmapImage>
+    <BitmapImage UriSource="../../../Content/Images/paw_light.png" x:Key="Themes_PawImage"></BitmapImage>
+    <BitmapImage UriSource="../../../Content/Images/BackArrowRound.png" x:Key="Themes_BackArrowRoundButton"></BitmapImage>
+    
+    <!-- Master -->
+    <SolidColorBrush Color="#f7f7f7" x:Key="Themes_MasterPageFrameBackground"></SolidColorBrush>
+    <SolidColorBrush Color="Black" x:Key="Themes_MasterPageFontColor"></SolidColorBrush>
+    <SolidColorBrush Color="white" x:Key="Themes_MenuHighligted"></SolidColorBrush>
+    <SolidColorBrush Color="Black" x:Key="Themes_FontColor"></SolidColorBrush>
+    <SolidColorBrush Color="#1e76fb" x:Key="Themes_ButtonColor"></SolidColorBrush>
+    <SolidColorBrush Color="white" x:Key="Themes_ButtonFontColor"></SolidColorBrush>
+    <SolidColorBrush Color="#1f2e45" x:Key="Themes_PopupMessageFrameBackground"></SolidColorBrush>
+    <SolidColorBrush Color="White" x:Key="Themes_PopupMessageFontColor"></SolidColorBrush>
+    <SolidColorBrush Color="#d6dbdc" x:Key="Themes_HighlightColor"></SolidColorBrush>
+    <BitmapImage UriSource="../../Content/Images/bio_logo_light.png" x:Key="Themes_TemplateBioLogo"></BitmapImage>
+    <BitmapImage UriSource="../../Content/Images/dashboard.png" x:Key="Themes_MenuDashboardIcon"></BitmapImage>
+    <BitmapImage UriSource="../../Content/Images/Connection Icon Light.png" x:Key="Themes_MenuConnectionIcon"></BitmapImage>
+    <BitmapImage UriSource="../../Content/Images/clock.png" x:Key="Themes_MenuClockIcon"></BitmapImage>
+    <BitmapImage UriSource="../../Content/Images/results.png" x:Key="Themes_MenuResultsIcon"></BitmapImage>
+    <BitmapImage UriSource="../../Content/Images/bell.png" x:Key="Themes_MenuBellIcon"></BitmapImage>
+    <BitmapImage UriSource="../../Content/Images/setting.png" x:Key="Themes_MenuSettingIcon"></BitmapImage>
+    <BitmapImage UriSource="../../Content/Images/path_3550.png" x:Key="Themes_ArrowDown"></BitmapImage>
+    <BitmapImage UriSource="../../../../Content/Images/BackArrow.png" x:Key="Themes_BackButton"></BitmapImage>
+    
+    <!-- Schedule -->
+    <SolidColorBrush Color="White" x:Key="Themes_SummaryFontColor"></SolidColorBrush>
+    <SolidColorBrush Color="#1e76fb" x:Key="Themes_TestDoneBackground"></SolidColorBrush>
+    <SolidColorBrush Color="#1f2e45" x:Key="Themes_TotalPatientBackground"></SolidColorBrush>
+    <SolidColorBrush Color="#5782c3" x:Key="Themes_NewPatientBackground"></SolidColorBrush>
+    <SolidColorBrush Color="#f7f7f7" x:Key="Themes_UpcomingTestBackground"></SolidColorBrush>
+    <SolidColorBrush Color="#f7f7f7" x:Key="Themes_RecentTestBackground"></SolidColorBrush>
+    <BitmapImage UriSource="../../../Content/Images/Icons/icon_dog_dark.png" x:Key="Themes_DogIcon"></BitmapImage>
+    <BitmapImage UriSource="../../../Content/Images/Collapse_BlackArrow_Right.png" x:Key="Themes_ArrowRight" />
+
+    <!-- Result -->
+    <SolidColorBrush Color="#f7f7f7" x:Key="Themes_SearchFieldBackground"></SolidColorBrush>
+    <SolidColorBrush Color="Black" x:Key="Themes_SearchFieldFontColor"></SolidColorBrush>
+    <SolidColorBrush Color="Black" x:Key="Themes_GridResultFontColor"></SolidColorBrush>
+    <SolidColorBrush Color="Black" x:Key="Themes_GridHeaderFontColor"></SolidColorBrush>
+    <SolidColorBrush Color="#445d84" x:Key="Themes_GridRowLinesColor"></SolidColorBrush>
+    <BitmapImage UriSource="../../../../Content/Images/Download.png" x:Key="Themes_GridDownloadIcon"></BitmapImage>
+    <BitmapImage UriSource="../../../../Content/Images/Print.png" x:Key="Themes_GridPrintIcon"></BitmapImage>
+    <BitmapImage UriSource="../../../Content/Images/Search_Dark.png" x:Key="Themes_SearchIcon"></BitmapImage>
+    <BitmapImage UriSource="../../../Content/Images/Calendar_Dark.png" x:Key="Themes_CalendarIcon"></BitmapImage>
+    <BitmapImage UriSource="../../../Content/Images/right-arrow-black.png" x:Key="Next_Icon"></BitmapImage>
+    <BitmapImage UriSource="../../../Content/Images/left-arrow-black.png" x:Key="Prev_Icon"></BitmapImage>
+
+    <!-- Notification -->
+    <SolidColorBrush Color="#f7f7f7" x:Key="Themes_NotifSearchfieldBackground"></SolidColorBrush>
+    <SolidColorBrush Color="Black" x:Key="Themes_NotifSearchFieldFontColor"></SolidColorBrush>
+    <SolidColorBrush Color="Black" x:Key="Themes_GridNotifRowLinesColor"></SolidColorBrush>
+    
+    <!-- User Settings -->
+    <SolidColorBrush Color="Black" x:Key="Themes_GridUserFontColor"></SolidColorBrush>
+    <SolidColorBrush Color="#445d84" x:Key="Themes_GridUserHeaderFontColor"></SolidColorBrush>
+    <SolidColorBrush Color="#f7f7f7" x:Key="Themes_UserInfoFrameBackground"></SolidColorBrush>
+    <SolidColorBrush Color="Black" x:Key="Themes_GridUserRowLinesColor"></SolidColorBrush>
+    <BitmapImage UriSource="../../../../Content/Images/more.png" x:Key="Themes_GirdUserMoreIcon"></BitmapImage>
+
+    <!-- Language Settings -->
+    <SolidColorBrush Color="#f7f7f7" x:Key="Themes_CountryLangFrameBackground"></SolidColorBrush>
+    <SolidColorBrush Color="transparent" x:Key="Themes_CountryLangSearchBackground"></SolidColorBrush>
+
+    <!-- Interface Settings -->
+    <SolidColorBrush Color="#f7f7f7" x:Key="Themes_InterfaceFrameBackground"></SolidColorBrush>
+
+    <!-- Devie Settings -->
+    <SolidColorBrush Color="transparent" x:Key="Themes_DevicesCancelDeleteButton"></SolidColorBrush>
+    <SolidColorBrush Color="Black" x:Key="Themes_DevicesBorderCancelDeleteButton"></SolidColorBrush>
+    <SolidColorBrush Color="#f7f7f7" x:Key="Themes_DevicesFrameBackground"></SolidColorBrush>
+    <SolidColorBrush Color="Black" x:Key="Themes_DevicesFontCancelDeleteButton"></SolidColorBrush>
+    <SolidColorBrush Color="Black" x:Key="Themes_GridDevicesRowLinesColor"></SolidColorBrush>
+
+    <!-- Dashboard -->
+    <SolidColorBrush Color="#f7f7f7" x:Key="Themes_DashboardFrameBackground"></SolidColorBrush>
+    <SolidColorBrush Color="white" x:Key="Themes_DashboardAnalyzerFrameBackground"></SolidColorBrush>
+
+    <!-- Reset Password -->
+    <SolidColorBrush Color="#f7f7f7" x:Key="Themes_ResetPasswordFrameBackground"></SolidColorBrush>
+
+    <!-- Pagination -->
+    <SolidColorBrush Color="#1e76fb" x:Key="Themes_PaginationButtonColor"></SolidColorBrush>
+    <SolidColorBrush Color="#f7f7f7" x:Key="Themes_PaginationNumSelectedColor"></SolidColorBrush>
+</ResourceDictionary>

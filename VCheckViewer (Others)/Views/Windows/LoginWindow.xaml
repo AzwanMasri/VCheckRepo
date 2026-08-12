@@ -1,0 +1,35 @@
+﻿<Window x:Class="VCheckViewer_Others.Views.Windows.LoginWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:VCheckViewer_Others.Views.Windows"
+        mc:Ignorable="d" WindowState="Maximized" MinHeight="750" MinWidth="1200"
+        Title="VCheck Viewer" PreviewKeyDown="Window_PreviewKeyDown">
+    <Grid>
+        <Frame x:Name="LoginFrame"/>
+        <!-- Define the Popup -->
+        <Border x:Name="PopupBackground">
+            <Popup Name="popup" IsOpen="False" Placement="Center" AllowsTransparency="True">
+                <Border Background="{DynamicResource Themes_PopupMessageFrameBackground}" BorderBrush="{DynamicResource Themes_PopupMessageFrameBackground}" BorderThickness="0" Width="400" CornerRadius="20">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="2*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Border Grid.Row="0">
+                            <TextBlock x:Name="PopupContent" TextWrapping="Wrap" TextAlignment="Center" Margin="40,40,40,20" FontSize="15" Foreground="{DynamicResource Themes_PopupMessageFontColor}"/>
+                        </Border>
+                        <Border Grid.Row="1" HorizontalAlignment="Center" Margin="0,0,0,40">
+                            <StackPanel Orientation="Horizontal">
+                                <Button x:Name="CancelButton" Content="{Binding Path=General_Label_No, Source={StaticResource Resources}}" Click="CancelButton_Click" Margin="0,0,10,0" Style="{DynamicResource RoundButton}" Height="40" Width="90" Foreground="{DynamicResource Themes_PopupMessageFontColor}" BorderBrush="{DynamicResource Themes_PopupMessageFontColor}" Background="Transparent"/>
+                                <Button x:Name="ContinueButton" Content="{Binding Path=General_Label_Yes, Source={StaticResource Resources}}" Click="ContinueButton_Click" Margin="10,0,0,0" Style="{DynamicResource RoundButton}" Height="40" Width="90" Background="{DynamicResource Themes_ButtonColor}" BorderBrush="{DynamicResource Themes_ButtonColor}" Foreground="{DynamicResource Themes_PopupMessageFontColor}"/>
+                                <Button x:Name="OKButton" Content="{Binding Path=General_Label_OK, Source={StaticResource Resources}}" Click="CancelButton_Click" Style="{DynamicResource RoundButton}" Height="40" Width="100" Background="{DynamicResource Themes_ButtonColor}" BorderBrush="{DynamicResource Themes_ButtonColor}" Foreground="{DynamicResource Themes_PopupMessageFontColor}" Visibility="Hidden"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Popup>
+        </Border>
+    </Grid>
+</Window>

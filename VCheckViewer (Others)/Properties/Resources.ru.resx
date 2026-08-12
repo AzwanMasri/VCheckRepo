@@ -1,0 +1,1917 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ClinicInfo_Button_Connect" xml:space="preserve">
+    <value>Подключиться</value>
+  </data>
+  <data name="ClinicInfo_Button_Connect1" xml:space="preserve">
+    <value>Подключиться</value>
+  </data>
+  <data name="ClinicInfo_Label_City" xml:space="preserve">
+    <value>Город</value>
+  </data>
+  <data name="ClinicInfo_Label_City1" xml:space="preserve">
+    <value>Город</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicAddress" xml:space="preserve">
+    <value>Адрес клиники</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicAddress1" xml:space="preserve">
+    <value>Адрес клиники</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicInfo" xml:space="preserve">
+    <value>Информация о клинике</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicInfo1" xml:space="preserve">
+    <value>Информация о клинике</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicInformation" xml:space="preserve">
+    <value>Информация о клинике</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicInformation1" xml:space="preserve">
+    <value>Информация о клинике</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicName" xml:space="preserve">
+    <value>Название клиники</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicName1" xml:space="preserve">
+    <value>Название клиники</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicPhoneNumber" xml:space="preserve">
+    <value>Номер телефона клиники</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicPhoneNumber1" xml:space="preserve">
+    <value>Номер телефона клиники</value>
+  </data>
+  <data name="ClinicInfo_Label_CountryCode" xml:space="preserve">
+    <value>Код страны</value>
+  </data>
+  <data name="ClinicInfo_Label_CountryCode1" xml:space="preserve">
+    <value>Код страны</value>
+  </data>
+  <data name="ClinicInfo_Label_PhoneNumber" xml:space="preserve">
+    <value>Номер телефона</value>
+  </data>
+  <data name="ClinicInfo_Label_PhoneNumber1" xml:space="preserve">
+    <value>Номер телефона</value>
+  </data>
+  <data name="ClinicInfo_Label_PrimaryContactName" xml:space="preserve">
+    <value>Имя основного контактного лица</value>
+  </data>
+  <data name="ClinicInfo_Label_PrimaryContactName1" xml:space="preserve">
+    <value>Имя основного контактного лица</value>
+  </data>
+  <data name="ClinicInfo_Label_SearchClinic" xml:space="preserve">
+    <value>Поиск клиники</value>
+  </data>
+  <data name="ClinicInfo_Label_SearchClinic1" xml:space="preserve">
+    <value>Поиск клиники</value>
+  </data>
+  <data name="ClinicInfo_Label_State" xml:space="preserve">
+    <value>Штат</value>
+  </data>
+  <data name="ClinicInfo_Label_State1" xml:space="preserve">
+    <value>Штат</value>
+  </data>
+  <data name="Configuration_Label_Button_Update" xml:space="preserve">
+    <value>Обновлять</value>
+  </data>
+  <data name="Configuration_Label_Button_Update1" xml:space="preserve">
+    <value>Обновлять</value>
+  </data>
+  <data name="Configuration_Label_Other" xml:space="preserve">
+    <value>Другое</value>
+  </data>
+  <data name="Configuration_Label_Other1" xml:space="preserve">
+    <value>Другое</value>
+  </data>
+  <data name="Configuration_Label_PMS_LIS_HIS" xml:space="preserve">
+    <value>IP-адрес PMS / LIS / HIS</value>
+  </data>
+  <data name="Configuration_Label_PMS_LIS_HIS1" xml:space="preserve">
+    <value>IP-адрес PMS / LIS / HIS</value>
+  </data>
+  <data name="Configuration_Label_PMS_LIS_HIS_PortNo" xml:space="preserve">
+    <value>Номер порта PMS / LIS / HIS</value>
+  </data>
+  <data name="Configuration_Label_PMS_LIS_HIS_PortNo1" xml:space="preserve">
+    <value>Номер порта PMS / LIS / HIS</value>
+  </data>
+  <data name="Configuration_Label_UsernameClientID" xml:space="preserve">
+    <value>Имя пользователя/ID клиента</value>
+  </data>
+  <data name="Configuration_Label_UsernameClientID1" xml:space="preserve">
+    <value>Имя пользователя/ID клиента</value>
+  </data>
+  <data name="Configuration_Label_UsernameClientSecret" xml:space="preserve">
+    <value>Пароль/Секретный код клиента</value>
+  </data>
+  <data name="Configuration_Label_UsernameClientSecret1" xml:space="preserve">
+    <value>Пароль/Секретный код клиента</value>
+  </data>
+  <data name="Dashboard_Label_Loading" xml:space="preserve">
+    <value>Загрузка...</value>
+  </data>
+  <data name="Dashboard_Label_Loading1" xml:space="preserve">
+    <value>Загрузка...</value>
+  </data>
+  <data name="Dashboard_Label_Negative" xml:space="preserve">
+    <value>Отрицательно</value>
+  </data>
+  <data name="Dashboard_Label_Negative1" xml:space="preserve">
+    <value>Отрицательно</value>
+  </data>
+  <data name="Dashboard_Label_Positive" xml:space="preserve">
+    <value>Положительный</value>
+  </data>
+  <data name="Dashboard_Label_Positive1" xml:space="preserve">
+    <value>Положительный</value>
+  </data>
+  <data name="Dashboard_Message_DownloadLatest" xml:space="preserve">
+    <value>Обеспечьте оптимальную производительность, регулярно обновляя программное обеспечение и прошивку анализатора.&lt;nextline&gt;Получите последние версии вашего анализатора.</value>
+  </data>
+  <data name="Dashboard_Message_DownloadLatest1" xml:space="preserve">
+    <value>Обеспечьте оптимальную производительность, регулярно обновляя программное обеспечение и прошивку анализатора.&lt;nextline&gt;Получите последние версии вашего анализатора.</value>
+  </data>
+  <data name="Dashboard_Title_PageTitle" xml:space="preserve">
+    <value>Панель инструментов</value>
+  </data>
+  <data name="Dashboard_Title_PageTitle1" xml:space="preserve">
+    <value>Панель инструментов</value>
+  </data>
+  <data name="Device_Label_AddedDevices" xml:space="preserve">
+    <value>Добавленные устройства</value>
+  </data>
+  <data name="Device_Label_AddedDevices1" xml:space="preserve">
+    <value>Добавленные устройства</value>
+  </data>
+  <data name="Device_Label_Button_Add" xml:space="preserve">
+    <value>Добавлять</value>
+  </data>
+  <data name="Device_Label_Button_Add1" xml:space="preserve">
+    <value>Добавлять</value>
+  </data>
+  <data name="Device_Label_Button_BackDevice" xml:space="preserve">
+    <value>Вернуться к устройству</value>
+  </data>
+  <data name="Device_Label_Button_BackDevice1" xml:space="preserve">
+    <value>Вернуться к устройству</value>
+  </data>
+  <data name="Device_Label_Button_BackViewDevice" xml:space="preserve">
+    <value>Вернуться к просмотру устройства</value>
+  </data>
+  <data name="Device_Label_Button_BackViewDevice1" xml:space="preserve">
+    <value>Вернуться к просмотру устройства</value>
+  </data>
+  <data name="Device_Label_Button_Cancel" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="Device_Label_Button_Cancel1" xml:space="preserve">
+    <value>Отмена</value>
+  </data>
+  <data name="Device_Label_Button_Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="Device_Label_Button_Delete1" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="Device_Label_Button_Edit" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="Device_Label_Button_Edit1" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="Device_Label_Button_Update" xml:space="preserve">
+    <value>Обновлять</value>
+  </data>
+  <data name="Device_Label_Button_Update1" xml:space="preserve">
+    <value>Обновлять</value>
+  </data>
+  <data name="Device_Label_DeviceIPAddress" xml:space="preserve">
+    <value>IP-адрес устройства</value>
+  </data>
+  <data name="Device_Label_DeviceIPAddress1" xml:space="preserve">
+    <value>IP-адрес устройства</value>
+  </data>
+  <data name="Device_Label_DeviceName" xml:space="preserve">
+    <value>Имя устройства</value>
+  </data>
+  <data name="Device_Label_DeviceName1" xml:space="preserve">
+    <value>Имя устройства</value>
+  </data>
+  <data name="General_Label_Busy" xml:space="preserve">
+    <value>Занятый</value>
+  </data>
+  <data name="General_Label_Busy1" xml:space="preserve">
+    <value>Занятый</value>
+  </data>
+  <data name="General_Label_Create" xml:space="preserve">
+    <value>Создавать</value>
+  </data>
+  <data name="General_Label_Create1" xml:space="preserve">
+    <value>Создавать</value>
+  </data>
+  <data name="General_Label_Delete" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="General_Label_Delete1" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="General_Label_Download" xml:space="preserve">
+    <value>Скачать</value>
+  </data>
+  <data name="General_Label_Download1" xml:space="preserve">
+    <value>Скачать</value>
+  </data>
+  <data name="General_Label_Edit" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="General_Label_Edit1" xml:space="preserve">
+    <value>Редактировать</value>
+  </data>
+  <data name="General_Label_Next" xml:space="preserve">
+    <value>Следующий</value>
+  </data>
+  <data name="General_Label_Next1" xml:space="preserve">
+    <value>Следующий</value>
+  </data>
+  <data name="General_Label_No" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="General_Label_No1" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="General_Label_Number" xml:space="preserve">
+    <value>Нет.</value>
+  </data>
+  <data name="General_Label_Number1" xml:space="preserve">
+    <value>Нет.</value>
+  </data>
+  <data name="General_Label_OK" xml:space="preserve">
+    <value>ХОРОШО</value>
+  </data>
+  <data name="General_Label_OK1" xml:space="preserve">
+    <value>ХОРОШО</value>
+  </data>
+  <data name="General_Label_Prev" xml:space="preserve">
+    <value>Предыдущая</value>
+  </data>
+  <data name="General_Label_Prev1" xml:space="preserve">
+    <value>Предыдущая</value>
+  </data>
+  <data name="General_Label_Previous" xml:space="preserve">
+    <value>Предыдущая</value>
+  </data>
+  <data name="General_Label_Previous1" xml:space="preserve">
+    <value>Предыдущая</value>
+  </data>
+  <data name="General_Label_Ready" xml:space="preserve">
+    <value>Готовый</value>
+  </data>
+  <data name="General_Label_Ready1" xml:space="preserve">
+    <value>Готовый</value>
+  </data>
+  <data name="General_Label_Save" xml:space="preserve">
+    <value>Сохранять</value>
+  </data>
+  <data name="General_Label_Save1" xml:space="preserve">
+    <value>Сохранять</value>
+  </data>
+  <data name="General_Label_Searchbar" xml:space="preserve">
+    <value>Поиск</value>
+  </data>
+  <data name="General_Label_Searchbar1" xml:space="preserve">
+    <value>Поиск</value>
+  </data>
+  <data name="General_Label_SelectDuration" xml:space="preserve">
+    <value>Выберите продолжительность</value>
+  </data>
+  <data name="General_Label_SelectDuration1" xml:space="preserve">
+    <value>Выберите продолжительность</value>
+  </data>
+  <data name="General_Label_Send" xml:space="preserve">
+    <value>Отправлять</value>
+  </data>
+  <data name="General_Label_Send1" xml:space="preserve">
+    <value>Отправлять</value>
+  </data>
+  <data name="General_Label_ThreeDaysReminder" xml:space="preserve">
+    <value>Напомнить через 3 дня</value>
+  </data>
+  <data name="General_Label_ThreeDaysReminder1" xml:space="preserve">
+    <value>Напомнить через 3 дня</value>
+  </data>
+  <data name="General_Label_Update" xml:space="preserve">
+    <value>Обновлять</value>
+  </data>
+  <data name="General_Label_Update1" xml:space="preserve">
+    <value>Обновлять</value>
+  </data>
+  <data name="General_Label_View" xml:space="preserve">
+    <value>Вид</value>
+  </data>
+  <data name="General_Label_View1" xml:space="preserve">
+    <value>Вид</value>
+  </data>
+  <data name="General_Label_Yes" xml:space="preserve">
+    <value>Да</value>
+  </data>
+  <data name="General_Label_Yes1" xml:space="preserve">
+    <value>Да</value>
+  </data>
+  <data name="General_Message_Error" xml:space="preserve">
+    <value>Не удалось обработать. Обратитесь к администратору.</value>
+  </data>
+  <data name="General_Message_Error1" xml:space="preserve">
+    <value>Не удалось обработать. Обратитесь к администратору.</value>
+  </data>
+  <data name="General_Message_ErrorOccured" xml:space="preserve">
+    <value>Произошла ошибка. Обратитесь к администратору.</value>
+  </data>
+  <data name="General_Message_ErrorOccured1" xml:space="preserve">
+    <value>Произошла ошибка. Обратитесь к администратору.</value>
+  </data>
+  <data name="General_Message_NewVersionAvailable" xml:space="preserve">
+    <value>Доступна новая версия Vcheck Viewer. Скачать новую версию?</value>
+  </data>
+  <data name="General_Message_NewVersionAvailable1" xml:space="preserve">
+    <value>Доступна новая версия Vcheck Viewer. Скачать новую версию?</value>
+  </data>
+  <data name="General_Message_NewVersionNotification" xml:space="preserve">
+    <value>Уведомление о новой версии</value>
+  </data>
+  <data name="General_Message_NewVersionNotification1" xml:space="preserve">
+    <value>Уведомление о новой версии</value>
+  </data>
+  <data name="General_Message_NoChanges" xml:space="preserve">
+    <value>Изменений не обнаружено.</value>
+  </data>
+  <data name="General_Message_NoChanges1" xml:space="preserve">
+    <value>Изменений не обнаружено.</value>
+  </data>
+  <data name="General_Message_NoCompletedTest" xml:space="preserve">
+    <value>Завершенного теста нет.</value>
+  </data>
+  <data name="General_Message_NoCompletedTest1" xml:space="preserve">
+    <value>Завершенного теста нет.</value>
+  </data>
+  <data name="General_Message_NoData" xml:space="preserve">
+    <value>Данные отсутствуют.</value>
+  </data>
+  <data name="General_Message_NoData1" xml:space="preserve">
+    <value>Данные отсутствуют.</value>
+  </data>
+  <data name="General_Message_NoDevice" xml:space="preserve">
+    <value>Устройство недоступно.</value>
+  </data>
+  <data name="General_Message_NoDevice1" xml:space="preserve">
+    <value>Устройство недоступно.</value>
+  </data>
+  <data name="General_Message_NoNotification" xml:space="preserve">
+    <value>Уведомление отсутствует.</value>
+  </data>
+  <data name="General_Message_NoNotification1" xml:space="preserve">
+    <value>Уведомление отсутствует.</value>
+  </data>
+  <data name="General_Message_NoScheduleTest" xml:space="preserve">
+    <value>Запланированных тестов нет.</value>
+  </data>
+  <data name="General_Message_NoScheduleTest1" xml:space="preserve">
+    <value>Запланированных тестов нет.</value>
+  </data>
+  <data name="General_Message_RemindThreeDays" xml:space="preserve">
+    <value>Напомню ещё раз через 3 дня.</value>
+  </data>
+  <data name="General_Message_RemindThreeDays1" xml:space="preserve">
+    <value>Напомню ещё раз через 3 дня.</value>
+  </data>
+  <data name="General_Message_VCheckAlreadyOpen" xml:space="preserve">
+    <value>Экземпляр VCheck Viewer уже открыт. Пожалуйста, закройте старый экземпляр, прежде чем открыть новый.</value>
+  </data>
+  <data name="General_Message_VCheckAlreadyOpen1" xml:space="preserve">
+    <value>Экземпляр VCheck Viewer уже открыт. Пожалуйста, закройте старый экземпляр, прежде чем открыть новый.</value>
+  </data>
+  <data name="Login_ErrorMessage_AccountDeactivated" xml:space="preserve">
+    <value>Аккаунт деактивирован. Обратитесь к администратору.</value>
+  </data>
+  <data name="Login_ErrorMessage_AccountDeactivated1" xml:space="preserve">
+    <value>Аккаунт деактивирован. Обратитесь к администратору.</value>
+  </data>
+  <data name="Login_ErrorMessage_AccountLocked" xml:space="preserve">
+    <value>Учётные записи заблокированы. Обратитесь к администратору.</value>
+  </data>
+  <data name="Login_ErrorMessage_AccountLocked1" xml:space="preserve">
+    <value>Учётные записи заблокированы. Обратитесь к администратору.</value>
+  </data>
+  <data name="Login_ErrorMessage_AccountNotConfirmed" xml:space="preserve">
+    <value>Учётная запись ещё не подтверждена. Пожалуйста, подтвердите учётную запись по электронной почте.</value>
+  </data>
+  <data name="Login_ErrorMessage_AccountNotConfirmed1" xml:space="preserve">
+    <value>Учётная запись ещё не подтверждена. Пожалуйста, подтвердите учётную запись по электронной почте.</value>
+  </data>
+  <data name="Login_ErrorMessage_NoLowerCase" xml:space="preserve">
+    <value>По крайней мере одна строчная буква.</value>
+  </data>
+  <data name="Login_ErrorMessage_NoLowerCase1" xml:space="preserve">
+    <value>По крайней мере одна строчная буква.</value>
+  </data>
+  <data name="Login_ErrorMessage_NoNumberChar" xml:space="preserve">
+    <value>По крайней мере одно число.</value>
+  </data>
+  <data name="Login_ErrorMessage_NoNumberChar1" xml:space="preserve">
+    <value>По крайней мере одно число.</value>
+  </data>
+  <data name="Login_ErrorMessage_NoSpecialChar" xml:space="preserve">
+    <value>По крайней мере один специальный символ.</value>
+  </data>
+  <data name="Login_ErrorMessage_NoSpecialChar1" xml:space="preserve">
+    <value>По крайней мере один специальный символ.</value>
+  </data>
+  <data name="Login_ErrorMessage_NoUpperCase" xml:space="preserve">
+    <value>По крайней мере одна заглавная буква.</value>
+  </data>
+  <data name="Login_ErrorMessage_NoUpperCase1" xml:space="preserve">
+    <value>По крайней мере одна заглавная буква.</value>
+  </data>
+  <data name="Login_ErrorMessage_PasswordLessEightChar" xml:space="preserve">
+    <value>Это поле должно содержать не менее 8 символов.</value>
+  </data>
+  <data name="Login_ErrorMessage_PasswordLessEightChar1" xml:space="preserve">
+    <value>Это поле должно содержать не менее 8 символов.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongEmail" xml:space="preserve">
+    <value>Неверный адрес электронной почты, привязанный к учётной записи. Проверьте правильность адреса электронной почты и повторите попытку.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongEmail1" xml:space="preserve">
+    <value>Неверный адрес электронной почты, привязанный к учётной записи. Проверьте правильность адреса электронной почты и повторите попытку.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongLoginID" xml:space="preserve">
+    <value>Неверный идентификатор входа.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongLoginID1" xml:space="preserve">
+    <value>Неверный идентификатор входа.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongLoginIDRecovery" xml:space="preserve">
+    <value>Не удаётся найти пользователя по идентификатору входа. Проверьте правильность идентификатора входа и повторите попытку.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongLoginIDRecovery1" xml:space="preserve">
+    <value>Не удаётся найти пользователя по идентификатору входа. Проверьте правильность идентификатора входа и повторите попытку.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongPassword" xml:space="preserve">
+    <value>Неверный пароль. У вас осталось &lt;attemptcount&gt; попыток до блокировки учётной записи.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongPassword1" xml:space="preserve">
+    <value>Неверный пароль. У вас осталось &lt;attemptcount&gt; попыток до блокировки учётной записи.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongUsernameEmail" xml:space="preserve">
+    <value>Идентификатор входа и адрес электронной почты не совпадают.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongUsernameEmail1" xml:space="preserve">
+    <value>Идентификатор входа и адрес электронной почты не совпадают.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongUsernamePassword" xml:space="preserve">
+    <value>Неверный логин или пароль.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongUsernamePassword1" xml:space="preserve">
+    <value>Неверный логин или пароль.</value>
+  </data>
+  <data name="Login_Label_BackButton" xml:space="preserve">
+    <value>Вернуться к входу</value>
+  </data>
+  <data name="Login_Label_BackButton1" xml:space="preserve">
+    <value>Вернуться к входу</value>
+  </data>
+  <data name="Login_Label_ConfirmPassword" xml:space="preserve">
+    <value>Подтвердите новый пароль</value>
+  </data>
+  <data name="Login_Label_ConfirmPassword1" xml:space="preserve">
+    <value>Подтвердите новый пароль</value>
+  </data>
+  <data name="Login_Label_ForgetPassword" xml:space="preserve">
+    <value>Забыли пароль?</value>
+  </data>
+  <data name="Login_Label_ForgetPassword1" xml:space="preserve">
+    <value>Забыли пароль?</value>
+  </data>
+  <data name="Login_Label_LeftMain" xml:space="preserve">
+    <value>Получайте точные&lt;nextline&gt;результаты быстро.</value>
+  </data>
+  <data name="Login_Label_LeftMain1" xml:space="preserve">
+    <value>Получайте точные&lt;nextline&gt;результаты быстро.</value>
+  </data>
+  <data name="Login_Label_LeftSub" xml:space="preserve">
+    <value>Пожалуйста, войдите в систему, чтобы получить доступ к своей учетной записи.</value>
+  </data>
+  <data name="Login_Label_LeftSub1" xml:space="preserve">
+    <value>Пожалуйста, войдите в систему, чтобы получить доступ к своей учетной записи.</value>
+  </data>
+  <data name="Login_Label_LoginButton" xml:space="preserve">
+    <value>Авторизоваться</value>
+  </data>
+  <data name="Login_Label_LoginButton1" xml:space="preserve">
+    <value>Авторизоваться</value>
+  </data>
+  <data name="Login_Label_MainPassword" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="Login_Label_MainPassword1" xml:space="preserve">
+    <value>Пароль</value>
+  </data>
+  <data name="Login_Label_MainUsername" xml:space="preserve">
+    <value>Имя пользователя</value>
+  </data>
+  <data name="Login_Label_MainUsername1" xml:space="preserve">
+    <value>Имя пользователя</value>
+  </data>
+  <data name="Login_Label_NewPassword" xml:space="preserve">
+    <value>Новый пароль</value>
+  </data>
+  <data name="Login_Label_NewPassword1" xml:space="preserve">
+    <value>Новый пароль</value>
+  </data>
+  <data name="Login_Label_OldPassword" xml:space="preserve">
+    <value>Старый пароль</value>
+  </data>
+  <data name="Login_Label_OldPassword1" xml:space="preserve">
+    <value>Старый пароль</value>
+  </data>
+  <data name="Login_Label_PasswordRecovery" xml:space="preserve">
+    <value>пароль&lt;nextline&gt;Восстановление</value>
+  </data>
+  <data name="Login_Label_PasswordRecovery1" xml:space="preserve">
+    <value>пароль&lt;nextline&gt;Восстановление</value>
+  </data>
+  <data name="Login_Label_RegisterButton" xml:space="preserve">
+    <value>Зарегистрироваться</value>
+  </data>
+  <data name="Login_Label_RegisterButton1" xml:space="preserve">
+    <value>Зарегистрироваться</value>
+  </data>
+  <data name="Login_Label_ResetPassword" xml:space="preserve">
+    <value>Сбросить пароль</value>
+  </data>
+  <data name="Login_Label_ResetPassword1" xml:space="preserve">
+    <value>Сбросить пароль</value>
+  </data>
+  <data name="Login_Message_CreatePasswordError" xml:space="preserve">
+    <value>Произошла ошибка при создании пароля. Обратитесь к администратору.</value>
+  </data>
+  <data name="Login_Message_CreatePasswordError1" xml:space="preserve">
+    <value>Произошла ошибка при создании пароля. Обратитесь к администратору.</value>
+  </data>
+  <data name="Login_Message_PasswordNewConfirmMismatch" xml:space="preserve">
+    <value>Новый и подтвержденный пароль не совпадают.</value>
+  </data>
+  <data name="Login_Message_PasswordNewConfirmMismatch1" xml:space="preserve">
+    <value>Новый и подтвержденный пароль не совпадают.</value>
+  </data>
+  <data name="Login_Message_PasswordRecovery" xml:space="preserve">
+    <value>Введите адрес электронной почты, и мы вышлем вам ссылку для сброса пароля.</value>
+  </data>
+  <data name="Login_Message_PasswordRecovery1" xml:space="preserve">
+    <value>Введите адрес электронной почты, и мы вышлем вам ссылку для сброса пароля.</value>
+  </data>
+  <data name="Login_Message_PasswordRequirement" xml:space="preserve">
+    <value>Пароль должен содержать как минимум одну цифру, одну строчную букву, одну заглавную букву и состоять из восьми символов.</value>
+  </data>
+  <data name="Login_Message_PasswordRequirement1" xml:space="preserve">
+    <value>Пароль должен содержать как минимум одну цифру, одну строчную букву, одну заглавную букву и состоять из восьми символов.</value>
+  </data>
+  <data name="Login_Message_PasswordResetted" xml:space="preserve">
+    <value>Пароль успешно сброшен.</value>
+  </data>
+  <data name="Login_Message_PasswordResetted1" xml:space="preserve">
+    <value>Пароль успешно сброшен.</value>
+  </data>
+  <data name="Login_Message_RemovePasswordError" xml:space="preserve">
+    <value>Произошла ошибка при удалении пароля. Обратитесь к администратору.</value>
+  </data>
+  <data name="Login_Message_RemovePasswordError1" xml:space="preserve">
+    <value>Произошла ошибка при удалении пароля. Обратитесь к администратору.</value>
+  </data>
+  <data name="Login_Message_WrongCurrentPassword" xml:space="preserve">
+    <value>Неверный текущий пароль.</value>
+  </data>
+  <data name="Login_Message_WrongCurrentPassword1" xml:space="preserve">
+    <value>Неверный текущий пароль.</value>
+  </data>
+  <data name="Login_Message_WrongNewPassword" xml:space="preserve">
+    <value>Неверный новый пароль.</value>
+  </data>
+  <data name="Login_Message_WrongNewPassword1" xml:space="preserve">
+    <value>Неверный новый пароль.</value>
+  </data>
+  <data name="Login_Title_PageTitle" xml:space="preserve">
+    <value>Авторизоваться</value>
+  </data>
+  <data name="Login_Title_PageTitle1" xml:space="preserve">
+    <value>Авторизоваться</value>
+  </data>
+  <data name="Maintenance_Label_API" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Maintenance_Label_API1" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Maintenance_Label_ApplicationInformation" xml:space="preserve">
+    <value>Информация о приложении</value>
+  </data>
+  <data name="Maintenance_Label_ApplicationInformation1" xml:space="preserve">
+    <value>Информация о приложении</value>
+  </data>
+  <data name="Maintenance_Label_Checking" xml:space="preserve">
+    <value>Проверка..</value>
+  </data>
+  <data name="Maintenance_Label_Checking1" xml:space="preserve">
+    <value>Проверка..</value>
+  </data>
+  <data name="Maintenance_Label_Connected" xml:space="preserve">
+    <value>Подключено</value>
+  </data>
+  <data name="Maintenance_Label_Connected1" xml:space="preserve">
+    <value>Подключено</value>
+  </data>
+  <data name="Maintenance_Label_EnvironmentInformation" xml:space="preserve">
+    <value>Информация об окружающей среде</value>
+  </data>
+  <data name="Maintenance_Label_EnvironmentInformation1" xml:space="preserve">
+    <value>Информация об окружающей среде</value>
+  </data>
+  <data name="Maintenance_Label_Information" xml:space="preserve">
+    <value>Информация</value>
+  </data>
+  <data name="Maintenance_Label_Information1" xml:space="preserve">
+    <value>Информация</value>
+  </data>
+  <data name="Maintenance_Label_Listener" xml:space="preserve">
+    <value>Прослушиватель</value>
+  </data>
+  <data name="Maintenance_Label_Listener1" xml:space="preserve">
+    <value>Прослушиватель</value>
+  </data>
+  <data name="Maintenance_Label_ListenerIPAddr" xml:space="preserve">
+    <value>IP-адрес прослушивателя</value>
+  </data>
+  <data name="Maintenance_Label_ListenerIPAddr1" xml:space="preserve">
+    <value>IP-адрес прослушивателя</value>
+  </data>
+  <data name="Maintenance_Label_ListenerPortNo" xml:space="preserve">
+    <value>Номер порта прослушивателя</value>
+  </data>
+  <data name="Maintenance_Label_ListenerPortNo1" xml:space="preserve">
+    <value>Номер порта прослушивателя</value>
+  </data>
+  <data name="Maintenance_Label_None" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="Maintenance_Label_None1" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="Maintenance_Label_NotConnected" xml:space="preserve">
+    <value>Не подключено</value>
+  </data>
+  <data name="Maintenance_Label_NotConnected1" xml:space="preserve">
+    <value>Не подключено</value>
+  </data>
+  <data name="Maintenance_Label_NotRunning" xml:space="preserve">
+    <value>Не запущено</value>
+  </data>
+  <data name="Maintenance_Label_NotRunning1" xml:space="preserve">
+    <value>Не запущено</value>
+  </data>
+  <data name="Maintenance_Label_Refresh" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="Maintenance_Label_Refresh1" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="Maintenance_Label_Running" xml:space="preserve">
+    <value>Работает</value>
+  </data>
+  <data name="Maintenance_Label_Running1" xml:space="preserve">
+    <value>Работает</value>
+  </data>
+  <data name="Maintenance_Label_VCheckAPI" xml:space="preserve">
+    <value>API VCheck</value>
+  </data>
+  <data name="Maintenance_Label_VCheckAPI1" xml:space="preserve">
+    <value>API VCheck</value>
+  </data>
+  <data name="Maintenance_Label_VCheckListener" xml:space="preserve">
+    <value>Прослушиватель VCheck</value>
+  </data>
+  <data name="Maintenance_Label_VCheckListener1" xml:space="preserve">
+    <value>Прослушиватель VCheck</value>
+  </data>
+  <data name="Maintenance_Label_Version" xml:space="preserve">
+    <value>Версия</value>
+  </data>
+  <data name="Maintenance_Label_Version1" xml:space="preserve">
+    <value>Версия</value>
+  </data>
+  <data name="Maintenance_Title_PageTitle" xml:space="preserve">
+    <value>Обслуживание</value>
+  </data>
+  <data name="Maintenance_Title_PageTitle1" xml:space="preserve">
+    <value>Обслуживание</value>
+  </data>
+  <data name="Main_Label_Exit" xml:space="preserve">
+    <value>Выход</value>
+  </data>
+  <data name="Main_Label_Exit1" xml:space="preserve">
+    <value>Выход</value>
+  </data>
+  <data name="Main_Label_Logout" xml:space="preserve">
+    <value>Выйти</value>
+  </data>
+  <data name="Main_Label_Logout1" xml:space="preserve">
+    <value>Выйти</value>
+  </data>
+  <data name="Main_Label_ResetPassword" xml:space="preserve">
+    <value>Сбросить пароль</value>
+  </data>
+  <data name="Main_Label_ResetPassword1" xml:space="preserve">
+    <value>Сбросить пароль</value>
+  </data>
+  <data name="Main_Label_SideMenuCollapse" xml:space="preserve">
+    <value>Крах</value>
+  </data>
+  <data name="Main_Label_SideMenuCollapse1" xml:space="preserve">
+    <value>Крах</value>
+  </data>
+  <data name="Main_Label_SideMenuDashboard" xml:space="preserve">
+    <value>Панель инструментов</value>
+  </data>
+  <data name="Main_Label_SideMenuDashboard1" xml:space="preserve">
+    <value>Панель инструментов</value>
+  </data>
+  <data name="Main_Label_SideMenuNotification" xml:space="preserve">
+    <value>Уведомление</value>
+  </data>
+  <data name="Main_Label_SideMenuNotification1" xml:space="preserve">
+    <value>Уведомление</value>
+  </data>
+  <data name="Main_Label_SideMenuResults" xml:space="preserve">
+    <value>Результаты</value>
+  </data>
+  <data name="Main_Label_SideMenuResults1" xml:space="preserve">
+    <value>Результаты</value>
+  </data>
+  <data name="Main_Label_SideMenuSchedule" xml:space="preserve">
+    <value>Расписание</value>
+  </data>
+  <data name="Main_Label_SideMenuSchedule1" xml:space="preserve">
+    <value>Расписание</value>
+  </data>
+  <data name="Main_Label_SideMenuSetting" xml:space="preserve">
+    <value>Параметр</value>
+  </data>
+  <data name="Main_Label_SideMenuSetting1" xml:space="preserve">
+    <value>Параметр</value>
+  </data>
+  <data name="Main_Label_ViewProfile" xml:space="preserve">
+    <value>Просмотреть профиль</value>
+  </data>
+  <data name="Main_Label_ViewProfile1" xml:space="preserve">
+    <value>Просмотреть профиль</value>
+  </data>
+  <data name="Notification_Button_MarkAllAsRead" xml:space="preserve">
+    <value>Отметить все как прочитанное</value>
+  </data>
+  <data name="Notification_Button_MarkAllAsRead1" xml:space="preserve">
+    <value>Отметить все как прочитанное</value>
+  </data>
+  <data name="Notification_Label_CompletedTest" xml:space="preserve">
+    <value>Результаты завершенных тестов</value>
+  </data>
+  <data name="Notification_Label_CompletedTest1" xml:space="preserve">
+    <value>Результаты завершенных тестов</value>
+  </data>
+  <data name="Notification_Label_Show" xml:space="preserve">
+    <value>Показывать :</value>
+  </data>
+  <data name="Notification_Label_Show1" xml:space="preserve">
+    <value>Показывать :</value>
+  </data>
+  <data name="Notification_Label_ShowAll" xml:space="preserve">
+    <value>Все</value>
+  </data>
+  <data name="Notification_Label_ShowAll1" xml:space="preserve">
+    <value>Все</value>
+  </data>
+  <data name="Notification_Label_UpcomingTest" xml:space="preserve">
+    <value>Предстоящий тест</value>
+  </data>
+  <data name="Notification_Label_UpcomingTest1" xml:space="preserve">
+    <value>Предстоящий тест</value>
+  </data>
+  <data name="Notification_Label_UpdateFilter" xml:space="preserve">
+    <value>Обновить фильтр</value>
+  </data>
+  <data name="Notification_Label_UpdateFilter1" xml:space="preserve">
+    <value>Обновить фильтр</value>
+  </data>
+  <data name="Notification_Label_Updates" xml:space="preserve">
+    <value>Обновления</value>
+  </data>
+  <data name="Notification_Label_Updates1" xml:space="preserve">
+    <value>Обновления</value>
+  </data>
+  <data name="Notification_Title_PageTitle" xml:space="preserve">
+    <value>Уведомление</value>
+  </data>
+  <data name="Notification_Title_PageTitle1" xml:space="preserve">
+    <value>Уведомление</value>
+  </data>
+  <data name="Popup_Message_AddAnalyzer" xml:space="preserve">
+    <value>Вы уверены, что хотите добавить этот новый анализатор</value>
+  </data>
+  <data name="Popup_Message_AddAnalyzer1" xml:space="preserve">
+    <value>Вы уверены, что хотите добавить этот новый анализатор</value>
+  </data>
+  <data name="Popup_Message_AnalyzerCannotReceive" xml:space="preserve">
+    <value>Анализатор не может получать расписание вручную.</value>
+  </data>
+  <data name="Popup_Message_AnalyzerCannotReceive1" xml:space="preserve">
+    <value>Анализатор не может получать расписание вручную.</value>
+  </data>
+  <data name="Popup_Message_APINoLinkFound" xml:space="preserve">
+    <value>Расписание, связанное с результатом, не найдено.</value>
+  </data>
+  <data name="Popup_Message_APINoLinkFound1" xml:space="preserve">
+    <value>Расписание, связанное с результатом, не найдено.</value>
+  </data>
+  <data name="Popup_Message_APIUpdateFailed" xml:space="preserve">
+    <value>Ошибка API результата обновления.</value>
+  </data>
+  <data name="Popup_Message_APIUpdateFailed1" xml:space="preserve">
+    <value>Ошибка API результата обновления.</value>
+  </data>
+  <data name="Popup_Message_APIUpdateSuccess" xml:space="preserve">
+    <value>Результат обновления API успешно завершен.</value>
+  </data>
+  <data name="Popup_Message_APIUpdateSuccess1" xml:space="preserve">
+    <value>Результат обновления API успешно завершен.</value>
+  </data>
+  <data name="Popup_Message_CanceledSendToAnalyzer" xml:space="preserve">
+    <value>Отправка запроса в анализатор заняла слишком много времени.</value>
+  </data>
+  <data name="Popup_Message_CanceledSendToAnalyzer1" xml:space="preserve">
+    <value>Отправка запроса в анализатор заняла слишком много времени.</value>
+  </data>
+  <data name="Popup_Message_CancelSchedule" xml:space="preserve">
+    <value>Вы уверены, что хотите отменить это расписание?</value>
+  </data>
+  <data name="Popup_Message_CancelSchedule1" xml:space="preserve">
+    <value>Вы уверены, что хотите отменить это расписание?</value>
+  </data>
+  <data name="Popup_Message_CheckPassword" xml:space="preserve">
+    <value>Проверьте пароль еще раз.</value>
+  </data>
+  <data name="Popup_Message_CheckPassword1" xml:space="preserve">
+    <value>Проверьте пароль еще раз.</value>
+  </data>
+  <data name="Popup_Message_CheckUsername" xml:space="preserve">
+    <value>Пожалуйста, проверьте имя пользователя еще раз.</value>
+  </data>
+  <data name="Popup_Message_CheckUsername1" xml:space="preserve">
+    <value>Пожалуйста, проверьте имя пользователя еще раз.</value>
+  </data>
+  <data name="Popup_Message_ClinicInfoUpdate" xml:space="preserve">
+    <value>Сохранить данные о клинике?</value>
+  </data>
+  <data name="Popup_Message_ClinicInfoUpdate1" xml:space="preserve">
+    <value>Сохранить данные о клинике?</value>
+  </data>
+  <data name="Popup_Message_ClinicInfoUpdateCompleted" xml:space="preserve">
+    <value>Данные о клинике успешно обновлены.</value>
+  </data>
+  <data name="Popup_Message_ClinicInfoUpdateCompleted1" xml:space="preserve">
+    <value>Данные о клинике успешно обновлены.</value>
+  </data>
+  <data name="Popup_Message_ConfirmPasswordDoNotMatch" xml:space="preserve">
+    <value>Пароль и подтверждение пароля не совпадают.</value>
+  </data>
+  <data name="Popup_Message_ConfirmPasswordDoNotMatch1" xml:space="preserve">
+    <value>Пароль и подтверждение пароля не совпадают.</value>
+  </data>
+  <data name="Popup_Message_ConnectPIMSSuccess" xml:space="preserve">
+    <value>Подключение к PIMS успешно установлено.</value>
+  </data>
+  <data name="Popup_Message_ConnectPIMSSuccess1" xml:space="preserve">
+    <value>Подключение к PIMS успешно установлено.</value>
+  </data>
+  <data name="Popup_Message_CreateUser" xml:space="preserve">
+    <value>Вы уверены, что хотите создать этот профиль пользователя?</value>
+  </data>
+  <data name="Popup_Message_CreateUser1" xml:space="preserve">
+    <value>Вы уверены, что хотите создать этот профиль пользователя?</value>
+  </data>
+  <data name="Popup_Message_DeleteUser" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить этот профиль пользователя?</value>
+  </data>
+  <data name="Popup_Message_DeleteUser1" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить этот профиль пользователя?</value>
+  </data>
+  <data name="Popup_Message_EnterUniqueID" xml:space="preserve">
+    <value>Введите уникальный идентификатор.</value>
+  </data>
+  <data name="Popup_Message_EnterUniqueID1" xml:space="preserve">
+    <value>Введите уникальный идентификатор.</value>
+  </data>
+  <data name="Popup_Message_FailedAddDevice" xml:space="preserve">
+    <value>Не удалось добавить устройство. Обратитесь к системному администратору.</value>
+  </data>
+  <data name="Popup_Message_FailedAddDevice1" xml:space="preserve">
+    <value>Не удалось добавить устройство. Обратитесь к системному администратору.</value>
+  </data>
+  <data name="Popup_Message_FailedDeleteDevice" xml:space="preserve">
+    <value>Не удалось удалить устройство. Обратитесь к системному администратору.</value>
+  </data>
+  <data name="Popup_Message_FailedDeleteDevice1" xml:space="preserve">
+    <value>Не удалось удалить устройство. Обратитесь к системному администратору.</value>
+  </data>
+  <data name="Popup_Message_FailedDownloadListing" xml:space="preserve">
+    <value>Не удалось загрузить список результатов теста.</value>
+  </data>
+  <data name="Popup_Message_FailedDownloadListing1" xml:space="preserve">
+    <value>Не удалось загрузить список результатов теста.</value>
+  </data>
+  <data name="Popup_Message_FailedGreywindConnect" xml:space="preserve">
+    <value>Не удалось подключиться к Greywind.</value>
+  </data>
+  <data name="Popup_Message_FailedGreywindConnect1" xml:space="preserve">
+    <value>Не удалось подключиться к Greywind.</value>
+  </data>
+  <data name="Popup_Message_FailedOpenPrint" xml:space="preserve">
+    <value>Не удалось открыть печать.</value>
+  </data>
+  <data name="Popup_Message_FailedOpenPrint1" xml:space="preserve">
+    <value>Не удалось открыть печать.</value>
+  </data>
+  <data name="Popup_Message_FailedToCancelSchedule" xml:space="preserve">
+    <value>Не удалось отменить расписание.</value>
+  </data>
+  <data name="Popup_Message_FailedToCancelSchedule1" xml:space="preserve">
+    <value>Не удалось отменить расписание.</value>
+  </data>
+  <data name="Popup_Message_FailedToDownload" xml:space="preserve">
+    <value>Не удалось загрузить.</value>
+  </data>
+  <data name="Popup_Message_FailedToDownload1" xml:space="preserve">
+    <value>Не удалось загрузить.</value>
+  </data>
+  <data name="Popup_Message_FailedToPrint" xml:space="preserve">
+    <value>Не удалось распечатать.</value>
+  </data>
+  <data name="Popup_Message_FailedToPrint1" xml:space="preserve">
+    <value>Не удалось распечатать.</value>
+  </data>
+  <data name="Popup_Message_FailedToSendToAnalyzer" xml:space="preserve">
+    <value>Не удалось отправить запрос анализатору.</value>
+  </data>
+  <data name="Popup_Message_FailedToSendToAnalyzer1" xml:space="preserve">
+    <value>Не удалось отправить запрос анализатору.</value>
+  </data>
+  <data name="Popup_Message_FailedUpdateDevice" xml:space="preserve">
+    <value>Не удалось обновить устройство. Обратитесь к системному администратору.</value>
+  </data>
+  <data name="Popup_Message_FailedUpdateDevice1" xml:space="preserve">
+    <value>Не удалось обновить устройство. Обратитесь к системному администратору.</value>
+  </data>
+  <data name="Popup_Message_FailedUpdateLISInfo" xml:space="preserve">
+    <value>Не удалось обновить информацию LIS.</value>
+  </data>
+  <data name="Popup_Message_FailedUpdateLISInfo1" xml:space="preserve">
+    <value>Не удалось обновить информацию LIS.</value>
+  </data>
+  <data name="Popup_Message_GreywindConnected" xml:space="preserve">
+    <value>Успешное подключение к Greywind.</value>
+  </data>
+  <data name="Popup_Message_GreywindConnected1" xml:space="preserve">
+    <value>Успешное подключение к Greywind.</value>
+  </data>
+  <data name="Popup_Message_InputPassword" xml:space="preserve">
+    <value>Введите пароль.</value>
+  </data>
+  <data name="Popup_Message_InputPassword1" xml:space="preserve">
+    <value>Введите пароль.</value>
+  </data>
+  <data name="Popup_Message_InputUsername" xml:space="preserve">
+    <value>Введите имя пользователя.</value>
+  </data>
+  <data name="Popup_Message_InputUsername1" xml:space="preserve">
+    <value>Введите имя пользователя.</value>
+  </data>
+  <data name="Popup_Message_IpPortUnavailable" xml:space="preserve">
+    <value>IP-адрес и номер порта недоступны для назначения. Введите другое значение.</value>
+  </data>
+  <data name="Popup_Message_IpPortUnavailable1" xml:space="preserve">
+    <value>IP-адрес и номер порта недоступны для назначения. Введите другое значение.</value>
+  </data>
+  <data name="Popup_Message_LanguageCountryChange" xml:space="preserve">
+    <value>Вы уверены, что хотите сохранить эту настройку?</value>
+  </data>
+  <data name="Popup_Message_LanguageCountryChange1" xml:space="preserve">
+    <value>Вы уверены, что хотите сохранить эту настройку?</value>
+  </data>
+  <data name="Popup_Message_Logout" xml:space="preserve">
+    <value>Вы уверены, что хотите выйти?</value>
+  </data>
+  <data name="Popup_Message_Logout1" xml:space="preserve">
+    <value>Вы уверены, что хотите выйти?</value>
+  </data>
+  <data name="Popup_Message_NoClinicFound" xml:space="preserve">
+    <value>Клиника с таким номером телефона не найдена.</value>
+  </data>
+  <data name="Popup_Message_NoClinicFound1" xml:space="preserve">
+    <value>Клиника с таким номером телефона не найдена.</value>
+  </data>
+  <data name="Popup_Message_NoDeviceFound" xml:space="preserve">
+    <value>Не найдено устройство, которое может принять запрос.</value>
+  </data>
+  <data name="Popup_Message_NoDeviceFound1" xml:space="preserve">
+    <value>Не найдено устройство, которое может принять запрос.</value>
+  </data>
+  <data name="Popup_Message_NoScheduleFound" xml:space="preserve">
+    <value>Расписание не найдено.</value>
+  </data>
+  <data name="Popup_Message_NoScheduleFound1" xml:space="preserve">
+    <value>Расписание не найдено.</value>
+  </data>
+  <data name="Popup_Message_PasswordRecoveredP1" xml:space="preserve">
+    <value>Мы отправили вам временный пароль на вашу электронную почту. Вы можете использовать его для входа. &lt;nextline&gt; После входа вы можете изменить его на предпочитаемый вами пароль в</value>
+  </data>
+  <data name="Popup_Message_PasswordRecoveredP11" xml:space="preserve">
+    <value>Мы отправили вам временный пароль на вашу электронную почту. Вы можете использовать его для входа. &lt;nextline&gt; После входа вы можете изменить его на предпочитаемый вами пароль в</value>
+  </data>
+  <data name="Popup_Message_PasswordRecoveredP2" xml:space="preserve">
+    <value>'Сбросить пароль'</value>
+  </data>
+  <data name="Popup_Message_PasswordRecoveredP21" xml:space="preserve">
+    <value>Сбросить пароль'</value>
+  </data>
+  <data name="Popup_Message_PasswordRecoveredP3" xml:space="preserve">
+    <value>раздел</value>
+  </data>
+  <data name="Popup_Message_PasswordRecoveredP31" xml:space="preserve">
+    <value>раздел</value>
+  </data>
+  <data name="Popup_Message_PatientNameUpdated" xml:space="preserve">
+    <value>Имя пациента обновлено.</value>
+  </data>
+  <data name="Popup_Message_PatientNameUpdated1" xml:space="preserve">
+    <value>Имя пациента обновлено.</value>
+  </data>
+  <data name="Popup_Message_RecoverPassword" xml:space="preserve">
+    <value>Вы уверены, что хотите восстановить свой пароль?</value>
+  </data>
+  <data name="Popup_Message_RecoverPassword1" xml:space="preserve">
+    <value>Вы уверены, что хотите восстановить свой пароль?</value>
+  </data>
+  <data name="Popup_Message_RemoveAnalyzer" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить этот новый анализатор?</value>
+  </data>
+  <data name="Popup_Message_RemoveAnalyzer1" xml:space="preserve">
+    <value>Вы уверены, что хотите удалить этот новый анализатор?</value>
+  </data>
+  <data name="Popup_Message_ReportSettingUpdated" xml:space="preserve">
+    <value>Настройки отчета успешно обновлены.</value>
+  </data>
+  <data name="Popup_Message_ReportSettingUpdated1" xml:space="preserve">
+    <value>Настройки отчета успешно обновлены.</value>
+  </data>
+  <data name="Popup_Message_ResetPassword" xml:space="preserve">
+    <value>Вы уверены, что хотите сбросить пароль?</value>
+  </data>
+  <data name="Popup_Message_ResetPassword1" xml:space="preserve">
+    <value>Вы уверены, что хотите сбросить пароль?</value>
+  </data>
+  <data name="Popup_Message_SavePMSLISHIS" xml:space="preserve">
+    <value>Вы обновили настройки PMS/LIS/HIS. Пожалуйста, войдите в систему ещё раз, чтобы изменения вступили в силу.</value>
+  </data>
+  <data name="Popup_Message_SavePMSLISHIS1" xml:space="preserve">
+    <value>Вы обновили настройки PMS/LIS/HIS. Пожалуйста, войдите в систему ещё раз, чтобы изменения вступили в силу.</value>
+  </data>
+  <data name="Popup_Message_SaveSettings" xml:space="preserve">
+    <value>Вы уверены, что хотите сохранить эту настройку?</value>
+  </data>
+  <data name="Popup_Message_SaveSettings1" xml:space="preserve">
+    <value>Вы уверены, что хотите сохранить эту настройку?</value>
+  </data>
+  <data name="Popup_Message_ScheduleCancel" xml:space="preserve">
+    <value>Запись успешно отменена.</value>
+  </data>
+  <data name="Popup_Message_ScheduleCancel1" xml:space="preserve">
+    <value>Запись успешно отменена.</value>
+  </data>
+  <data name="Popup_Message_SelectAdditionalTestResult" xml:space="preserve">
+    <value>Выберите дополнительный результат теста для включения в отчет.</value>
+  </data>
+  <data name="Popup_Message_SelectAdditionalTestResult1" xml:space="preserve">
+    <value>Выберите дополнительный результат теста для включения в отчет.</value>
+  </data>
+  <data name="Popup_Message_SelectAll" xml:space="preserve">
+    <value>Выбрать все.</value>
+  </data>
+  <data name="Popup_Message_SelectAll1" xml:space="preserve">
+    <value>Выбрать все.</value>
+  </data>
+  <data name="Popup_Message_SelectDevice" xml:space="preserve">
+    <value>Выберите устройство, на которое необходимо отправить запрос.</value>
+  </data>
+  <data name="Popup_Message_SelectDevice1" xml:space="preserve">
+    <value>Выберите устройство, на которое необходимо отправить запрос.</value>
+  </data>
+  <data name="Popup_Message_SelectParameterDownload" xml:space="preserve">
+    <value>Пожалуйста, выберите параметры, которые вы хотите загрузить.</value>
+  </data>
+  <data name="Popup_Message_SelectParameterDownload1" xml:space="preserve">
+    <value>Пожалуйста, выберите параметры, которые вы хотите загрузить.</value>
+  </data>
+  <data name="Popup_Message_SelectParameterPrint" xml:space="preserve">
+    <value>Пожалуйста, выберите параметры, которые вы хотите распечатать.</value>
+  </data>
+  <data name="Popup_Message_SelectParameterPrint1" xml:space="preserve">
+    <value>Пожалуйста, выберите параметры, которые вы хотите распечатать.</value>
+  </data>
+  <data name="Popup_Message_SelectSchedule" xml:space="preserve">
+    <value>Выберите расписание для отправки данных о результатах теста.</value>
+  </data>
+  <data name="Popup_Message_SelectSchedule1" xml:space="preserve">
+    <value>Выберите расписание для отправки данных о результатах теста.</value>
+  </data>
+  <data name="Popup_Message_SentToAnalyzer" xml:space="preserve">
+    <value>Запрос отправлен на анализатор</value>
+  </data>
+  <data name="Popup_Message_SentToAnalyzer1" xml:space="preserve">
+    <value>Запрос отправлен на анализатор</value>
+  </data>
+  <data name="Popup_Message_TheFileIsAt" xml:space="preserve">
+    <value>Файл находится по адресу</value>
+  </data>
+  <data name="Popup_Message_TheFileIsAt1" xml:space="preserve">
+    <value>Файл находится по адресу</value>
+  </data>
+  <data name="Popup_Message_UpdateAnalyzer" xml:space="preserve">
+    <value>Вы уверены, что хотите обновить этот новый анализатор?</value>
+  </data>
+  <data name="Popup_Message_UpdateAnalyzer1" xml:space="preserve">
+    <value>Вы уверены, что хотите обновить этот новый анализатор?</value>
+  </data>
+  <data name="Popup_Message_UpdatePatientName" xml:space="preserve">
+    <value>Введите имя пациента.</value>
+  </data>
+  <data name="Popup_Message_UpdatePatientName1" xml:space="preserve">
+    <value>Введите имя пациента.</value>
+  </data>
+  <data name="Popup_Message_UpdateUser" xml:space="preserve">
+    <value>Вы уверены, что хотите обновить этот профиль пользователя?</value>
+  </data>
+  <data name="Popup_Message_UpdateUser1" xml:space="preserve">
+    <value>Вы уверены, что хотите обновить этот профиль пользователя?</value>
+  </data>
+  <data name="Popup_Message_WrongID" xml:space="preserve">
+    <value>Неверный уникальный идентификатор.</value>
+  </data>
+  <data name="Popup_Message_WrongID1" xml:space="preserve">
+    <value>Неверный уникальный идентификатор.</value>
+  </data>
+  <data name="Report_Label_ClinicAddress" xml:space="preserve">
+    <value>Адрес клиники</value>
+  </data>
+  <data name="Report_Label_ClinicAddress1" xml:space="preserve">
+    <value>Адрес клиники</value>
+  </data>
+  <data name="Report_Label_ClinicName" xml:space="preserve">
+    <value>Название клиники</value>
+  </data>
+  <data name="Report_Label_ClinicName1" xml:space="preserve">
+    <value>Название клиники</value>
+  </data>
+  <data name="Report_Label_DateTime" xml:space="preserve">
+    <value>Дата и время</value>
+  </data>
+  <data name="Report_Label_DateTime1" xml:space="preserve">
+    <value>Дата и время</value>
+  </data>
+  <data name="Report_Label_High" xml:space="preserve">
+    <value>Высокий</value>
+  </data>
+  <data name="Report_Label_High1" xml:space="preserve">
+    <value>Высокий</value>
+  </data>
+  <data name="Report_Label_Low" xml:space="preserve">
+    <value>Низкий</value>
+  </data>
+  <data name="Report_Label_Low1" xml:space="preserve">
+    <value>Низкий</value>
+  </data>
+  <data name="Report_Label_MaxSize" xml:space="preserve">
+    <value>Максимальный размер файла — 2 МБ.</value>
+  </data>
+  <data name="Report_Label_MaxSize1" xml:space="preserve">
+    <value>Максимальный размер файла — 2 МБ.</value>
+  </data>
+  <data name="Report_Label_Parameter" xml:space="preserve">
+    <value>Параметр</value>
+  </data>
+  <data name="Report_Label_Parameter1" xml:space="preserve">
+    <value>Параметр</value>
+  </data>
+  <data name="Report_Label_PoweredBy" xml:space="preserve">
+    <value>Питаться от</value>
+  </data>
+  <data name="Report_Label_PoweredBy1" xml:space="preserve">
+    <value>Питаться от</value>
+  </data>
+  <data name="Report_Label_PreviousRecord" xml:space="preserve">
+    <value>Предыдущая запись</value>
+  </data>
+  <data name="Report_Label_PreviousRecord1" xml:space="preserve">
+    <value>Предыдущая запись</value>
+  </data>
+  <data name="Report_Label_PrintedBy" xml:space="preserve">
+    <value>Напечатано</value>
+  </data>
+  <data name="Report_Label_PrintedBy1" xml:space="preserve">
+    <value>Напечатано</value>
+  </data>
+  <data name="Report_Label_PrintedOn" xml:space="preserve">
+    <value>Напечатано на</value>
+  </data>
+  <data name="Report_Label_PrintedOn1" xml:space="preserve">
+    <value>Напечатано на</value>
+  </data>
+  <data name="Report_Label_Reference" xml:space="preserve">
+    <value>Ссылка</value>
+  </data>
+  <data name="Report_Label_Reference1" xml:space="preserve">
+    <value>Ссылка</value>
+  </data>
+  <data name="Report_Label_Report" xml:space="preserve">
+    <value>Отчет</value>
+  </data>
+  <data name="Report_Label_Report1" xml:space="preserve">
+    <value>Отчет</value>
+  </data>
+  <data name="Report_Label_ReportHeaders" xml:space="preserve">
+    <value>Заголовки для отчета</value>
+  </data>
+  <data name="Report_Label_ReportHeaders1" xml:space="preserve">
+    <value>Заголовки для отчета</value>
+  </data>
+  <data name="Report_Label_ReportSample" xml:space="preserve">
+    <value>Образец отчета</value>
+  </data>
+  <data name="Report_Label_ReportSample1" xml:space="preserve">
+    <value>Образец отчета</value>
+  </data>
+  <data name="Report_Label_ReportTitle" xml:space="preserve">
+    <value>Название отчета</value>
+  </data>
+  <data name="Report_Label_ReportTitle1" xml:space="preserve">
+    <value>Название отчета</value>
+  </data>
+  <data name="Report_Label_ResultStatus" xml:space="preserve">
+    <value>Статус результата</value>
+  </data>
+  <data name="Report_Label_ResultStatus1" xml:space="preserve">
+    <value>Статус результата</value>
+  </data>
+  <data name="Report_Label_ResultValue" xml:space="preserve">
+    <value>Результат Значение</value>
+  </data>
+  <data name="Report_Label_ResultValue1" xml:space="preserve">
+    <value>Результат Значение</value>
+  </data>
+  <data name="Report_Label_Test" xml:space="preserve">
+    <value>Тест</value>
+  </data>
+  <data name="Report_Label_Test1" xml:space="preserve">
+    <value>Тест</value>
+  </data>
+  <data name="Report_Label_UploadLogo" xml:space="preserve">
+    <value>Загрузить логотип</value>
+  </data>
+  <data name="Report_Label_UploadLogo1" xml:space="preserve">
+    <value>Загрузить логотип</value>
+  </data>
+  <data name="ResetPassword_Title_PageTitle" xml:space="preserve">
+    <value>Сбросить пароль</value>
+  </data>
+  <data name="ResetPassword_Title_PageTitle1" xml:space="preserve">
+    <value>Сбросить пароль</value>
+  </data>
+  <data name="Results_Label_Ascending" xml:space="preserve">
+    <value>Результат (по возрастанию)</value>
+  </data>
+  <data name="Results_Label_Ascending1" xml:space="preserve">
+    <value>Результат (по возрастанию)</value>
+  </data>
+  <data name="Results_Label_Descending" xml:space="preserve">
+    <value>Результат (по убыванию)</value>
+  </data>
+  <data name="Results_Label_Descending1" xml:space="preserve">
+    <value>Результат (по убыванию)</value>
+  </data>
+  <data name="Results_Label_DeviceSerialNo" xml:space="preserve">
+    <value>Серийный номер устройства</value>
+  </data>
+  <data name="Results_Label_DeviceSerialNo1" xml:space="preserve">
+    <value>Серийный номер устройства</value>
+  </data>
+  <data name="Results_Label_Doctor" xml:space="preserve">
+    <value>Доктор</value>
+  </data>
+  <data name="Results_Label_Doctor1" xml:space="preserve">
+    <value>Доктор</value>
+  </data>
+  <data name="Results_Label_Download" xml:space="preserve">
+    <value>Скачать</value>
+  </data>
+  <data name="Results_Label_Download1" xml:space="preserve">
+    <value>Скачать</value>
+  </data>
+  <data name="Results_Label_Earliest" xml:space="preserve">
+    <value>Самый ранний</value>
+  </data>
+  <data name="Results_Label_Earliest1" xml:space="preserve">
+    <value>Самый ранний</value>
+  </data>
+  <data name="Results_Label_EditPatientName" xml:space="preserve">
+    <value>Изменить имя пациента</value>
+  </data>
+  <data name="Results_Label_EditPatientName1" xml:space="preserve">
+    <value>Изменить имя пациента</value>
+  </data>
+  <data name="Results_Label_Latest" xml:space="preserve">
+    <value>Последний</value>
+  </data>
+  <data name="Results_Label_Latest1" xml:space="preserve">
+    <value>Последний</value>
+  </data>
+  <data name="Results_Label_Lot" xml:space="preserve">
+    <value>Много</value>
+  </data>
+  <data name="Results_Label_Lot1" xml:space="preserve">
+    <value>Много</value>
+  </data>
+  <data name="Results_Label_No" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="Results_Label_No1" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="Results_Label_OperatorID" xml:space="preserve">
+    <value>Идентификатор оператора</value>
+  </data>
+  <data name="Results_Label_OperatorID1" xml:space="preserve">
+    <value>Идентификатор оператора</value>
+  </data>
+  <data name="Results_Label_PatientID" xml:space="preserve">
+    <value>Идентификатор пациента</value>
+  </data>
+  <data name="Results_Label_PatientID1" xml:space="preserve">
+    <value>Идентификатор пациента</value>
+  </data>
+  <data name="Results_Label_PatientName" xml:space="preserve">
+    <value>Имя пациента</value>
+  </data>
+  <data name="Results_Label_PatientName1" xml:space="preserve">
+    <value>Имя пациента</value>
+  </data>
+  <data name="Results_Label_Print" xml:space="preserve">
+    <value>Печать</value>
+  </data>
+  <data name="Results_Label_Print1" xml:space="preserve">
+    <value>Печать</value>
+  </data>
+  <data name="Results_Label_ProceduralCont" xml:space="preserve">
+    <value>Процедурный контроль</value>
+  </data>
+  <data name="Results_Label_ProceduralCont1" xml:space="preserve">
+    <value>Процедурный контроль</value>
+  </data>
+  <data name="Results_Label_Result" xml:space="preserve">
+    <value>Результат</value>
+  </data>
+  <data name="Results_Label_Result1" xml:space="preserve">
+    <value>Результат</value>
+  </data>
+  <data name="Results_Label_Searchbar" xml:space="preserve">
+    <value>Поиск по ключевому слову</value>
+  </data>
+  <data name="Results_Label_Searchbar1" xml:space="preserve">
+    <value>Поиск по ключевому слову</value>
+  </data>
+  <data name="Results_Label_SendToPMS" xml:space="preserve">
+    <value>Отправить в ПМС</value>
+  </data>
+  <data name="Results_Label_SendToPMS1" xml:space="preserve">
+    <value>Отправить в ПМС</value>
+  </data>
+  <data name="Results_Label_SortBy" xml:space="preserve">
+    <value>Сортировать по :</value>
+  </data>
+  <data name="Results_Label_SortBy1" xml:space="preserve">
+    <value>Сортировать по :</value>
+  </data>
+  <data name="Results_Label_TestResultType" xml:space="preserve">
+    <value>Тип результата теста</value>
+  </data>
+  <data name="Results_Label_TestResultType1" xml:space="preserve">
+    <value>Тип результата теста</value>
+  </data>
+  <data name="Results_Label_Time" xml:space="preserve">
+    <value>Время</value>
+  </data>
+  <data name="Results_Label_Time1" xml:space="preserve">
+    <value>Время</value>
+  </data>
+  <data name="Results_Label_Units" xml:space="preserve">
+    <value>Единицы</value>
+  </data>
+  <data name="Results_Label_Units1" xml:space="preserve">
+    <value>Единицы</value>
+  </data>
+  <data name="Results_Label_UpdateFilter" xml:space="preserve">
+    <value>Обновить фильтр</value>
+  </data>
+  <data name="Results_Label_UpdateFilter1" xml:space="preserve">
+    <value>Обновить фильтр</value>
+  </data>
+  <data name="Results_Label_Valid" xml:space="preserve">
+    <value>Действительно до</value>
+  </data>
+  <data name="Results_Label_Valid1" xml:space="preserve">
+    <value>Действительно до</value>
+  </data>
+  <data name="Results_Label_View" xml:space="preserve">
+    <value>Вид</value>
+  </data>
+  <data name="Results_Label_View1" xml:space="preserve">
+    <value>Вид</value>
+  </data>
+  <data name="Results_Message_DownloadComplete" xml:space="preserve">
+    <value>Загрузка списка результатов завершена.</value>
+  </data>
+  <data name="Results_Message_DownloadComplete1" xml:space="preserve">
+    <value>Загрузка списка результатов завершена.</value>
+  </data>
+  <data name="Results_Message_TestResultDownloadCompleted" xml:space="preserve">
+    <value>Загрузка результатов теста завершена.</value>
+  </data>
+  <data name="Results_Message_TestResultDownloadCompleted1" xml:space="preserve">
+    <value>Загрузка результатов теста завершена.</value>
+  </data>
+  <data name="Results_Title_PageTitle" xml:space="preserve">
+    <value>Результаты</value>
+  </data>
+  <data name="Results_Title_PageTitle1" xml:space="preserve">
+    <value>Результаты</value>
+  </data>
+  <data name="Schedule_Label_Abnormal" xml:space="preserve">
+    <value>Аномальный</value>
+  </data>
+  <data name="Schedule_Label_Abnormal1" xml:space="preserve">
+    <value>Аномальный</value>
+  </data>
+  <data name="Schedule_Label_Cancelled" xml:space="preserve">
+    <value>Отменено</value>
+  </data>
+  <data name="Schedule_Label_Cancelled1" xml:space="preserve">
+    <value>Отменено</value>
+  </data>
+  <data name="Schedule_Label_CancelSchedule" xml:space="preserve">
+    <value>Отменить расписание</value>
+  </data>
+  <data name="Schedule_Label_CancelSchedule1" xml:space="preserve">
+    <value>Отменить расписание</value>
+  </data>
+  <data name="Schedule_Label_General" xml:space="preserve">
+    <value>Общее</value>
+  </data>
+  <data name="Schedule_Label_General1" xml:space="preserve">
+    <value>Общее</value>
+  </data>
+  <data name="Schedule_Label_NewPatients" xml:space="preserve">
+    <value>Новые пациенты</value>
+  </data>
+  <data name="Schedule_Label_NewPatients1" xml:space="preserve">
+    <value>Новые пациенты</value>
+  </data>
+  <data name="Schedule_Label_Normal" xml:space="preserve">
+    <value>Нормальный</value>
+  </data>
+  <data name="Schedule_Label_Normal1" xml:space="preserve">
+    <value>Нормальный</value>
+  </data>
+  <data name="Schedule_Label_NoScheduleTestAvailable" xml:space="preserve">
+    <value>Запланированных тестов нет.</value>
+  </data>
+  <data name="Schedule_Label_NoScheduleTestAvailable1" xml:space="preserve">
+    <value>Запланированных тестов нет.</value>
+  </data>
+  <data name="Schedule_Label_NoTestResultAvailable" xml:space="preserve">
+    <value>Результаты тестов отсутствуют.</value>
+  </data>
+  <data name="Schedule_Label_NoTestResultAvailable1" xml:space="preserve">
+    <value>Результаты тестов отсутствуют.</value>
+  </data>
+  <data name="Schedule_Label_OrderedTest" xml:space="preserve">
+    <value>Заказанный тест</value>
+  </data>
+  <data name="Schedule_Label_OrderedTest1" xml:space="preserve">
+    <value>Заказанный тест</value>
+  </data>
+  <data name="Schedule_Label_PatientID" xml:space="preserve">
+    <value>Идентификатор пациента:</value>
+  </data>
+  <data name="Schedule_Label_PatientID1" xml:space="preserve">
+    <value>Идентификатор пациента:</value>
+  </data>
+  <data name="Schedule_Label_Patients" xml:space="preserve">
+    <value>Пациенты</value>
+  </data>
+  <data name="Schedule_Label_Patients1" xml:space="preserve">
+    <value>Пациенты</value>
+  </data>
+  <data name="Schedule_Label_Pending" xml:space="preserve">
+    <value>Ожидание</value>
+  </data>
+  <data name="Schedule_Label_Pending1" xml:space="preserve">
+    <value>Ожидание</value>
+  </data>
+  <data name="Schedule_Label_RecentTestResults" xml:space="preserve">
+    <value>Результаты последних тестов</value>
+  </data>
+  <data name="Schedule_Label_RecentTestResults1" xml:space="preserve">
+    <value>Результаты последних тестов</value>
+  </data>
+  <data name="Schedule_Label_ResultSentToVV" xml:space="preserve">
+    <value>Результат отправлен в VV</value>
+  </data>
+  <data name="Schedule_Label_ResultSentToVV1" xml:space="preserve">
+    <value>Результат отправлен в VV</value>
+  </data>
+  <data name="Schedule_Label_SendToAnalyzer" xml:space="preserve">
+    <value>Отправить в анализатор</value>
+  </data>
+  <data name="Schedule_Label_SendToAnalyzer1" xml:space="preserve">
+    <value>Отправить в анализатор</value>
+  </data>
+  <data name="Schedule_Label_SentToAnalyzer" xml:space="preserve">
+    <value>Отправлено в анализатор</value>
+  </data>
+  <data name="Schedule_Label_SentToAnalyzer1" xml:space="preserve">
+    <value>Отправлено в анализатор</value>
+  </data>
+  <data name="Schedule_Label_SentToPIMS" xml:space="preserve">
+    <value>Отправлено в PIMS</value>
+  </data>
+  <data name="Schedule_Label_SentToPIMS1" xml:space="preserve">
+    <value>Отправлено в PIMS</value>
+  </data>
+  <data name="Schedule_Label_Tests" xml:space="preserve">
+    <value>Тесты</value>
+  </data>
+  <data name="Schedule_Label_Tests1" xml:space="preserve">
+    <value>Тесты</value>
+  </data>
+  <data name="Schedule_Label_TestsDone" xml:space="preserve">
+    <value>Тесты сделаны</value>
+  </data>
+  <data name="Schedule_Label_TestsDone1" xml:space="preserve">
+    <value>Тесты сделаны</value>
+  </data>
+  <data name="Schedule_Label_UniqueID" xml:space="preserve">
+    <value>Уникальный идентификатор:</value>
+  </data>
+  <data name="Schedule_Label_UniqueID1" xml:space="preserve">
+    <value>Уникальный идентификатор:</value>
+  </data>
+  <data name="Schedule_Label_UpcomingTest" xml:space="preserve">
+    <value>Предстоящий тест</value>
+  </data>
+  <data name="Schedule_Label_UpcomingTest1" xml:space="preserve">
+    <value>Предстоящий тест</value>
+  </data>
+  <data name="Schedule_Label_ViewReport" xml:space="preserve">
+    <value>Просмотреть отчет</value>
+  </data>
+  <data name="Schedule_Label_ViewReport1" xml:space="preserve">
+    <value>Просмотреть отчет</value>
+  </data>
+  <data name="Schedule_Label_ViewSchedulePMS" xml:space="preserve">
+    <value>Посмотреть расписание в PMS</value>
+  </data>
+  <data name="Schedule_Label_ViewSchedulePMS1" xml:space="preserve">
+    <value>Посмотреть расписание в PMS</value>
+  </data>
+  <data name="Schedule_Title_PageTitle" xml:space="preserve">
+    <value>Расписание</value>
+  </data>
+  <data name="Schedule_Title_PageTitle1" xml:space="preserve">
+    <value>Расписание</value>
+  </data>
+  <data name="Setting_ErrorMessage_DateFormat" xml:space="preserve">
+    <value>Введите дату в правильном формате.</value>
+  </data>
+  <data name="Setting_ErrorMessage_DateFormat1" xml:space="preserve">
+    <value>Введите дату в правильном формате.</value>
+  </data>
+  <data name="Setting_ErrorMessage_EmailFormat" xml:space="preserve">
+    <value>Это поле должно содержать символ «@» и «.com».</value>
+  </data>
+  <data name="Setting_ErrorMessage_EmailFormat1" xml:space="preserve">
+    <value>Это поле должно содержать символ «@» и «.com».</value>
+  </data>
+  <data name="Setting_ErrorMessage_FiveCharMin" xml:space="preserve">
+    <value>Это поле должно содержать не менее 5 символов.</value>
+  </data>
+  <data name="Setting_ErrorMessage_FiveCharMin1" xml:space="preserve">
+    <value>Это поле должно содержать не менее 5 символов.</value>
+  </data>
+  <data name="Setting_ErrorMessage_InvalidIP" xml:space="preserve">
+    <value>Введен неверный IP-адрес</value>
+  </data>
+  <data name="Setting_ErrorMessage_InvalidIP1" xml:space="preserve">
+    <value>Введен неверный IP-адрес</value>
+  </data>
+  <data name="Setting_ErrorMessage_MandatoryField" xml:space="preserve">
+    <value>Это обязательное поле.</value>
+  </data>
+  <data name="Setting_ErrorMessage_MandatoryField1" xml:space="preserve">
+    <value>Это обязательное поле.</value>
+  </data>
+  <data name="Setting_ErrorMessage_TwoCharMin" xml:space="preserve">
+    <value>Это поле должно содержать не менее 2 символов.</value>
+  </data>
+  <data name="Setting_ErrorMessage_TwoCharMin1" xml:space="preserve">
+    <value>Это поле должно содержать не менее 2 символов.</value>
+  </data>
+  <data name="Setting_Label_BackButton" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="Setting_Label_BackButton1" xml:space="preserve">
+    <value>Назад</value>
+  </data>
+  <data name="Setting_Label_Country" xml:space="preserve">
+    <value>Страна</value>
+  </data>
+  <data name="Setting_Label_Country1" xml:space="preserve">
+    <value>Страна</value>
+  </data>
+  <data name="Setting_Label_CreateUser" xml:space="preserve">
+    <value>Создать пользователя</value>
+  </data>
+  <data name="Setting_Label_CreateUser1" xml:space="preserve">
+    <value>Создать пользователя</value>
+  </data>
+  <data name="Setting_Label_DateOfBirth" xml:space="preserve">
+    <value>Дата рождения</value>
+  </data>
+  <data name="Setting_Label_DateOfBirth1" xml:space="preserve">
+    <value>Дата рождения</value>
+  </data>
+  <data name="Setting_Label_Device" xml:space="preserve">
+    <value>Устройство</value>
+  </data>
+  <data name="Setting_Label_Device1" xml:space="preserve">
+    <value>Устройство</value>
+  </data>
+  <data name="Setting_Label_DeviceType" xml:space="preserve">
+    <value>Тип устройства</value>
+  </data>
+  <data name="Setting_Label_DeviceType1" xml:space="preserve">
+    <value>Тип устройства</value>
+  </data>
+  <data name="Setting_Label_Email" xml:space="preserve">
+    <value>Адрес электронной почты</value>
+  </data>
+  <data name="Setting_Label_Email1" xml:space="preserve">
+    <value>Адрес электронной почты</value>
+  </data>
+  <data name="Setting_Label_FullName" xml:space="preserve">
+    <value>Полное имя</value>
+  </data>
+  <data name="Setting_Label_FullName1" xml:space="preserve">
+    <value>Полное имя</value>
+  </data>
+  <data name="Setting_Label_Gender" xml:space="preserve">
+    <value>Пол</value>
+  </data>
+  <data name="Setting_Label_Gender1" xml:space="preserve">
+    <value>Пол</value>
+  </data>
+  <data name="Setting_Label_Language" xml:space="preserve">
+    <value>Язык</value>
+  </data>
+  <data name="Setting_Label_Language1" xml:space="preserve">
+    <value>Язык</value>
+  </data>
+  <data name="Setting_Label_LanguageCountry" xml:space="preserve">
+    <value>Язык и страна</value>
+  </data>
+  <data name="Setting_Label_LanguageCountry1" xml:space="preserve">
+    <value>Язык и страна</value>
+  </data>
+  <data name="Setting_Label_LoginID" xml:space="preserve">
+    <value>Идентификатор входа</value>
+  </data>
+  <data name="Setting_Label_LoginID1" xml:space="preserve">
+    <value>Идентификатор входа</value>
+  </data>
+  <data name="Setting_Label_RegistrationNo" xml:space="preserve">
+    <value>Регистрационный номер врача</value>
+  </data>
+  <data name="Setting_Label_RegistrationNo1" xml:space="preserve">
+    <value>Регистрационный номер врача</value>
+  </data>
+  <data name="Setting_Label_Role" xml:space="preserve">
+    <value>Роль пользователя</value>
+  </data>
+  <data name="Setting_Label_Role1" xml:space="preserve">
+    <value>Роль пользователя</value>
+  </data>
+  <data name="Setting_Label_SelectCountry" xml:space="preserve">
+    <value>Выберите страну</value>
+  </data>
+  <data name="Setting_Label_SelectCountry1" xml:space="preserve">
+    <value>Выберите страну</value>
+  </data>
+  <data name="Setting_Label_SelectLanguage" xml:space="preserve">
+    <value>Выберите язык</value>
+  </data>
+  <data name="Setting_Label_SelectLanguage1" xml:space="preserve">
+    <value>Выберите язык</value>
+  </data>
+  <data name="Setting_Label_StaffID" xml:space="preserve">
+    <value>Идентификатор персонала</value>
+  </data>
+  <data name="Setting_Label_StaffID1" xml:space="preserve">
+    <value>Идентификатор персонала</value>
+  </data>
+  <data name="Setting_Label_StaffName" xml:space="preserve">
+    <value>Имя сотрудника</value>
+  </data>
+  <data name="Setting_Label_StaffName1" xml:space="preserve">
+    <value>Имя сотрудника</value>
+  </data>
+  <data name="Setting_Label_Status" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="Setting_Label_Status1" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="Setting_Label_Title" xml:space="preserve">
+    <value>Заголовок</value>
+  </data>
+  <data name="Setting_Label_Title1" xml:space="preserve">
+    <value>Заголовок</value>
+  </data>
+  <data name="Setting_Label_User" xml:space="preserve">
+    <value>Пользователь</value>
+  </data>
+  <data name="Setting_Label_User1" xml:space="preserve">
+    <value>Пользователь</value>
+  </data>
+  <data name="Setting_Label_UserBackButton" xml:space="preserve">
+    <value>Вернуться к списку пользователей</value>
+  </data>
+  <data name="Setting_Label_UserBackButton1" xml:space="preserve">
+    <value>Вернуться к списку пользователей</value>
+  </data>
+  <data name="Setting_Message_NoUserData" xml:space="preserve">
+    <value>Пользователь не существовал</value>
+  </data>
+  <data name="Setting_Message_NoUserData1" xml:space="preserve">
+    <value>Пользователь не существовал</value>
+  </data>
+  <data name="Setting_Title_PageTitle" xml:space="preserve">
+    <value>Параметр</value>
+  </data>
+  <data name="Setting_Title_PageTitle1" xml:space="preserve">
+    <value>Параметр</value>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>ru</value>
+  </data>
+</root>

@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Obfuscator>
+	<Var name="InPath" value="." />
+	<Var name="OutPath" value=".\OutputExe\" />
+	<Var name="HideStrings" value="true" />
+	<Var name="KeepPublicApi" value="true" />
+	<Var name="HidePrivateApi" value="false" />	
+	<Var name="RenameProperties" value="true" />
+	<Var name="RenameEvents" value="true" />
+	<Var name="RenameFields" value="true" />
+	<Var name="UseUnicodeNames" value="true" />
+	<Var name="OptimizeMethods" value="true" />
+	<Var name="SuppressIldasm" value="true" />
+
+	<AssemblySearchPath path="C:\Dev\VCheck\VCheckViewer_Others\bin\Debug\net8.0-windows" />
+	<AssemblySearchPath path="C:\Users\SVRke\.nuget\packages\log4net\3.0.3\lib\net462" />
+	<AssemblySearchPath path="C:\Users\SVRke\.nuget\packages\bouncycastle.cryptography\2.3.1\lib\net461" />
+	<AssemblySearchPath path="C:\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.10\ref\net8.0" />
+	<AssemblySearchPath path="C:\Users\SVRke\.nuget\packages\microsoft.entityframeworkcore.relational\8.0.6\lib\net8.0" />
+	<AssemblySearchPath path="C:\Users\SVRke\.nuget\packages\microsoft.aspnetcore.identity.entityframeworkcore\8.0.6\lib\net8.0" />
+	<AssemblySearchPath path="C:\Users\SVRke\.nuget\packages\microsoft.entityframeworkcore\8.0.10\lib\net8.0" />
+	<AssemblySearchPath path="C:\Users\SVRke\.nuget\packages\microsoft.entityframeworkcore.abstractions\8.0.6\lib\net8.0" />
+
+	<Module file="C:\Dev\VCheck\VCheckViewer_Others\bin\Release\net8.0-windows\VCheck.Helper.dll" />
+	<Module file="C:\Dev\VCheck\VCheckViewer_Others\bin\Release\net8.0-windows\VCheck.Lib.Data.dll" />
+	<Module file="C:\Dev\VCheck\VCheckViewer_Others\bin\Release\net8.0-windows\VCheck.Interface.API.dll" />
+	<Module file="C:\\Dev\\VCheck\\VCheckViewer_Others\\bin\\Release\\net8.0-windows\\VCheckViewer_Others.dll" />
+</Obfuscator>

@@ -95,6 +95,8 @@ namespace VCheckListenerWorker.Lib.PMS
             sPanelObj.source = "";
             sPanelObj.resultdate = sTestResults.CreatedDate.Value.ToString("yyyy-MM-dd HH:mm:ss");
 
+            var initialParameterID = sTestCode + "-" + sOrderID;
+
 
             var sDetailsObj = sTestResultDetails;
             if (sDetailsObj != null && sDetailsObj.Count > 0)
@@ -178,8 +180,9 @@ namespace VCheckListenerWorker.Lib.PMS
                     {
                         name = Parameter,
                         //code = "Test4-" + count++,
-                        code = sTestCode + "-" + count++,
+                        //code = sTestCode + "-" + count++,
                         //code = sTestCode + "-" + UniqueCode,
+                        code = initialParameterID + "-" + count++,
                         result = d.TestResultValue,
                         referencelow = referenceLow,
                         referencehigh = referenceHigh,

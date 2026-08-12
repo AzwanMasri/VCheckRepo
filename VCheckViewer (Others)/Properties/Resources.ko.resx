@@ -1,0 +1,1017 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ClinicInfo_Button_Connect" xml:space="preserve">
+    <value>연결</value>
+  </data>
+  <data name="ClinicInfo_Label_City" xml:space="preserve">
+    <value>도시</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicAddress" xml:space="preserve">
+    <value>병원 주소</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicInfo" xml:space="preserve">
+    <value>진료소 정보</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicInformation" xml:space="preserve">
+    <value>진료소 정보</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicName" xml:space="preserve">
+    <value>병원 이름</value>
+  </data>
+  <data name="ClinicInfo_Label_ClinicPhoneNumber" xml:space="preserve">
+    <value>진료소 전화번호</value>
+  </data>
+  <data name="ClinicInfo_Label_CountryCode" xml:space="preserve">
+    <value>국가 번호</value>
+  </data>
+  <data name="ClinicInfo_Label_PhoneNumber" xml:space="preserve">
+    <value>전화번호</value>
+  </data>
+  <data name="ClinicInfo_Label_PrimaryContactName" xml:space="preserve">
+    <value>주 연락처 이름</value>
+  </data>
+  <data name="ClinicInfo_Label_SearchClinic" xml:space="preserve">
+    <value>진료소 검색</value>
+  </data>
+  <data name="ClinicInfo_Label_State" xml:space="preserve">
+    <value>주</value>
+  </data>
+  <data name="Configuration_Label_Button_Update" xml:space="preserve">
+    <value>업데이트</value>
+  </data>
+  <data name="Configuration_Label_Other" xml:space="preserve">
+    <value>기타</value>
+  </data>
+  <data name="Configuration_Label_PMS_LIS_HIS" xml:space="preserve">
+    <value>PMS / LIS / HIS IP 주소</value>
+  </data>
+  <data name="Configuration_Label_PMS_LIS_HIS_PortNo" xml:space="preserve">
+    <value>PMS / LIS / HIS 포트 번호</value>
+  </data>
+  <data name="Configuration_Label_UsernameClientID" xml:space="preserve">
+    <value>사용자 이름/클라이언트 ID</value>
+  </data>
+  <data name="Configuration_Label_UsernameClientSecret" xml:space="preserve">
+    <value>비밀번호/클라이언트 비밀번호</value>
+  </data>
+  <data name="Dashboard_Label_Loading" xml:space="preserve">
+    <value>로딩중...</value>
+  </data>
+  <data name="Dashboard_Label_Negative" xml:space="preserve">
+    <value>음성</value>
+  </data>
+  <data name="Dashboard_Label_Positive" xml:space="preserve">
+    <value>양성</value>
+  </data>
+  <data name="Dashboard_Message_DownloadLatest" xml:space="preserve">
+    <value>정기적으로 분석기 소프트웨어와 펌웨어를 업데이트하여 최적의 성능을 보장하세요.&lt;nextline&gt;분석기의 최신 버전을 받으세요.</value>
+  </data>
+  <data name="Dashboard_Title_PageTitle" xml:space="preserve">
+    <value>계기반</value>
+  </data>
+  <data name="Device_Label_AddedDevices" xml:space="preserve">
+    <value>추가된 장치</value>
+  </data>
+  <data name="Device_Label_Button_Add" xml:space="preserve">
+    <value>추가하다</value>
+  </data>
+  <data name="Device_Label_Button_BackDevice" xml:space="preserve">
+    <value>장치로 돌아가기</value>
+  </data>
+  <data name="Device_Label_Button_BackViewDevice" xml:space="preserve">
+    <value>장치 보기로 돌아가기</value>
+  </data>
+  <data name="Device_Label_Button_Cancel" xml:space="preserve">
+    <value>취소</value>
+  </data>
+  <data name="Device_Label_Button_Delete" xml:space="preserve">
+    <value>삭제</value>
+  </data>
+  <data name="Device_Label_Button_Edit" xml:space="preserve">
+    <value>편집하다</value>
+  </data>
+  <data name="Device_Label_Button_Update" xml:space="preserve">
+    <value>업데이트</value>
+  </data>
+  <data name="Device_Label_DeviceIPAddress" xml:space="preserve">
+    <value>장치 IP 주소</value>
+  </data>
+  <data name="Device_Label_DeviceName" xml:space="preserve">
+    <value>장치 이름</value>
+  </data>
+  <data name="General_Label_Busy" xml:space="preserve">
+    <value>바쁘다</value>
+  </data>
+  <data name="General_Label_Create" xml:space="preserve">
+    <value>만들다</value>
+  </data>
+  <data name="General_Label_Delete" xml:space="preserve">
+    <value>삭제</value>
+  </data>
+  <data name="General_Label_Download" xml:space="preserve">
+    <value>다운로드</value>
+  </data>
+  <data name="General_Label_Edit" xml:space="preserve">
+    <value>편집하다</value>
+  </data>
+  <data name="General_Label_Next" xml:space="preserve">
+    <value>다음</value>
+  </data>
+  <data name="General_Label_No" xml:space="preserve">
+    <value>아니요</value>
+  </data>
+  <data name="General_Label_Number" xml:space="preserve">
+    <value>아니요.</value>
+  </data>
+  <data name="General_Label_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="General_Label_Prev" xml:space="preserve">
+    <value>이전</value>
+  </data>
+  <data name="General_Label_Previous" xml:space="preserve">
+    <value>이전</value>
+  </data>
+  <data name="General_Label_Ready" xml:space="preserve">
+    <value>준비가 된</value>
+  </data>
+  <data name="General_Label_Save" xml:space="preserve">
+    <value>구하다</value>
+  </data>
+  <data name="General_Label_Searchbar" xml:space="preserve">
+    <value>찾다</value>
+  </data>
+  <data name="General_Label_SelectDuration" xml:space="preserve">
+    <value>기간을 선택하세요</value>
+  </data>
+  <data name="General_Label_Send" xml:space="preserve">
+    <value>보내다</value>
+  </data>
+  <data name="General_Label_ThreeDaysReminder" xml:space="preserve">
+    <value>3일 후에 다시 알림</value>
+  </data>
+  <data name="General_Label_Update" xml:space="preserve">
+    <value>업데이트</value>
+  </data>
+  <data name="General_Label_View" xml:space="preserve">
+    <value>보다</value>
+  </data>
+  <data name="General_Label_Yes" xml:space="preserve">
+    <value>예</value>
+  </data>
+  <data name="General_Message_Error" xml:space="preserve">
+    <value>처리할 수 없습니다. 관리자에게 문의하세요.</value>
+  </data>
+  <data name="General_Message_ErrorOccured" xml:space="preserve">
+    <value>오류가 발생합니다. 관리자에게 문의하십시오.</value>
+  </data>
+  <data name="General_Message_NewVersionAvailable" xml:space="preserve">
+    <value>새로운 Vcheck 뷰어 버전이 출시되었습니다. 새 버전을 다운로드하시겠습니까?</value>
+  </data>
+  <data name="General_Message_NewVersionNotification" xml:space="preserve">
+    <value>새 버전 알림</value>
+  </data>
+  <data name="General_Message_NoChanges" xml:space="preserve">
+    <value>변경 사항이 감지되지 않았습니다.</value>
+  </data>
+  <data name="General_Message_NoCompletedTest" xml:space="preserve">
+    <value>완료된 테스트가 없습니다.</value>
+  </data>
+  <data name="General_Message_NoData" xml:space="preserve">
+    <value>사용 가능한 데이터가 없습니다</value>
+  </data>
+  <data name="General_Message_NoDevice" xml:space="preserve">
+    <value>사용 가능한 장치가 없습니다.</value>
+  </data>
+  <data name="General_Message_NoNotification" xml:space="preserve">
+    <value>알림이 제공되지 않습니다.</value>
+  </data>
+  <data name="General_Message_NoScheduleTest" xml:space="preserve">
+    <value>예정된 테스트가 없습니다.</value>
+  </data>
+  <data name="General_Message_RemindThreeDays" xml:space="preserve">
+    <value>3일 후에 다시 알려드리겠습니다.</value>
+  </data>
+  <data name="General_Message_VCheckAlreadyOpen" xml:space="preserve">
+    <value>VCheck Viewer 인스턴스가 이미 열려 있습니다. 새 인스턴스를 열기 전에 이전 인스턴스를 닫으세요.</value>
+  </data>
+  <data name="Login_ErrorMessage_AccountDeactivated" xml:space="preserve">
+    <value>계정이 비활성화되었습니다. 관리자에게 문의하세요.</value>
+  </data>
+  <data name="Login_ErrorMessage_AccountLocked" xml:space="preserve">
+    <value>계정이 잠겨 있습니다. 관리자에게 문의하십시오.</value>
+  </data>
+  <data name="Login_ErrorMessage_AccountNotConfirmed" xml:space="preserve">
+    <value>계정이 아직 확인되지 않았습니다. 이메일을 통해 계정을 확인하십시오.</value>
+  </data>
+  <data name="Login_ErrorMessage_NoLowerCase" xml:space="preserve">
+    <value>최소한 하나의 소문자가 필요합니다.</value>
+  </data>
+  <data name="Login_ErrorMessage_NoNumberChar" xml:space="preserve">
+    <value>최소한 하나의 숫자.</value>
+  </data>
+  <data name="Login_ErrorMessage_NoSpecialChar" xml:space="preserve">
+    <value>특수문자가 하나 이상 필요합니다.</value>
+  </data>
+  <data name="Login_ErrorMessage_NoUpperCase" xml:space="preserve">
+    <value>대문자가 하나 이상 있어야 합니다.</value>
+  </data>
+  <data name="Login_ErrorMessage_PasswordLessEightChar" xml:space="preserve">
+    <value>이 필드에는 최소 8자 이상 입력해야 합니다.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongEmail" xml:space="preserve">
+    <value>계정에 연결된 이메일이 잘못되었습니다. 올바른 이메일인지 확인하고 다시 시도하세요.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongLoginID" xml:space="preserve">
+    <value>잘못된 로그인 ID입니다.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongLoginIDRecovery" xml:space="preserve">
+    <value>로그인 ID에 따라 사용자를 찾을 수 없습니다. 올바른 로그인 ID인지 확인하고 다시 시도하십시오.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongPassword" xml:space="preserve">
+    <value>비밀번호가 잘못되었습니다. 계정이 잠기기까지 &lt;attemptcount&gt;번의 시도가 남았습니다.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongUsernameEmail" xml:space="preserve">
+    <value>로그인 ID와 이메일 주소가 일치하지 않습니다.</value>
+  </data>
+  <data name="Login_ErrorMessage_WrongUsernamePassword" xml:space="preserve">
+    <value>로그인 ID 또는 비밀번호가 올바르지 않습니다.</value>
+  </data>
+  <data name="Login_Label_BackButton" xml:space="preserve">
+    <value>로그인으로 돌아가기</value>
+  </data>
+  <data name="Login_Label_ConfirmPassword" xml:space="preserve">
+    <value>새 비밀번호 확인</value>
+  </data>
+  <data name="Login_Label_ForgetPassword" xml:space="preserve">
+    <value>비밀번호를 잊으셨나요?</value>
+  </data>
+  <data name="Login_Label_LeftMain" xml:space="preserve">
+    <value>정확한&lt;nextline&gt;결과를 빠르게 얻으세요.</value>
+  </data>
+  <data name="Login_Label_LeftSub" xml:space="preserve">
+    <value>계정에 접속하려면 로그인하세요</value>
+  </data>
+  <data name="Login_Label_LoginButton" xml:space="preserve">
+    <value>로그인</value>
+  </data>
+  <data name="Login_Label_MainPassword" xml:space="preserve">
+    <value>비밀번호</value>
+  </data>
+  <data name="Login_Label_MainUsername" xml:space="preserve">
+    <value>사용자 이름</value>
+  </data>
+  <data name="Login_Label_NewPassword" xml:space="preserve">
+    <value>새 비밀번호</value>
+  </data>
+  <data name="Login_Label_OldPassword" xml:space="preserve">
+    <value>이전 비밀번호</value>
+  </data>
+  <data name="Login_Label_PasswordRecovery" xml:space="preserve">
+    <value>비밀번호&lt;nextline&gt;복구</value>
+  </data>
+  <data name="Login_Label_RegisterButton" xml:space="preserve">
+    <value>등록하다</value>
+  </data>
+  <data name="Login_Label_ResetPassword" xml:space="preserve">
+    <value>비밀번호 재설정</value>
+  </data>
+  <data name="Login_Message_CreatePasswordError" xml:space="preserve">
+    <value>비밀번호를 생성하는 중 오류가 발생했습니다. 관리자에게 문의하세요.</value>
+  </data>
+  <data name="Login_Message_PasswordNewConfirmMismatch" xml:space="preserve">
+    <value>새 비밀번호와 확인 비밀번호가 일치하지 않습니다.</value>
+  </data>
+  <data name="Login_Message_PasswordRecovery" xml:space="preserve">
+    <value>이메일 주소를 입력해 주시면 비밀번호를 재설정할 수 있는 링크를 보내드립니다.</value>
+  </data>
+  <data name="Login_Message_PasswordRequirement" xml:space="preserve">
+    <value>비밀번호는 숫자 1개, 소문자 1개, 대문자 1개를 최소 8자리로 구성해야 합니다.</value>
+  </data>
+  <data name="Login_Message_PasswordResetted" xml:space="preserve">
+    <value>비밀번호가 성공적으로 재설정되었습니다.</value>
+  </data>
+  <data name="Login_Message_RemovePasswordError" xml:space="preserve">
+    <value>비밀번호를 제거하는 중 오류가 발생했습니다. 관리자에게 문의하세요.</value>
+  </data>
+  <data name="Login_Message_WrongCurrentPassword" xml:space="preserve">
+    <value>현재 비밀번호가 잘못되었습니다.</value>
+  </data>
+  <data name="Login_Message_WrongNewPassword" xml:space="preserve">
+    <value>잘못된 새 비밀번호입니다.</value>
+  </data>
+  <data name="Login_Title_PageTitle" xml:space="preserve">
+    <value>로그인</value>
+  </data>
+  <data name="Maintenance_Label_API" xml:space="preserve">
+    <value>API</value>
+  </data>
+  <data name="Maintenance_Label_ApplicationInformation" xml:space="preserve">
+    <value>애플리케이션 정보</value>
+  </data>
+  <data name="Maintenance_Label_Checking" xml:space="preserve">
+    <value>확인 중..</value>
+  </data>
+  <data name="Maintenance_Label_Connected" xml:space="preserve">
+    <value>연결됨</value>
+  </data>
+  <data name="Maintenance_Label_EnvironmentInformation" xml:space="preserve">
+    <value>환경 정보</value>
+  </data>
+  <data name="Maintenance_Label_Information" xml:space="preserve">
+    <value>정보</value>
+  </data>
+  <data name="Maintenance_Label_Listener" xml:space="preserve">
+    <value>리스너</value>
+  </data>
+  <data name="Maintenance_Label_ListenerIPAddr" xml:space="preserve">
+    <value>리스너 IP 주소</value>
+  </data>
+  <data name="Maintenance_Label_ListenerPortNo" xml:space="preserve">
+    <value>리스너 포트 번호</value>
+  </data>
+  <data name="Maintenance_Label_None" xml:space="preserve">
+    <value>없음</value>
+  </data>
+  <data name="Maintenance_Label_NotConnected" xml:space="preserve">
+    <value>연결되지 않음</value>
+  </data>
+  <data name="Maintenance_Label_NotRunning" xml:space="preserve">
+    <value>실행 중이 아님</value>
+  </data>
+  <data name="Maintenance_Label_Refresh" xml:space="preserve">
+    <value>새로 고침</value>
+  </data>
+  <data name="Maintenance_Label_Running" xml:space="preserve">
+    <value>실행 중</value>
+  </data>
+  <data name="Maintenance_Label_VCheckAPI" xml:space="preserve">
+    <value>VCheck API</value>
+  </data>
+  <data name="Maintenance_Label_VCheckListener" xml:space="preserve">
+    <value>VCheck 리스너</value>
+  </data>
+  <data name="Maintenance_Label_Version" xml:space="preserve">
+    <value>버전</value>
+  </data>
+  <data name="Maintenance_Title_PageTitle" xml:space="preserve">
+    <value>유지 관리</value>
+  </data>
+  <data name="Main_Label_Exit" xml:space="preserve">
+    <value>종료</value>
+  </data>
+  <data name="Main_Label_Logout" xml:space="preserve">
+    <value>로그아웃</value>
+  </data>
+  <data name="Main_Label_ResetPassword" xml:space="preserve">
+    <value>비밀번호 재설정</value>
+  </data>
+  <data name="Main_Label_SideMenuCollapse" xml:space="preserve">
+    <value>접기</value>
+  </data>
+  <data name="Main_Label_SideMenuDashboard" xml:space="preserve">
+    <value>계기반</value>
+  </data>
+  <data name="Main_Label_SideMenuNotification" xml:space="preserve">
+    <value>공고</value>
+  </data>
+  <data name="Main_Label_SideMenuResults" xml:space="preserve">
+    <value>결과</value>
+  </data>
+  <data name="Main_Label_SideMenuSchedule" xml:space="preserve">
+    <value>일정</value>
+  </data>
+  <data name="Main_Label_SideMenuSetting" xml:space="preserve">
+    <value>환경</value>
+  </data>
+  <data name="Main_Label_ViewProfile" xml:space="preserve">
+    <value>프로필 보기</value>
+  </data>
+  <data name="Notification_Button_MarkAllAsRead" xml:space="preserve">
+    <value>모두 읽음으로 표시</value>
+  </data>
+  <data name="Notification_Label_CompletedTest" xml:space="preserve">
+    <value>완료된 테스트 결과</value>
+  </data>
+  <data name="Notification_Label_Show" xml:space="preserve">
+    <value>보여주다 :</value>
+  </data>
+  <data name="Notification_Label_ShowAll" xml:space="preserve">
+    <value>모두</value>
+  </data>
+  <data name="Notification_Label_UpcomingTest" xml:space="preserve">
+    <value>진행예정 테스트</value>
+  </data>
+  <data name="Notification_Label_UpdateFilter" xml:space="preserve">
+    <value>필터 업데이트</value>
+  </data>
+  <data name="Notification_Label_Updates" xml:space="preserve">
+    <value>업데이트</value>
+  </data>
+  <data name="Notification_Title_PageTitle" xml:space="preserve">
+    <value>공고</value>
+  </data>
+  <data name="Popup_Message_AddAnalyzer" xml:space="preserve">
+    <value>이 새 분석기를 추가하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_AnalyzerCannotReceive" xml:space="preserve">
+    <value>분석기가 일정을 수동으로 수신할 수 없습니다.</value>
+  </data>
+  <data name="Popup_Message_APINoLinkFound" xml:space="preserve">
+    <value>검색 결과에 연결된 일정을 찾을 수 없습니다.</value>
+  </data>
+  <data name="Popup_Message_APIUpdateFailed" xml:space="preserve">
+    <value>결과 API 업데이트에 실패했습니다.</value>
+  </data>
+  <data name="Popup_Message_APIUpdateSuccess" xml:space="preserve">
+    <value>결과 API가 성공적으로 업데이트되었습니다.</value>
+  </data>
+  <data name="Popup_Message_CanceledSendToAnalyzer" xml:space="preserve">
+    <value>분석기에 요청을 보내는 데 시간이 너무 오래 걸렸습니다.</value>
+  </data>
+  <data name="Popup_Message_CancelSchedule" xml:space="preserve">
+    <value>이 일정을 취소하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_CheckPassword" xml:space="preserve">
+    <value>비밀번호를 다시 확인해 주세요.</value>
+  </data>
+  <data name="Popup_Message_CheckUsername" xml:space="preserve">
+    <value>사용자 이름을 다시 확인해 주세요.</value>
+  </data>
+  <data name="Popup_Message_ClinicInfoUpdate" xml:space="preserve">
+    <value>진료소 정보를 저장하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_ClinicInfoUpdateCompleted" xml:space="preserve">
+    <value>진료소 정보가 성공적으로 업데이트되었습니다.</value>
+  </data>
+  <data name="Popup_Message_ConfirmPasswordDoNotMatch" xml:space="preserve">
+    <value>비밀번호와 비밀번호 확인이 일치하지 않습니다.</value>
+  </data>
+  <data name="Popup_Message_ConnectPIMSSuccess" xml:space="preserve">
+    <value>PIMS에 성공적으로 연결되었습니다.</value>
+  </data>
+  <data name="Popup_Message_CreateUser" xml:space="preserve">
+    <value>이 사용자 프로필을 생성하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_DeleteUser" xml:space="preserve">
+    <value>이 사용자 프로필을 삭제하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_EnterUniqueID" xml:space="preserve">
+    <value>고유 ID를 입력하세요.</value>
+  </data>
+  <data name="Popup_Message_FailedAddDevice" xml:space="preserve">
+    <value>장치를 추가하지 못했습니다. 시스템 관리자에게 문의하세요.</value>
+  </data>
+  <data name="Popup_Message_FailedDeleteDevice" xml:space="preserve">
+    <value>장치를 제거하지 못했습니다. 시스템 관리자에게 문의하세요.</value>
+  </data>
+  <data name="Popup_Message_FailedDownloadListing" xml:space="preserve">
+    <value>테스트 결과 목록을 다운로드하지 못했습니다.</value>
+  </data>
+  <data name="Popup_Message_FailedGreywindConnect" xml:space="preserve">
+    <value>Greywind에 연결하지 못했습니다.</value>
+  </data>
+  <data name="Popup_Message_FailedOpenPrint" xml:space="preserve">
+    <value>인쇄를 열 수 없습니다.</value>
+  </data>
+  <data name="Popup_Message_FailedToCancelSchedule" xml:space="preserve">
+    <value>일정을 취소하지 못했습니다.</value>
+  </data>
+  <data name="Popup_Message_FailedToDownload" xml:space="preserve">
+    <value>다운로드에 실패했습니다.</value>
+  </data>
+  <data name="Popup_Message_FailedToPrint" xml:space="preserve">
+    <value>인쇄에 실패했습니다.</value>
+  </data>
+  <data name="Popup_Message_FailedToSendToAnalyzer" xml:space="preserve">
+    <value>분석기에 요청을 보내지 못했습니다.</value>
+  </data>
+  <data name="Popup_Message_FailedUpdateDevice" xml:space="preserve">
+    <value>장치 업데이트에 실패했습니다. 시스템 관리자에게 문의하세요.</value>
+  </data>
+  <data name="Popup_Message_FailedUpdateLISInfo" xml:space="preserve">
+    <value>LIS 정보를 업데이트하지 못했습니다.</value>
+  </data>
+  <data name="Popup_Message_GreywindConnected" xml:space="preserve">
+    <value>Greywind에 성공적으로 연결되었습니다.</value>
+  </data>
+  <data name="Popup_Message_InputPassword" xml:space="preserve">
+    <value>비밀번호를 입력하세요.</value>
+  </data>
+  <data name="Popup_Message_InputUsername" xml:space="preserve">
+    <value>사용자 이름을 입력하세요.</value>
+  </data>
+  <data name="Popup_Message_IpPortUnavailable" xml:space="preserve">
+    <value>IP 주소와 포트 번호를 할당할 수 없습니다. 다른 값을 입력하세요.</value>
+  </data>
+  <data name="Popup_Message_LanguageCountryChange" xml:space="preserve">
+    <value>이 설정을 저장하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_Logout" xml:space="preserve">
+    <value>로그아웃하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_NoClinicFound" xml:space="preserve">
+    <value>해당 전화번호로 진료소를 찾을 수 없습니다.</value>
+  </data>
+  <data name="Popup_Message_NoDeviceFound" xml:space="preserve">
+    <value>요청을 수신할 수 있는 장치가 없습니다.</value>
+  </data>
+  <data name="Popup_Message_NoScheduleFound" xml:space="preserve">
+    <value>일정을 찾을 수 없습니다.</value>
+  </data>
+  <data name="Popup_Message_PasswordRecoveredP1" xml:space="preserve">
+    <value>귀하의 이메일로 임시 비밀번호를 보내드렸습니다. 이를 사용하여 로그인할 수 있습니다. 로그인한 후에는 다음에서 원하는 비밀번호로 변경할 수 있습니다.</value>
+  </data>
+  <data name="Popup_Message_PasswordRecoveredP2" xml:space="preserve">
+    <value>비밀번호 재설정'</value>
+  </data>
+  <data name="Popup_Message_PasswordRecoveredP3" xml:space="preserve">
+    <value>부분</value>
+  </data>
+  <data name="Popup_Message_PatientNameUpdated" xml:space="preserve">
+    <value>환자 이름이 업데이트되었습니다.</value>
+  </data>
+  <data name="Popup_Message_RecoverPassword" xml:space="preserve">
+    <value>비밀번호를 복구하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_RemoveAnalyzer" xml:space="preserve">
+    <value>이 새로운 분석기를 제거하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_ReportSettingUpdated" xml:space="preserve">
+    <value>보고서 설정이 성공적으로 업데이트되었습니다.</value>
+  </data>
+  <data name="Popup_Message_ResetPassword" xml:space="preserve">
+    <value>비밀번호를 재설정하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_SavePMSLISHIS" xml:space="preserve">
+    <value>PMS/LIS/HIS 설정을 업데이트했습니다. 변경 사항을 적용하려면 다시 로그인하세요.</value>
+  </data>
+  <data name="Popup_Message_SaveSettings" xml:space="preserve">
+    <value>이 설정을 저장하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_ScheduleCancel" xml:space="preserve">
+    <value>일정이 취소되었습니다.</value>
+  </data>
+  <data name="Popup_Message_SelectAdditionalTestResult" xml:space="preserve">
+    <value>보고서에 포함할 추가 테스트 결과를 선택하세요.</value>
+  </data>
+  <data name="Popup_Message_SelectAll" xml:space="preserve">
+    <value>모두 선택</value>
+  </data>
+  <data name="Popup_Message_SelectDevice" xml:space="preserve">
+    <value>요청을 보낼 장치를 선택하세요.</value>
+  </data>
+  <data name="Popup_Message_SelectParameterDownload" xml:space="preserve">
+    <value>다운로드하려는 매개변수를 선택하세요.</value>
+  </data>
+  <data name="Popup_Message_SelectParameterPrint" xml:space="preserve">
+    <value>인쇄하려는 매개변수를 선택하세요.</value>
+  </data>
+  <data name="Popup_Message_SelectSchedule" xml:space="preserve">
+    <value>검사 결과 데이터를 전송할 일정을 선택하세요.</value>
+  </data>
+  <data name="Popup_Message_SentToAnalyzer" xml:space="preserve">
+    <value>분석기에 요청이 전송되었습니다.</value>
+  </data>
+  <data name="Popup_Message_TheFileIsAt" xml:space="preserve">
+    <value>파일은 다음 위치에 있습니다.</value>
+  </data>
+  <data name="Popup_Message_UpdateAnalyzer" xml:space="preserve">
+    <value>이 새로운 분석기를 업데이트하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_UpdatePatientName" xml:space="preserve">
+    <value>환자 이름을 입력하세요.</value>
+  </data>
+  <data name="Popup_Message_UpdateUser" xml:space="preserve">
+    <value>이 사용자 프로필을 업데이트하시겠습니까?</value>
+  </data>
+  <data name="Popup_Message_WrongID" xml:space="preserve">
+    <value>잘못된 고유 ID입니다.</value>
+  </data>
+  <data name="Report_Label_ClinicAddress" xml:space="preserve">
+    <value>병원 주소</value>
+  </data>
+  <data name="Report_Label_ClinicName" xml:space="preserve">
+    <value>병원 이름</value>
+  </data>
+  <data name="Report_Label_DateTime" xml:space="preserve">
+    <value>날짜 및 시간</value>
+  </data>
+  <data name="Report_Label_High" xml:space="preserve">
+    <value>높은</value>
+  </data>
+  <data name="Report_Label_Low" xml:space="preserve">
+    <value>낮은</value>
+  </data>
+  <data name="Report_Label_MaxSize" xml:space="preserve">
+    <value>최대 파일 크기는 2MB입니다.</value>
+  </data>
+  <data name="Report_Label_Parameter" xml:space="preserve">
+    <value>매개변수</value>
+  </data>
+  <data name="Report_Label_PoweredBy" xml:space="preserve">
+    <value>제공됨</value>
+  </data>
+  <data name="Report_Label_PreviousRecord" xml:space="preserve">
+    <value>이전 기록</value>
+  </data>
+  <data name="Report_Label_PrintedBy" xml:space="preserve">
+    <value>인쇄자</value>
+  </data>
+  <data name="Report_Label_PrintedOn" xml:space="preserve">
+    <value>인쇄</value>
+  </data>
+  <data name="Report_Label_Reference" xml:space="preserve">
+    <value>참조</value>
+  </data>
+  <data name="Report_Label_Report" xml:space="preserve">
+    <value>보고서</value>
+  </data>
+  <data name="Report_Label_ReportHeaders" xml:space="preserve">
+    <value>보고서 헤더</value>
+  </data>
+  <data name="Report_Label_ReportSample" xml:space="preserve">
+    <value>보고서 샘플</value>
+  </data>
+  <data name="Report_Label_ReportTitle" xml:space="preserve">
+    <value>보고서 제목</value>
+  </data>
+  <data name="Report_Label_ResultStatus" xml:space="preserve">
+    <value>결과 상태</value>
+  </data>
+  <data name="Report_Label_ResultValue" xml:space="preserve">
+    <value>결과 값</value>
+  </data>
+  <data name="Report_Label_Test" xml:space="preserve">
+    <value>시험</value>
+  </data>
+  <data name="Report_Label_UploadLogo" xml:space="preserve">
+    <value>로고 업로드</value>
+  </data>
+  <data name="ResetPassword_Title_PageTitle" xml:space="preserve">
+    <value>비밀번호 재설정</value>
+  </data>
+  <data name="Results_Label_Ascending" xml:space="preserve">
+    <value>결과(오름차순)</value>
+  </data>
+  <data name="Results_Label_Descending" xml:space="preserve">
+    <value>결과(내림차순)</value>
+  </data>
+  <data name="Results_Label_DeviceSerialNo" xml:space="preserve">
+    <value>장치 일련번호</value>
+  </data>
+  <data name="Results_Label_Doctor" xml:space="preserve">
+    <value>의사</value>
+  </data>
+  <data name="Results_Label_Download" xml:space="preserve">
+    <value>다운로드</value>
+  </data>
+  <data name="Results_Label_Earliest" xml:space="preserve">
+    <value>가장 빠른</value>
+  </data>
+  <data name="Results_Label_EditPatientName" xml:space="preserve">
+    <value>환자 이름 편집</value>
+  </data>
+  <data name="Results_Label_Latest" xml:space="preserve">
+    <value>최신</value>
+  </data>
+  <data name="Results_Label_Lot" xml:space="preserve">
+    <value>많은</value>
+  </data>
+  <data name="Results_Label_No" xml:space="preserve">
+    <value>아니요</value>
+  </data>
+  <data name="Results_Label_OperatorID" xml:space="preserve">
+    <value>운영자 ID</value>
+  </data>
+  <data name="Results_Label_PatientID" xml:space="preserve">
+    <value>환자 ID</value>
+  </data>
+  <data name="Results_Label_PatientName" xml:space="preserve">
+    <value>환자 이름</value>
+  </data>
+  <data name="Results_Label_Print" xml:space="preserve">
+    <value>인쇄</value>
+  </data>
+  <data name="Results_Label_ProceduralCont" xml:space="preserve">
+    <value>절차적 제어</value>
+  </data>
+  <data name="Results_Label_Result" xml:space="preserve">
+    <value>결과</value>
+  </data>
+  <data name="Results_Label_Searchbar" xml:space="preserve">
+    <value>키워드로 검색</value>
+  </data>
+  <data name="Results_Label_SendToPMS" xml:space="preserve">
+    <value>PMS로 보내기</value>
+  </data>
+  <data name="Results_Label_SortBy" xml:space="preserve">
+    <value>정렬 기준 :</value>
+  </data>
+  <data name="Results_Label_TestResultType" xml:space="preserve">
+    <value>테스트 결과 유형</value>
+  </data>
+  <data name="Results_Label_Time" xml:space="preserve">
+    <value>시간</value>
+  </data>
+  <data name="Results_Label_Units" xml:space="preserve">
+    <value>단위</value>
+  </data>
+  <data name="Results_Label_UpdateFilter" xml:space="preserve">
+    <value>필터 업데이트</value>
+  </data>
+  <data name="Results_Label_Valid" xml:space="preserve">
+    <value>유효기간까지</value>
+  </data>
+  <data name="Results_Label_View" xml:space="preserve">
+    <value>보다</value>
+  </data>
+  <data name="Results_Message_DownloadComplete" xml:space="preserve">
+    <value>다운로드 결과 목록이 완료되었습니다.</value>
+  </data>
+  <data name="Results_Message_TestResultDownloadCompleted" xml:space="preserve">
+    <value>테스트 결과 다운로드가 완료되었습니다.</value>
+  </data>
+  <data name="Results_Title_PageTitle" xml:space="preserve">
+    <value>결과</value>
+  </data>
+  <data name="Schedule_Label_Abnormal" xml:space="preserve">
+    <value>이상</value>
+  </data>
+  <data name="Schedule_Label_Cancelled" xml:space="preserve">
+    <value>취소됨</value>
+  </data>
+  <data name="Schedule_Label_CancelSchedule" xml:space="preserve">
+    <value>일정 취소</value>
+  </data>
+  <data name="Schedule_Label_General" xml:space="preserve">
+    <value>일반</value>
+  </data>
+  <data name="Schedule_Label_NewPatients" xml:space="preserve">
+    <value>신규 환자</value>
+  </data>
+  <data name="Schedule_Label_Normal" xml:space="preserve">
+    <value>정상</value>
+  </data>
+  <data name="Schedule_Label_NoScheduleTestAvailable" xml:space="preserve">
+    <value>예정된 테스트가 없습니다.</value>
+  </data>
+  <data name="Schedule_Label_NoTestResultAvailable" xml:space="preserve">
+    <value>검사 결과가 없습니다.</value>
+  </data>
+  <data name="Schedule_Label_OrderedTest" xml:space="preserve">
+    <value>검사 주문됨</value>
+  </data>
+  <data name="Schedule_Label_PatientID" xml:space="preserve">
+    <value>환자 ID:</value>
+  </data>
+  <data name="Schedule_Label_Patients" xml:space="preserve">
+    <value>환자</value>
+  </data>
+  <data name="Schedule_Label_Pending" xml:space="preserve">
+    <value>대기 중</value>
+  </data>
+  <data name="Schedule_Label_RecentTestResults" xml:space="preserve">
+    <value>최근 테스트 결과</value>
+  </data>
+  <data name="Schedule_Label_ResultSentToVV" xml:space="preserve">
+    <value>VV로 결과 전송됨</value>
+  </data>
+  <data name="Schedule_Label_SendToAnalyzer" xml:space="preserve">
+    <value>분석기로 보내기</value>
+  </data>
+  <data name="Schedule_Label_SentToAnalyzer" xml:space="preserve">
+    <value>분석기로 전송됨</value>
+  </data>
+  <data name="Schedule_Label_SentToPIMS" xml:space="preserve">
+    <value>PIMS로 전송됨</value>
+  </data>
+  <data name="Schedule_Label_Tests" xml:space="preserve">
+    <value>검사</value>
+  </data>
+  <data name="Schedule_Label_TestsDone" xml:space="preserve">
+    <value>테스트 완료</value>
+  </data>
+  <data name="Schedule_Label_UniqueID" xml:space="preserve">
+    <value>고유 ID:</value>
+  </data>
+  <data name="Schedule_Label_UpcomingTest" xml:space="preserve">
+    <value>진행예정 테스트</value>
+  </data>
+  <data name="Schedule_Label_ViewReport" xml:space="preserve">
+    <value>보고서 보기</value>
+  </data>
+  <data name="Schedule_Label_ViewSchedulePMS" xml:space="preserve">
+    <value>PMS에서 일정 보기</value>
+  </data>
+  <data name="Schedule_Title_PageTitle" xml:space="preserve">
+    <value>일정</value>
+  </data>
+  <data name="Setting_ErrorMessage_DateFormat" xml:space="preserve">
+    <value>올바른 날짜 형식을 입력하세요.</value>
+  </data>
+  <data name="Setting_ErrorMessage_EmailFormat" xml:space="preserve">
+    <value>이 필드에는 "@" 기호와 ".com"이 포함되어야 합니다.</value>
+  </data>
+  <data name="Setting_ErrorMessage_FiveCharMin" xml:space="preserve">
+    <value>이 필드에는 최소 5자 이상 입력해야 합니다.</value>
+  </data>
+  <data name="Setting_ErrorMessage_InvalidIP" xml:space="preserve">
+    <value>잘못된 IP 주소가 입력되었습니다.</value>
+  </data>
+  <data name="Setting_ErrorMessage_MandatoryField" xml:space="preserve">
+    <value>필수 입력 항목입니다.</value>
+  </data>
+  <data name="Setting_ErrorMessage_TwoCharMin" xml:space="preserve">
+    <value>이 필드에는 최소 2자 이상 입력해야 합니다.</value>
+  </data>
+  <data name="Setting_Label_BackButton" xml:space="preserve">
+    <value>뒤로</value>
+  </data>
+  <data name="Setting_Label_Country" xml:space="preserve">
+    <value>국가</value>
+  </data>
+  <data name="Setting_Label_CreateUser" xml:space="preserve">
+    <value>사용자 생성</value>
+  </data>
+  <data name="Setting_Label_DateOfBirth" xml:space="preserve">
+    <value>생일</value>
+  </data>
+  <data name="Setting_Label_Device" xml:space="preserve">
+    <value>장치</value>
+  </data>
+  <data name="Setting_Label_DeviceType" xml:space="preserve">
+    <value>장치 유형</value>
+  </data>
+  <data name="Setting_Label_Email" xml:space="preserve">
+    <value>이메일 주소</value>
+  </data>
+  <data name="Setting_Label_FullName" xml:space="preserve">
+    <value>성명</value>
+  </data>
+  <data name="Setting_Label_Gender" xml:space="preserve">
+    <value>성별</value>
+  </data>
+  <data name="Setting_Label_Language" xml:space="preserve">
+    <value>언어</value>
+  </data>
+  <data name="Setting_Label_LanguageCountry" xml:space="preserve">
+    <value>언어 및 국가</value>
+  </data>
+  <data name="Setting_Label_LoginID" xml:space="preserve">
+    <value>로그인 ID</value>
+  </data>
+  <data name="Setting_Label_RegistrationNo" xml:space="preserve">
+    <value>의사 등록 번호</value>
+  </data>
+  <data name="Setting_Label_Role" xml:space="preserve">
+    <value>사용자 역할</value>
+  </data>
+  <data name="Setting_Label_SelectCountry" xml:space="preserve">
+    <value>국가를 선택하세요</value>
+  </data>
+  <data name="Setting_Label_SelectLanguage" xml:space="preserve">
+    <value>언어를 선택하세요</value>
+  </data>
+  <data name="Setting_Label_StaffID" xml:space="preserve">
+    <value>직원 ID</value>
+  </data>
+  <data name="Setting_Label_StaffName" xml:space="preserve">
+    <value>직원 이름</value>
+  </data>
+  <data name="Setting_Label_Status" xml:space="preserve">
+    <value>상태</value>
+  </data>
+  <data name="Setting_Label_Title" xml:space="preserve">
+    <value>제목</value>
+  </data>
+  <data name="Setting_Label_User" xml:space="preserve">
+    <value>사용자</value>
+  </data>
+  <data name="Setting_Label_UserBackButton" xml:space="preserve">
+    <value>사용자 목록으로 돌아가기</value>
+  </data>
+  <data name="Setting_Message_NoUserData" xml:space="preserve">
+    <value>사용자가 존재하지 않습니다</value>
+  </data>
+  <data name="Setting_Title_PageTitle" xml:space="preserve">
+    <value>환경</value>
+  </data>
+</root>

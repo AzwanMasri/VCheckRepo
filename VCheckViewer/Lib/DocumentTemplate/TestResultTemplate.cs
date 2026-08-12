@@ -43,6 +43,9 @@ namespace VCheckViewer.Lib.DocumentTemplate
             String sIconPath = sReportImagePath != null && File.Exists(sReportImagePath.ConfigurationValue) ? sReportImagePath.ConfigurationValue : sFooterLogo;
             String sDownloadPath = sBuilder.Configuration.GetSection("Configuration:DownloadFolderPath").Value;
             string graphFolder = sBuilder.Configuration.GetSection("Configuration:GraphFolder").Value;
+            string? species = sDownloadPrintResultModels.FirstOrDefault(x => x.TestResult.Species != null) != null ? sDownloadPrintResultModels.FirstOrDefault(x => x.TestResult.Species != null).TestResult.Species : null;
+            string? age = sDownloadPrintResultModels.FirstOrDefault(x => x.TestResult.Age != null) != null ? sDownloadPrintResultModels.FirstOrDefault(x => x.TestResult.Age != null).TestResult.Age : null;
+            string? weight = sDownloadPrintResultModels.FirstOrDefault(x => x.TestResult.Weight != null) != null ? sDownloadPrintResultModels.FirstOrDefault(x => x.TestResult.Weight != null).TestResult.Weight : null;
 
             try
             {
@@ -141,44 +144,53 @@ namespace VCheckViewer.Lib.DocumentTemplate
                                             });
                                     });
 
-                                    rightColumn.Item().Column(col =>
+                                    if (species != null)
                                     {
-                                        col.Item()
-                                            .PaddingLeft(5)
-                                            .PaddingTop(10)
-                                            .MinHeight(20)
-                                            .Text(text =>
-                                            {
-                                                text.Span("Species : ").Bold();
-                                                text.Span(sDownloadPrintResultModels[0].TestResult.Species);
-                                            });
-                                    });
+                                        rightColumn.Item().Column(col =>
+                                        {
+                                            col.Item()
+                                                .PaddingLeft(5)
+                                                .PaddingTop(10)
+                                                .MinHeight(20)
+                                                .Text(text =>
+                                                {
+                                                    text.Span("Species : ").Bold();
+                                                    text.Span(species);
+                                                });
+                                        });
+                                    }
 
-                                    rightColumn.Item().Column(col =>
+                                    if (age != null)
                                     {
-                                        col.Item()
-                                            .PaddingLeft(5)
-                                            .PaddingTop(10)
-                                            .MinHeight(20)
-                                            .Text(text =>
-                                            {
-                                                text.Span("Age : ").Bold();
-                                                text.Span(sDownloadPrintResultModels[0].TestResult.Age);
-                                            });
-                                    });
+                                        rightColumn.Item().Column(col =>
+                                        {
+                                            col.Item()
+                                                .PaddingLeft(5)
+                                                .PaddingTop(10)
+                                                .MinHeight(20)
+                                                .Text(text =>
+                                                {
+                                                    text.Span("Age : ").Bold();
+                                                    text.Span(age);
+                                                });
+                                        });
+                                    }
 
-                                    rightColumn.Item().Column(col =>
+                                    if (weight != null)
                                     {
-                                        col.Item()
-                                            .PaddingLeft(5)
-                                            .PaddingTop(10)
-                                            .MinHeight(20)
-                                            .Text(text =>
-                                            {
-                                                text.Span("Weight : ").Bold();
-                                                text.Span(sDownloadPrintResultModels[0].TestResult.Weight);
-                                            });
-                                    });
+                                        rightColumn.Item().Column(col =>
+                                        {
+                                            col.Item()
+                                                .PaddingLeft(5)
+                                                .PaddingTop(10)
+                                                .MinHeight(20)
+                                                .Text(text =>
+                                                {
+                                                    text.Span("Weight : ").Bold();
+                                                    text.Span(weight);
+                                                });
+                                        });
+                                    }
 
                                     rightColumn.Item().Column(col =>
                                     {
