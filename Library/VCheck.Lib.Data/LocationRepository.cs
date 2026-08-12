@@ -22,13 +22,20 @@ namespace VCheck.Lib.Data
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
-        public static List<LocationModel> GetLocationList(IConfiguration config, string clientName)
+        public static List<LocationModel> GetLocationList(IConfiguration config, string clientName, string ClinicID = null)
         {
             try
             {
                 using (var ctx = new LocationDBContext(config))
                 {
-                    return ctx.mst_location.Where(x => x.CreatedBy == clientName).ToList();
+                    if (string.IsNullOrEmpty(ClinicID))
+                    {
+                        return ctx.mst_location.Where(x => x.CreatedBy == clientName).ToList();
+                    }
+                    else
+                    {
+                        return ctx.mst_location.Where(x => x.ID == ClinicID).ToList();
+                    }
                 }
             }
             catch (Exception ex)
@@ -92,9 +99,6 @@ namespace VCheck.Lib.Data
         {
             try
             {
-                location.Status = 1;
-                location.Description = "Clinic";
-
                 using (var ctx = new LocationDBContext(config))
                 {
                     var temp = ctx.mst_location.AsNoTracking().FirstOrDefault(x => (x.ID == location.ID || x.PhoneNum == location.PhoneNum || x.ID == location.PhoneNum.Replace(" ", "").Replace("-", "")) && x.ID != "");

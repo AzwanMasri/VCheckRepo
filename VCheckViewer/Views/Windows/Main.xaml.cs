@@ -737,6 +737,20 @@ namespace VCheckViewer.Views.Windows
 
                 parameterList.Items.Clear();
 
+                StackPanel stackPanel = new StackPanel();
+                stackPanel.Orientation = System.Windows.Controls.Orientation.Horizontal;
+                stackPanel.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+                CheckBox checkBox = new CheckBox();
+                checkBox.Name = "SelectAll";
+                checkBox.Foreground = Brushes.White;
+                checkBox.BorderBrush = Brushes.White;
+                checkBox.Width = 420;
+                checkBox.Margin = new Thickness(10);
+                checkBox.Content = Properties.Resources.Popup_Message_SelectAll; ;
+                stackPanel.Children.Add(checkBox);
+                parameterList.Items.Add(stackPanel);
+                checkBox.Click += SelectAll_Click;
+
                 int currentTest = 1;
                 int remainder = 0;
                 bool excess = false;
@@ -753,7 +767,7 @@ namespace VCheckViewer.Views.Windows
 
                 for (int i = 0; i < totalRow; i++)
                 {
-                    StackPanel stackPanel = new StackPanel();
+                    stackPanel = new StackPanel();
                     stackPanel.Orientation = System.Windows.Controls.Orientation.Horizontal;
                     stackPanel.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
 
@@ -763,7 +777,7 @@ namespace VCheckViewer.Views.Windows
 
                     for (int j = 0; j < elementPerRow; j++)
                     {
-                        CheckBox checkBox = new CheckBox();
+                        checkBox = new CheckBox();
                         checkBox.Foreground = Brushes.White;
                         checkBox.BorderBrush = Brushes.White;
 
@@ -1177,9 +1191,11 @@ namespace VCheckViewer.Views.Windows
                 App.Device.Clear();
                 App.Device.Add(currentDevice);
 
+                List<TestDeviceName> selectedTests = new List<TestDeviceName>();
+
                 foreach (var analyzerName in selectedAnalyzers)
                 {
-                    var selectedTests =
+                    selectedTests =
                         TestResultsRepository.GetRelatedTestResultsByPatientIDAndAnalyzer(
                             ConfigSettings.GetConfigurationSettings(),
                             App.DowloadPrintObject[0].TestResult.PatientID,
@@ -1189,6 +1205,7 @@ namespace VCheckViewer.Views.Windows
 
                     App.Device.AddRange(selectedTests);
                 }
+
 
                 App.MainViewModel.Origin = "SelectTestID";
                 App.PopupHandler(e, sender);
@@ -1770,7 +1787,7 @@ namespace VCheckViewer.Views.Windows
                 ConfigurationModel? ClinicID = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
                 ConfigurationModel? PMS = ConfigurationContext.GetConfigurationData("InterfaceSettingsPMS").FirstOrDefault();
 
-                if (ClinicID != null && !string.IsNullOrEmpty(ClinicID.ConfigurationValue))
+                if (ClinicID != null && !string.IsNullOrEmpty(ClinicID.ConfigurationValue) && PMS != null && PMS.ConfigurationValue != "None")
                 {
                     VCheckAPI vcheckAPI = new VCheckAPI();
                     GreywindAPI greywindAPI = new GreywindAPI();
@@ -1790,7 +1807,7 @@ namespace VCheckViewer.Views.Windows
                         ContactName = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicContactName").ConfigurationValue,
                         PhoneNum = phoneNum,
                         Email = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicEmail").ConfigurationValue,
-                        CreatedBy = "VCheck Viewer"
+                        CreatedBy = PMS.ConfigurationValue
                     };
 
                     var locationID = await vcheckAPI.UpdateLocation(location);
@@ -1873,7 +1890,7 @@ namespace VCheckViewer.Views.Windows
 
             foreach (var stackpanel in stackPanels)
             {
-                selectedTest.AddRange(stackpanel.Children.OfType<CheckBox>().Where(x => x.IsChecked == true));
+                selectedTest.AddRange(stackpanel.Children.OfType<CheckBox>().Where(x => x.IsChecked == true && x.Name.ToString() != "SelectAll"));
             }
 
             foreach(var test in selectedTest)
@@ -2075,6 +2092,7 @@ namespace VCheckViewer.Views.Windows
                         sPanelObj.source = "";
                         sPanelObj.resultdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd HH:mm:ss");
 
+                        var initialParameterID = sResultTestCode + "-" + sOrderID;
 
                         if (sDetailsObj != null && sDetailsObj.Count > 0)
                         {
@@ -2152,7 +2170,8 @@ namespace VCheckViewer.Views.Windows
                                 sResultListing.Add(new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelTestObject
                                 {
                                     name = Parameter,
-                                    code = sResultTestCode + "-" + count++,
+                                    //code = sResultTestCode + "-" + count++,
+                                    code = initialParameterID + "-" + count++,
                                     result = d.TestResultValue,
                                     referencelow = referenceLow,
                                     referencehigh = referenceHigh,
@@ -2661,22 +2680,34 @@ namespace VCheckViewer.Views.Windows
 
         private void SelectAll_Click(object sender, RoutedEventArgs e)
         {
-            CheckBox checkbox = sender as CheckBox;
+            CheckBox selectAllCheckbox = sender as CheckBox;
 
             // Your logic here
-            if (checkbox.IsChecked == true)
+            if (selectAllCheckbox.IsChecked == true)
             {
                 var stackPanels = parameterList.Items.OfType<StackPanel>();
 
                 foreach (var stackpanel in stackPanels)
                 {
-                    var borders = stackpanel.Children.OfType<System.Windows.Controls.Border>();
-
-                    foreach (var border in borders)
+                    if (App.MainViewModel.Origin == "SelectParameters")
                     {
-                        var parameter = (border.Child as CheckBox);
+                        var borders = stackpanel.Children.OfType<System.Windows.Controls.Border>();
 
-                        parameter.IsChecked = true;
+                        foreach (var border in borders)
+                        {
+                            var parameter = (border.Child as CheckBox);
+
+                            parameter.IsChecked = true;
+                        }
+                    }
+                    else
+                    {
+                        var checkboxes = stackpanel.Children.OfType<CheckBox>();
+
+                        foreach (var checkbox in checkboxes)
+                        {
+                            checkbox.IsChecked = true;
+                        }
                     }
                 }
             }

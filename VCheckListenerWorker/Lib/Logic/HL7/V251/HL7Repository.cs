@@ -659,11 +659,11 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
 
                         if (parameter.Equals("Age", StringComparison.OrdinalIgnoreCase))
                         {
-                            sAge = sObservValue;
+                            sAge = sObservValue + " " + observationDetail.OBX.Units.Identifier.Value;
                         }
                         else if (parameter.Equals("Weight", StringComparison.OrdinalIgnoreCase))
                         {
-                            sWeight = sObservValue;
+                            sWeight = sObservValue + " " + observationDetail.OBX.Units.Identifier.Value;
                         }
                         else
                         {

@@ -958,9 +958,15 @@ namespace VCheckViewerAPI.Controllers
             {
                 if (_apiRepository.Authenticate(request.Header.clientKey, out CanViewOther))
                 {
+                    request.Body.Status = 1;
+                    request.Body.Description = "Clinic";
+                    request.Body.Address = request.Body.Address.Replace("'", "''");
+                    request.Body.Name = request.Body.Name.Replace("'", "''");
+                    request.Body.ContactName = request.Body.ContactName.Replace("'", "''");
                     var temp = JsonConvert.SerializeObject(request.Body);
                     var locationObject = JsonConvert.DeserializeObject<LocationModel>(temp);
                     ClientModel sAuthProfile = _apiRepository.GetClientProfileByClientKey(request.Header.clientKey);
+
 
                     if (string.IsNullOrEmpty(locationObject.CreatedBy)) { locationObject.CreatedBy = sAuthProfile.Name; }
                     clinicID = LocationRepository.UpdateLocation(ConfigSettings.GetConfigurationSettings(), locationObject);
@@ -1027,7 +1033,7 @@ namespace VCheckViewerAPI.Controllers
                     //if (_apiRepository.ValidateTokenExpiry(request.header.clientKey))
                     //{
                     ClientModel sAuthProfile = _apiRepository.GetClientProfileByClientKey(request.header.clientKey);
-                    var sLocationList = LocationRepository.GetLocationList(ConfigSettings.GetConfigurationSettings(), sAuthProfile.Name);
+                    var sLocationList = LocationRepository.GetLocationList(ConfigSettings.GetConfigurationSettings(), sAuthProfile.Name, request.body.ClinicID);
                     if (sLocationList != null && sLocationList.Count > 0)
                     {
                         foreach (var location in sLocationList)

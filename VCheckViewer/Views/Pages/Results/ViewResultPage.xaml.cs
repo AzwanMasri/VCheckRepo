@@ -29,8 +29,9 @@ namespace VCheckViewer.Views.Pages.Results
         private List<TestResultDetailsModel> sTestResultDetails = new List<TestResultDetailsModel>();
         private TestResultModel sTestResult = new TestResultModel();
         private List<string> sParameterOrder = new List<string>();
-        public DownloadPrintResultModel downloadPrintResultModel = new DownloadPrintResultModel();
+        private DownloadPrintResultModel downloadPrintResultModel = new DownloadPrintResultModel();
         private TestResultSpecimenContainer sTestResultSpecimentContainer = new TestResultSpecimenContainer();
+        private TestResultModel previousTest = new TestResultModel();
         public string PreviousDatetime { get; set; } = "-";
 
         public ViewResultPage()
@@ -47,13 +48,13 @@ namespace VCheckViewer.Views.Pages.Results
             ViewResultBackButton.DataContext = App.MainViewModel;
             App.MainViewModel.BackButtonText = Properties.Resources.Setting_Label_BackButton;
 
-            PatientIDLabel.Text = Properties.Resources.Results_Label_PatientID + ":";
-            PatientNameLabel.Text = Properties.Resources.Results_Label_PatientName + ":";
-            DateTimeLabel.Text = Properties.Resources.Report_Label_DateTime + ":";
-            DoctorNameLabel.Text = Properties.Resources.Results_Label_Doctor + ":";
-            SpeciesLabel.Text = "Species:";
-            AgeLabel.Text = "Age:";
-            WeightLabel.Text = "Weight:";
+            PatientIDLabel.Text = Properties.Resources.Results_Label_PatientID + ": ";
+            PatientNameLabel.Text = Properties.Resources.Results_Label_PatientName + ": ";
+            DateTimeLabel.Text = Properties.Resources.Report_Label_DateTime + ": ";
+            DoctorNameLabel.Text = Properties.Resources.Results_Label_Doctor + ": ";
+            SpeciesLabel.Text = "Species: ";
+            AgeLabel.Text = "Age: ";
+            WeightLabel.Text = "Weight: ";
 
             //PreviousDatetime = "(" + DateTime.Now.ToString("dd/MM/yyyy hh:mm") + ")";
         }
@@ -103,50 +104,38 @@ namespace VCheckViewer.Views.Pages.Results
 
             PatientID.Text = sTestResult.PatientID;
             PatientName.Text = sTestResult.PatientName;
-            Species.Text = sTestResult.Species;
-            Age.Text = sTestResult.Age;
-            Weight.Text = sTestResult.Weight;
             DoctorName.Text = sTestResult.InchargePerson;
 
-            /*// Species
+            //Species
             if (!string.IsNullOrWhiteSpace(sTestResult.Species))
             {
-                SpeciesRow.Visibility = Visibility.Visible;
-
-                SpeciesLabel.Text = "Species:";
                 Species.Text = sTestResult.Species;
             }
             else
             {
-                SpeciesRow.Visibility = Visibility.Collapsed;
+                SpeciesRow.Height = new GridLength(0);
             }
 
             // Age
             if (!string.IsNullOrWhiteSpace(sTestResult.Age))
             {
-                AgeRow.Visibility = Visibility.Visible;
-
-                AgeLabel.Text = "Age:";
                 Age.Text = sTestResult.Age;
             }
             else
             {
-                AgeRow.Visibility = Visibility.Collapsed;
+                AgeRow.Height = new GridLength(0);
             }
 
             // Weight
             if (!string.IsNullOrWhiteSpace(sTestResult.Weight))
             {
-                WeightRow.Visibility = Visibility.Visible;
-
-                WeightLabel.Text = "Weight:";
                 Weight.Text = sTestResult.Weight;
             }
             else
             {
-                WeightRow.Visibility = Visibility.Collapsed;
+                WeightRow.Height = new GridLength(0);
             }
-            */
+            
 
             var sConfigObj = configDBContext.GetConfigurationData("System_DateFormat").FirstOrDefault();
 
@@ -166,18 +155,20 @@ namespace VCheckViewer.Views.Pages.Results
             {
                 var ThemeIsDark = configDBContext.GetConfigurationData("SystemSettings_Themes").FirstOrDefault().ConfigurationValue == "Dark";
                 sParameterOrder = TestResultsRepository.GetAllParameters(ConfigSettings.GetConfigurationSettings()).Select(x => x.Parameter).ToList();
-                sTestResultDetails = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), App.TestResultID);
+                //sTestResultDetails = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), App.TestResultID);
                 List<TestResultDetailsExtension> sTestResultDetailsExtension = new List<TestResultDetailsExtension>();
                 int HemIndex = 0;
                 int LipIndex = 0;
                 int IctIndex = 0;
 
-                TestResultModel previousTest = new TestResultModel();
-                downloadPrintResultModel.TestResult = sTestResult;
-                downloadPrintResultModel.TestResultDetails = sTestResultDetails;
-                downloadPrintResultModel.PreviousTestResultDetails = TestResultsRepository.GetPreviousTestRecord(ConfigSettings.GetConfigurationSettings(), sTestResult, out previousTest);
-                downloadPrintResultModel.PreviousTestResult = previousTest;
-                downloadPrintResultModel.TestResultsGraph = TestResultsRepository.GetResultGraphsByTestResultID(ConfigSettings.GetConfigurationSettings(), sTestResult.ID);
+                //TestResultModel previousTest = new TestResultModel();
+                //downloadPrintResultModel.TestResult = sTestResult;
+                //downloadPrintResultModel.TestResultDetails = sTestResultDetails;
+                //downloadPrintResultModel.PreviousTestResultDetails = TestResultsRepository.GetPreviousTestRecord(ConfigSettings.GetConfigurationSettings(), sTestResult, out previousTest);
+                //downloadPrintResultModel.PreviousTestResult = previousTest;
+                //downloadPrintResultModel.TestResultsGraph = TestResultsRepository.GetResultGraphsByTestResultID(ConfigSettings.GetConfigurationSettings(), sTestResult.ID);
+
+                SetDownloadPrintResultModel();
 
                 DateFormatConverter dateFormatConverter = new DateFormatConverter();
 
@@ -585,6 +576,8 @@ namespace VCheckViewer.Views.Pages.Results
 
             App.isEmptyName = false;
 
+            SetDownloadPrintResultModel();
+
             App.DowloadPrintObject = new List<DownloadPrintResultModel>() { downloadPrintResultModel };
             var DeviceName = DeviceRepository.GetDeviceNameBySerialNo(ConfigSettings.GetConfigurationSettings(), sTestResult.DeviceSerialNo);
             DeviceName = DeviceName == "General" ? Properties.Resources.Schedule_Label_General : DeviceName;
@@ -595,6 +588,17 @@ namespace VCheckViewer.Views.Pages.Results
             App.MainViewModel.Origin = "SelectParameters";
             App.PopupHandler(null, null);
 
+        }
+
+        private void SetDownloadPrintResultModel()
+        {
+            sTestResultDetails = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), App.TestResultID);
+
+            downloadPrintResultModel.TestResult = sTestResult;
+            downloadPrintResultModel.TestResultDetails = sTestResultDetails;
+            downloadPrintResultModel.PreviousTestResultDetails = TestResultsRepository.GetPreviousTestRecord(ConfigSettings.GetConfigurationSettings(), sTestResult, out previousTest);
+            downloadPrintResultModel.PreviousTestResult = previousTest;
+            downloadPrintResultModel.TestResultsGraph = TestResultsRepository.GetResultGraphsByTestResultID(ConfigSettings.GetConfigurationSettings(), sTestResult.ID);
         }
     }
 

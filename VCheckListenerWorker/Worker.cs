@@ -132,7 +132,7 @@ namespace VCheckListenerWorker
 
                                 try
                                 {
-                                    if (((sData.Contains("ORU^R01") && sData.Contains("OBX")) || !sData.Contains("ORU^R01")) && !sData.Contains("ORU^R02"))
+                                    if (((sData.Contains("ORU^R01") && sData.Contains("OBX")) || !sData.Contains("ORU^R01")) && !sData.Contains("ORU^R02") && !sData.Contains("ESU^U01"))
                                     {
                                         continueProcessData = true;
                                     }
@@ -166,7 +166,8 @@ namespace VCheckListenerWorker
                                     sAckMessage = await SendAckMessage(sIMessage, sData.Trim());
                                     var sMessageByte = Encoding.UTF8.GetBytes(sAckMessage);
                                     sClient.Send(sMessageByte, SocketFlags.None);
-                                    OutputMessage(configBuilder, sFileName, null, null, sAckMessage);
+                                    //OutputMessage(configBuilder, sFileName, null, null, sAckMessage);
+                                    OutputMessage(configBuilder, sFileName, sData, null, sAckMessage);
 
                                     //if (!ConstantConnectionAnalyzer.Contains(deviceType))
                                     //{
@@ -179,7 +180,7 @@ namespace VCheckListenerWorker
                                     {
                                         Task.Run(() => ProcessIMessage(sIMessage, sSystemName));
                                         sXMLMessage = sXMLParser.Encode(sIMessage);
-                                        OutputMessage(configBuilder, sFileName, sData, sXMLMessage, null);
+                                        //OutputMessage(configBuilder, sFileName, sData, sXMLMessage, null);
                                     }
                                 }
                                 else

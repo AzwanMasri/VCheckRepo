@@ -140,15 +140,32 @@ namespace VCheckViewer.Views.Pages.Setting.Clinic
 
         private async Task GetClinicInfo()
         {
+            var clinicInfoString = "";
             ComboBoxItem selectedItem = (ComboBoxItem)ClinicCountryCodeSearch.SelectedItem;
             var ClinicPhoneNo = selectedItem.Tag + " " + ClinicPhoneNumSearch.Text;
             var ClinicID = ClinicPhoneNo.Replace(" ", "").Replace("-", "");
-
-            GreywindAPI sAPI = new GreywindAPI();
+            var sPMS = configDBContext.GetConfigurationData("InterfaceSettingsPMS").FirstOrDefault();
             VCheckAPI VcheckAPI = new VCheckAPI();
-            var PMSURL = await VcheckAPI.GetPMSUrl(2);
+            bool isGreywind = false;
 
-            var clinicInfoString = await sAPI.GetClinicInfo(ClinicID, PMSURL);
+            //GreywindAPI sAPI = new GreywindAPI();
+            //var PMSURL = await VcheckAPI.GetPMSUrl(2);
+
+            //var clinicInfoString = await sAPI.GetClinicInfo(ClinicID, PMSURL);
+
+            if (sPMS != null && sPMS.ConfigurationValue == "Greywind")
+            {
+                GreywindAPI sAPI = new GreywindAPI();
+                var PMSURL = await VcheckAPI.GetPMSUrl(2);
+
+                clinicInfoString = await sAPI.GetClinicInfo(ClinicID, PMSURL);
+                isGreywind = true;
+            }
+            else
+            {
+                clinicInfoString = await VcheckAPI.GetLocation(ClinicID);
+            }
+
             if (string.IsNullOrEmpty(clinicInfoString))
             {
                 App.MainViewModel.Origin = "NoClinicFound";
@@ -158,14 +175,28 @@ namespace VCheckViewer.Views.Pages.Setting.Clinic
             }
             else
             {
-                var ClinicInfo = JsonConvert.DeserializeObject<VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest>(clinicInfoString);
+                if (isGreywind)
+                {
+                    var ClinicInfo = JsonConvert.DeserializeObject<VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest>(clinicInfoString);
 
-                ClinicName.Text = ClinicInfo.name_1;
-                ClinicAddress.Text = ClinicInfo.address_1;
-                ClinicCity.Text = ClinicInfo.city;
-                ClinicState.Text = ClinicInfo.state;
+                    ClinicName.Text = ClinicInfo.name_1;
+                    ClinicAddress.Text = ClinicInfo.address_1;
+                    ClinicCity.Text = ClinicInfo.city;
+                    ClinicState.Text = ClinicInfo.state;
+                    ClinicPhoneNum.Text = ClinicPhoneNumSearch.Text;
+
+                }
+                else
+                {
+                    var ClinicInfo = JsonConvert.DeserializeObject<List<LocationResultObject>>(clinicInfoString).FirstOrDefault();
+
+                    ClinicName.Text = ClinicInfo.name;
+                    ClinicAddress.Text = ClinicInfo.address;
+                    //ClinicCity.Text = ClinicInfo.city;
+                    //ClinicState.Text = ClinicInfo.state;
+                }
+
                 ClinicPhoneNum.Text = ClinicPhoneNumSearch.Text;
-
                 cbCountryPhoneNum = App.MainViewModel.cbCountryPhoneNum;
                 ClinicCountryCode.SelectedItem = cbCountryPhoneNum.Where(a => (string)a.Tag == selectedItem.Tag.ToString()).FirstOrDefault();
                 checker();

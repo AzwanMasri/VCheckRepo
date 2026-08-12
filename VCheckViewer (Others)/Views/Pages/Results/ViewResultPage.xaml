@@ -1,0 +1,326 @@
+﻿<Page x:Class="VCheckViewer_Others.Views.Pages.Results.ViewResultPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:VCheckViewer_Others.Views.Pages.Results"
+      xmlns:Converter="clr-namespace:VCheckViewer_Others.Converter"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="ViewResultPage">  
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Button x:Name="ViewResultBackButton" Content="Back" Grid.Row="0" Grid.Column="0" Style="{StaticResource BackButton}" Foreground="{DynamicResource Themes_FontColor}" Margin="0,10,0,0" Click="BackButton_Click"/>
+        <Button Margin="0,25,0,0" Grid.ColumnSpan="3" Name="btnPrint" BorderThickness="0" BorderBrush="Black" Background="Transparent" HorizontalAlignment="Right" Click="btnPrint_Click">
+            <Image Source="{DynamicResource Themes_GridPrintIcon}" Width="20" Height="20" />
+        </Button>
+        <Border Grid.Column="0" Grid.Row="1" Background="{DynamicResource Themes_InterfaceFrameBackground}" Margin="10,0,10,0" CornerRadius="5" Padding="5,0,5,0" BorderThickness="1" BorderBrush="{DynamicResource Themes_GridUserRowLinesColor}">
+            <Image x:Name="ViewReportLogo" Source="{DynamicResource Themes_BioLogo}"/>
+        </Border>
+        <Grid Grid.Column="1" Grid.Row="1" Margin="10,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock x:Name="ReportTitle" VerticalAlignment="Center" Grid.Row="0" FontWeight="Bold" Foreground="{DynamicResource Themes_FontColor}"/>
+            <TextBlock x:Name="ClinicName" VerticalAlignment="Center" Grid.Row="1" FontWeight="Bold" Foreground="{DynamicResource Themes_FontColor}"/>
+            <TextBlock x:Name="ClinicAddress" VerticalAlignment="Center" Grid.Row="2" TextWrapping="Wrap" FontWeight="Bold" Foreground="{DynamicResource Themes_FontColor}"/>
+            <TextBlock x:Name="ClinicPhoneNum" VerticalAlignment="Center" Grid.Row="3" FontWeight="Bold" Foreground="{DynamicResource Themes_FontColor}"/>
+        </Grid>
+        <Grid Grid.Column="2" Grid.Row="1" Margin="10,0,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Name="SpeciesRow" Height="*"/>
+                <RowDefinition Name="AgeRow" Height="*"/>
+                <RowDefinition Name="WeightRow" Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock Grid.Row="0" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"><Run Name="PatientIDLabel" FontWeight="Bold"/><Run Name="PatientID"/></TextBlock>
+                <TextBlock Grid.Row="1" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"><Run Name="PatientNameLabel" FontWeight="Bold"/><Run Name="PatientName"/></TextBlock>
+                <TextBlock Grid.Row="2" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"><Run Name="SpeciesLabel" FontWeight="Bold"/><Run Name="Species"/></TextBlock>
+                <TextBlock Grid.Row="3" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"><Run Name="AgeLabel" FontWeight="Bold"/><Run Name="Age"/></TextBlock>
+                <TextBlock Grid.Row="4" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"><Run Name="WeightLabel" FontWeight="Bold"/><Run Name="Weight"/></TextBlock>
+                <TextBlock Grid.Row="5" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"><Run Name="DoctorNameLabel" FontWeight="Bold"/><Run Name="DoctorName"/></TextBlock>
+            <TextBlock Grid.Row="6" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"><Run Name="DateTimeLabel" FontWeight="Bold"/><Run Name="TestDate"/></TextBlock>
+        </Grid>
+
+        <DataGrid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3"  Margin="10, 10, 10, 5" Name="dgResultDetails" BorderThickness="0" AutoGenerateColumns="False" GridLinesVisibility="Horizontal" HorizontalGridLinesBrush="{DynamicResource Themes_GridUserRowLinesColor}" Background="Transparent" CanUserAddRows="False" HorizontalAlignment="Stretch" 
+          VerticalAlignment="Stretch" RowHeaderWidth="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+
+            <DataGrid.Columns>
+
+                <!-- Column with border -->
+                <DataGridTemplateColumn Header="{Binding Path=Report_Label_Parameter, Source={StaticResource Resources}}" Width="*">
+                    <DataGridTemplateColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="DataGridColumnHeader">
+                                        <Border Background="{DynamicResource Themes_InterfaceFrameBackground}"
+                                    BorderThickness="1,1,0,0" 
+                                    BorderBrush="{DynamicResource Themes_GridUserRowLinesColor}"
+                                    CornerRadius="5,0,0,0">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="Foreground" Value="{DynamicResource Themes_GridUserFontColor}"/>
+                        </Style>
+                    </DataGridTemplateColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="{DynamicResource Themes_GridUserRowLinesColor}" BorderThickness="1,0,0,0">
+                                <Grid HorizontalAlignment="Center">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition Width="auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Image Grid.Column="0" Source="{Binding ArrowIcon}" Width="15" Margin="0,1,3,0" Visibility="{Binding IconVisibility}"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding TestParameter}" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Foreground="{Binding ForeGround}" TextWrapping="Wrap"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Column with border -->
+                <DataGridTemplateColumn Header="{Binding Path=Report_Label_ResultValue, Source={StaticResource Resources}}" Width="*">
+                    <DataGridTemplateColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="DataGridColumnHeader">
+                                        <Border Background="{DynamicResource Themes_InterfaceFrameBackground}"
+                                    BorderThickness="0,1,0,0" 
+                                    BorderBrush="{DynamicResource Themes_GridUserRowLinesColor}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="Foreground" Value="{DynamicResource Themes_GridUserFontColor}"/>
+                        </Style>
+                    </DataGridTemplateColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="{DynamicResource Themes_GridUserRowLinesColor}" BorderThickness="0">
+                                <TextBlock Text="{Binding TestResultValue}" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Foreground="{Binding ForeGround}"/>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Column with border -->
+                <DataGridTemplateColumn Header="{Binding Path=Report_Label_ResultStatus, Source={StaticResource Resources}}" Width="*">
+                    <DataGridTemplateColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="DataGridColumnHeader">
+                                        <Border Background="{DynamicResource Themes_InterfaceFrameBackground}"
+                                            BorderThickness="0,1,0,0" 
+                                            BorderBrush="{DynamicResource Themes_GridUserRowLinesColor}">
+                                                    <ContentPresenter HorizontalAlignment="Center" 
+                                                      VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="Foreground" Value="{DynamicResource Themes_GridUserFontColor}"/>
+                        </Style>
+                    </DataGridTemplateColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="{DynamicResource Themes_GridUserRowLinesColor}" BorderThickness="0">
+                                <TextBlock Text="{Binding TestResultStatus}" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Foreground="{Binding ForeGround}"/>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Column with border -->
+                <DataGridTemplateColumn Header="{Binding Path=Report_Label_Reference, Source={StaticResource Resources}}" Width="*">
+                    <DataGridTemplateColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="DataGridColumnHeader">
+                                        <Border Background="{DynamicResource Themes_InterfaceFrameBackground}"
+                                            BorderThickness="0,1,0,0" 
+                                            BorderBrush="{DynamicResource Themes_GridUserRowLinesColor}">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                      VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                            <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="Foreground" Value="{DynamicResource Themes_GridUserFontColor}"/>
+                        </Style>
+                    </DataGridTemplateColumn.HeaderStyle>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="{DynamicResource Themes_GridUserRowLinesColor}" BorderThickness="0">
+                                <TextBlock Text="{Binding ReferenceRange}" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource Themes_GridUserFontColor}"/>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Column with border -->
+                <DataGridTemplateColumn Width="*">
+                    <DataGridTemplateColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="DataGridColumnHeader">
+                                        <Border Background="{DynamicResource Themes_InterfaceFrameBackground}"
+                                    BorderThickness="0,1,0,0" 
+                                    BorderBrush="{DynamicResource Themes_GridUserRowLinesColor}"
+                                    CornerRadius="0,0,0,0">
+                                            <ContentPresenter HorizontalAlignment="Stretch" 
+                                              VerticalAlignment="Stretch"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTemplateColumn.HeaderStyle>
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.ColumnSpan="3" HorizontalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource Themes_GridUserFontColor}"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" Text="{Binding Path=Report_Label_Low, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_GridUserFontColor}"/>
+                                <TextBlock Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" Text="{Binding Path=Schedule_Label_Normal, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_GridUserFontColor}"/>
+                                <TextBlock Grid.Row="1" Grid.Column="2" HorizontalAlignment="Center" Text="{Binding Path=Report_Label_High, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_GridUserFontColor}"/>
+
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="{DynamicResource Themes_GridUserRowLinesColor}" Padding="4">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <ProgressBar Grid.ColumnSpan="3" Value="{Binding FirstLayerReference}" Minimum="0" Maximum="100" Height="23" VerticalAlignment="Center" Background="Transparent" Foreground="{Binding ForeGround}"/>
+                                    <ProgressBar Grid.ColumnSpan="3" Value="{Binding SecondLayerReference}" Minimum="0" Maximum="100" Height="23" VerticalAlignment="Center" Background="Transparent" Foreground="{DynamicResource Themes_PageBackground}"/>
+
+                                    <Border Grid.Column="0" BorderThickness="2,2,1,2" BorderBrush="{DynamicResource Themes_GridUserFontColor}"></Border>
+                                    <Border Grid.Column="1" BorderThickness="1,2,1,2" BorderBrush="{DynamicResource Themes_GridUserFontColor}"></Border>
+                                    <Border Grid.Column="2" BorderThickness="1,2,2,2" BorderBrush="{DynamicResource Themes_GridUserFontColor}"></Border>
+
+                                    <Border Grid.ColumnSpan="3" HorizontalAlignment="Stretch" Background="{DynamicResource Themes_PageBackground}" Visibility="{Binding BarVisibility}">
+                                        <TextBlock Text="-" TextAlignment="Center" Foreground="{DynamicResource Themes_GridUserFontColor}"/>
+                                    </Border>
+
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!-- Column with border -->
+                <DataGridTemplateColumn Width="*">
+                    <DataGridTemplateColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="DataGridColumnHeader">
+                                        <Border Background="{DynamicResource Themes_InterfaceFrameBackground}"
+                                            BorderThickness="0,1,1,0" 
+                                            BorderBrush="{DynamicResource Themes_GridUserRowLinesColor}" CornerRadius="0,5,0,0">
+                                            <ContentPresenter HorizontalAlignment="Center" 
+                                                      VerticalAlignment="Center"/>
+                                        </Border>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </DataGridTemplateColumn.HeaderStyle>
+                    <DataGridTemplateColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" HorizontalAlignment="Center" Text="{Binding Path=Report_Label_PreviousRecord, Source={StaticResource Resources}}" FontWeight="Bold" Foreground="{DynamicResource Themes_GridUserFontColor}"/>
+                                <TextBlock Grid.Row="1" Text="{Binding DataContext.PreviousDatetime, RelativeSource={RelativeSource AncestorType=Page}}" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_GridUserFontColor}" FontSize="10"/>
+                                
+                            </Grid>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.HeaderTemplate>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="{DynamicResource Themes_GridUserRowLinesColor}" BorderThickness="0,0,1,0">
+                                <TextBlock Text="{Binding PreviousValue}" VerticalAlignment="Center" HorizontalAlignment="Center" FontWeight="Bold" Foreground="{DynamicResource Themes_GridUserFontColor}"/>
+                            </Border>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Border x:Name="serumIndexView" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="3" Margin="10,10,10,10" Visibility="Collapsed">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,10,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Text="Serum Index" Grid.Row="0" FontWeight="Bold" Foreground="{DynamicResource Themes_GridUserFontColor}"/>
+                <TextBlock x:Name="HemLipIctIndex" Grid.Row="1" Foreground="{DynamicResource Themes_GridUserFontColor}"/>
+            </Grid>
+        </Border>
+
+        <Border x:Name="graphView" Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="3" Margin="0,20,10,10">
+            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,0,10,0">
+                <StackPanel x:Name="responsiveView" Orientation="Vertical">
+                    <Grid Margin="0, 10, 0, 10">
+                        <TextBlock FontSize="50" TextAlignment="Center" Foreground="{DynamicResource Themes_FontColor}" Text="{Binding Path=Dashboard_Label_Loading, Source={StaticResource Resources}}"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Page>
