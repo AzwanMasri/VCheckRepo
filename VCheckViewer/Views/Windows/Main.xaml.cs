@@ -1328,8 +1328,8 @@ namespace VCheckViewer.Views.Windows
             App.MainViewModel.cbDateFormat.Add(new ComboBoxItem { Tag = "yyyy/dd/MM", Content = "YYYY/DD/MM" });
             App.MainViewModel.cbDateFormat.Add(new ComboBoxItem { Tag = "yyyy/MM/dd", Content = "YYYY/MM/DD" });
 
+            App.MainViewModel.cbConnectionType.Add(new ComboBoxItem { Tag = "ethernet", Content = "Wired" }); 
             App.MainViewModel.cbConnectionType.Add(new ComboBoxItem { Tag = "wifi", Content = "Wireless" });
-            App.MainViewModel.cbConnectionType.Add(new ComboBoxItem { Tag = "ethernet", Content = "Wired" });
         }
 
         private async static void DeleteUserRowHandler(EventArgs e, object sender)

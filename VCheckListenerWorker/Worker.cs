@@ -284,9 +284,9 @@ namespace VCheckListenerWorker
                     iPortNo = 8585;
                     //iPortNo = 1001;
 
-                    sHostIP = GetAssignedIPAddress();
+                    //sHostIP = GetAssignedIPAddress();
                     //sHostIP = GetIPAddressFromDatabase(out iPortNo);
-                    //sHostIP = GetIPAddressAccordingToType();
+                    sHostIP = GetIPAddressAccordingToType();
 
                     if (!string.IsNullOrEmpty(sHostIP))
                     {
@@ -564,43 +564,111 @@ namespace VCheckListenerWorker
             return ipAddress;
         }
 
+        //public static string GetIPAddressAccordingToType()
+        //{
+        //    var connectionType = TestResultRepository.GetConfigurationByKey("Connection_Type");
+        //    string selectedIpAddress = "";
+        //    var NetworkType = connectionType != null && connectionType.ConfigurationValue == "ethernet" ? NetworkInterfaceType.Ethernet : NetworkInterfaceType.Wireless80211;
+
+        //    try
+        //    {
+        //        // Get all network interfaces
+        //        foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+        //        {
+        //            // Skip interfaces that are not up
+        //            if (ni.OperationalStatus != OperationalStatus.Up && ni.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+        //                continue;
+
+        //            // Filter only Ethernet or Wireless interfaces
+        //            if (ni.NetworkInterfaceType != NetworkType)
+        //                continue;
+
+        //            // Get IPv4 addresses for this interface
+        //            var ipProps = ni.GetIPProperties();
+        //            var ipv4Addrs = ipProps.UnicastAddresses
+        //                .FirstOrDefault(x => x.Address.AddressFamily == AddressFamily.InterNetwork);
+
+        //            if (ipv4Addrs != null)
+        //            {
+        //                selectedIpAddress = ipv4Addrs.Address.ToString();
+        //                break;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //    }
+
+        //    return selectedIpAddress;
+        //}
+
         public static string GetIPAddressAccordingToType()
         {
-            var connectionType = TestResultRepository.GetConfigurationByKey("Connection_Type");
-            string selectedIpAddress = "";
-            var NetworkType = connectionType != null && connectionType.ConfigurationValue == "ethernet" ? NetworkInterfaceType.Ethernet : NetworkInterfaceType.Wireless80211;
-
             try
             {
-                // Get all network interfaces
-                foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+                var connectionType = TestResultRepository.GetConfigurationByKey("Connection_Type");
+                string preferredType = "ethernet";
+
+                if (connectionType != null && !string.IsNullOrWhiteSpace(connectionType.ConfigurationValue))
                 {
-                    // Skip interfaces that are not up
-                    if (ni.OperationalStatus != OperationalStatus.Up && ni.NetworkInterfaceType != NetworkInterfaceType.Loopback)
-                        continue;
-
-                    // Filter only Ethernet or Wireless interfaces
-                    if (ni.NetworkInterfaceType != NetworkType)
-                        continue;
-
-                    // Get IPv4 addresses for this interface
-                    var ipProps = ni.GetIPProperties();
-                    var ipv4Addrs = ipProps.UnicastAddresses
-                        .FirstOrDefault(x => x.Address.AddressFamily == AddressFamily.InterNetwork);
-
-                    if (ipv4Addrs != null)
+                    var value = connectionType.ConfigurationValue.Trim().ToLowerInvariant();
+                    if (value == "wifi" || value == "ethernet")
                     {
-                        selectedIpAddress = ipv4Addrs.Address.ToString();
-                        break;
+                        preferredType = value;
                     }
                 }
+
+                string ip = FindIpByConnectionType(preferredType);
+                if (!string.IsNullOrEmpty(ip))
+                {
+                    return ip;
+                }
+
+                string fallbackType = preferredType == "ethernet" ? "wifi" : "ethernet";
+                return FindIpByConnectionType(fallbackType);
             }
             catch (Exception ex)
             {
-
+                Console.WriteLine("GetIPAddressAccordingToType >>> " + ex.ToString());
+                return "";
             }
+        }
+        
+        private static string FindIpByConnectionType(string connectionType)
+        {
+            NetworkInterfaceType networkType = connectionType == "ethernet"
+                ? NetworkInterfaceType.Ethernet
+                : NetworkInterfaceType.Wireless80211;
 
-            return selectedIpAddress;
+            foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if (ni.OperationalStatus != OperationalStatus.Up)
+                    continue;
+
+                if (ni.NetworkInterfaceType != networkType)
+                    continue;
+
+                var ipv4 = ni.GetIPProperties().UnicastAddresses
+                    .Select(x => x.Address)
+                    .FirstOrDefault(a =>
+                        a.AddressFamily == AddressFamily.InterNetwork &&
+                        !IPAddress.IsLoopback(a) &&
+                        !IsApipaAddress(a));
+
+                if (ipv4 != null)
+                {
+                    return ipv4.ToString();
+                }
+            }
+            return "";
+        }
+
+        private static bool IsApipaAddress(IPAddress address)
+        {
+            byte[] bytes = address.GetAddressBytes();
+            // 169.254.x.x
+            return bytes.Length == 4 && bytes[0] == 169 && bytes[1] == 254;
         }
     }
 }

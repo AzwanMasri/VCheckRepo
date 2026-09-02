@@ -92,12 +92,11 @@
                         <TextBlock Grid.Row="1" Grid.Column="1" x:Name="ListenerIP" HorizontalAlignment="Center"/>
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Path=Maintenance_Label_ListenerPortNo, Source={StaticResource Resources}}" FontWeight="ExtraBold" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
                         <TextBlock Grid.Row="2" Grid.Column="1" x:Name="ListenerPort" HorizontalAlignment="Center"/>
-                        <!--<TextBlock Grid.Row="3" Grid.Column="0" Text="Connection Type" FontWeight="ExtraBold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Connection Type" FontWeight="ExtraBold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
                         <ComboBox Grid.Row="3" Grid.Column="1" x:Name="ConnectionType" ItemsSource="{Binding cbConnectionType}" SelectedItem="{Binding SelectedcbConnectionType}" BorderThickness="0" VerticalAlignment="Center" Foreground="Black"/>
 
-
                         <Button Name="SaveButton" Grid.Row="4" Grid.Column="1" Width="60" HorizontalAlignment="Right" Foreground="White" Content="{Binding Path=General_Label_Save, Source={StaticResource Resources}}" Margin="0,5,0,0" Click="SaveButton_Click"
-                        Background="{DynamicResource Themes_ButtonColor}" BorderBrush="{DynamicResource Themes_ButtonColor}" Style="{DynamicResource RoundButton}" />-->
+                        Background="{DynamicResource Themes_ButtonColor}" BorderBrush="{DynamicResource Themes_ButtonColor}" Style="{DynamicResource RoundButton}" />
 
                     </Grid>
                 </Border>
