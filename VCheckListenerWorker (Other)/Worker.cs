@@ -17,18 +17,18 @@ using System.Reflection;
 using System.Text;
 using VCheck.Interface.API;
 using VCheck.Lib.Data.Models;
-using VCheckListenerWorker.Lib.Logic;
-using VCheckListenerWorker.Lib.Logic.HL7.V231;
-using VCheckListenerWorker.Lib.Models;
-using VCheckListenerWorker.Lib.ValidationContext;
+using VCheckListenerWorker_Other.Lib.Logic;
+using VCheckListenerWorker_Other.Lib.Logic.HL7.V231;
+using VCheckListenerWorker_Other.Lib.Models;
+using VCheckListenerWorker_Other.Lib.ValidationContext;
 
-namespace VCheckListenerWorker
+namespace VCheckListenerWorker_Other
 {
     public class Worker : BackgroundService
     {
         private readonly ILogger<Worker> _logger;
         System.Net.Sockets.Socket sListener;
-        VCheckListenerWorker.Lib.Util.Logger sLogger;
+        VCheckListenerWorker_Other.Lib.Util.Logger sLogger;
 
         public String sSystemName = "VCheckViewer Listener";
         public string[] ConstantConnectionAnalyzer = { "H6", "U3", "V200", "V2400" };
@@ -556,45 +556,6 @@ namespace VCheckListenerWorker
             return ipAddress;
         }
 
-        //public static string GetIPAddressAccordingToType()
-        //{
-        //    var connectionType = TestResultRepository.GetConfigurationByKey("Connection_Type");
-        //    string selectedIpAddress = "";
-        //    var NetworkType = connectionType != null && connectionType.ConfigurationValue == "ethernet" ? NetworkInterfaceType.Ethernet : NetworkInterfaceType.Wireless80211;
-
-        //    try
-        //    {
-        //        // Get all network interfaces
-        //        foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
-        //        {
-        //            // Skip interfaces that are not up
-        //            if (ni.OperationalStatus != OperationalStatus.Up && ni.NetworkInterfaceType != NetworkInterfaceType.Loopback)
-        //                continue;
-
-        //            // Filter only Ethernet or Wireless interfaces
-        //            if (ni.NetworkInterfaceType != NetworkType)
-        //                continue;
-
-        //            // Get IPv4 addresses for this interface
-        //            var ipProps = ni.GetIPProperties();
-        //            var ipv4Addrs = ipProps.UnicastAddresses
-        //                .FirstOrDefault(x => x.Address.AddressFamily == AddressFamily.InterNetwork);
-
-        //            if (ipv4Addrs != null)
-        //            {
-        //                selectedIpAddress = ipv4Addrs.Address.ToString();
-        //                break;
-        //            }
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-
-        //    }
-
-        //    return selectedIpAddress;
-        //}
-
         public static string GetIPAddressAccordingToType()
         {
             try
@@ -626,7 +587,7 @@ namespace VCheckListenerWorker
                 return "";
             }
         }
-        
+
         private static string FindIpByConnectionType(string connectionType)
         {
             NetworkInterfaceType networkType = connectionType == "ethernet"
