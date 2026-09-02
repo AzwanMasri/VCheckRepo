@@ -12,4 +12,10 @@ namespace VCheck.Lib.Data.Models
         public string testname { get; set; }
         public string? testdescription { get; set; }
     }
+
+    public class TestDataObjectExtended : TestDataObject
+    {
+        public string species { get; set; }
+        public string analyzers { get; set; }
+    }
 }

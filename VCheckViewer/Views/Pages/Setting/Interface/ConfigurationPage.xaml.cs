@@ -26,6 +26,8 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
     public partial class ConfigurationPage : Page
     {
         public ConfigurationDBContext configDBContext = new ConfigurationDBContext(ConfigSettings.GetConfigurationSettings());
+        public PIMSInformation sPIMSInformation = new PIMSInformation();
+
         public String sIPConfigKey = "InterfaceSettingsIP";
         public String sPortNoConfigKey = "InterfaceSettingsPortNo";
         public String sUsernameConfigKey = "InterfaceSettingsUsername";
@@ -43,6 +45,7 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
         public ConfigurationPage()
         {
             InitializeComponent();
+            setPIMSInformation();
             GetPMSURLAsync(2);
 
 
@@ -50,12 +53,27 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
             ConnectionStatus += ConnectionStatusReload;
         }
 
+        private void setPIMSInformation()
+        {
+            var sInterfacePMS = configDBContext.GetConfigurationData(sPMSConfigKey).FirstOrDefault();
+            var sInterfaceIP = configDBContext.GetConfigurationData(sIPConfigKey).FirstOrDefault();
+            var sInterfacePortNo = configDBContext.GetConfigurationData(sPortNoConfigKey).FirstOrDefault();
+            var sInterfaceUsername = configDBContext.GetConfigurationData(sUsernameConfigKey).FirstOrDefault();
+            var sInterfacePassword = configDBContext.GetConfigurationData(sPasswordConfigKey).FirstOrDefault();
+
+            sPIMSInformation.sPIMS = sInterfacePMS != null ? sInterfacePMS.ConfigurationValue.ToString() : "";
+            sPIMSInformation.sIPURL = sInterfaceIP != null ? sInterfaceIP.ConfigurationValue.ToString() : "";
+            sPIMSInformation.sPortNo = sInterfacePortNo != null ? sInterfacePortNo.ConfigurationValue.ToString() : "";
+            sPIMSInformation.sUsername = sInterfaceUsername != null ? sInterfaceUsername.ConfigurationValue.ToString() : "";
+            sPIMSInformation.sPassword = sInterfacePassword != null ? sInterfacePassword.ConfigurationValue.ToString() : "";
+        }
+
         private void CheckPMSSelected()
         {
             var sInterfacePMS = configDBContext.GetConfigurationData(sPMSConfigKey).FirstOrDefault();
-            if (sInterfacePMS != null)
+            if (!string.IsNullOrEmpty(sPIMSInformation.sPIMS))
             {
-                CurrentLIS = sInterfacePMS.ConfigurationValue.ToString();
+                CurrentLIS = sPIMSInformation.sPIMS;
 
                 if (CurrentLIS == "Greywind")
                 {
@@ -115,6 +133,7 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
         private void FieldsVal_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             Boolean isFieldEmpty = false;
+            Boolean isFieldChanges = false;
 
             if (Other.IsChecked.GetValueOrDefault())
             {
@@ -131,6 +150,8 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                 {
                     borderIP.BorderBrush = System.Windows.Media.Brushes.Black;
                     borderIP.ToolTip = null;
+
+                    if(sIP != sPIMSInformation.sIPURL) { isFieldChanges = true;  }
                 }
 
                 if (String.IsNullOrEmpty(txtPortNo.Text) || int.Parse(txtPortNo.Text) == 0)
@@ -145,6 +166,8 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                 {
                     borderPortNo.BorderBrush = System.Windows.Media.Brushes.Black;
                     borderPortNo.ToolTip = null;
+
+                    if (txtPortNo.Text != sPIMSInformation.sPortNo) { isFieldChanges = true; }
                 }
 
                 if (String.IsNullOrEmpty(txtUsername.Text))
@@ -159,6 +182,8 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                 {
                     borderUsername.BorderBrush = System.Windows.Media.Brushes.Black;
                     borderUsername.ToolTip = null;
+
+                    if (txtUsername.Text != sPIMSInformation.sUsername) { isFieldChanges = true; }
                 }
 
                 if (String.IsNullOrEmpty(txtPassword.Password))
@@ -173,6 +198,8 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                 {
                     borderPassword.BorderBrush = System.Windows.Media.Brushes.Black;
                     borderPassword.ToolTip = null;
+
+                    if (txtPassword.Password != sPIMSInformation.sPassword) { isFieldChanges = true; }
                 }
 
                 if(CurrentLIS == "Other")
@@ -235,7 +262,7 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                 }
             }
 
-            if (btnConnect.Tag.ToString() == "Connected") { isFieldEmpty = true; }
+            if (btnConnect.Tag.ToString() == "Connected" && !isFieldChanges) { isFieldEmpty = true; }
 
 
             if (isFieldEmpty)
@@ -432,33 +459,38 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                 borderPassword.Visibility = Visibility.Visible;
                 NoneLabel.Visibility = Visibility.Collapsed;
 
-                var sInterfaceIP = configDBContext.GetConfigurationData(sIPConfigKey).FirstOrDefault();
-                if (sInterfaceIP != null)
-                {
-                    txtIP.Text = sInterfaceIP.ConfigurationValue.ToString();
-                }
-                else { txtIP.Text = ""; }
+                //var sInterfaceIP = configDBContext.GetConfigurationData(sIPConfigKey).FirstOrDefault();
+                //if (sInterfaceIP != null)
+                //{
+                //    txtIP.Text = sInterfaceIP.ConfigurationValue.ToString();
+                //}
+                //else { txtIP.Text = ""; }
 
-                var sInterfacePortNo = configDBContext.GetConfigurationData(sPortNoConfigKey).FirstOrDefault();
-                if (sInterfacePortNo != null)
-                {
-                    txtPortNo.Text = sInterfacePortNo.ConfigurationValue.ToString();
-                }
-                else { txtPortNo.Text = ""; }
+                //var sInterfacePortNo = configDBContext.GetConfigurationData(sPortNoConfigKey).FirstOrDefault();
+                //if (sInterfacePortNo != null)
+                //{
+                //    txtPortNo.Text = sInterfacePortNo.ConfigurationValue.ToString();
+                //}
+                //else { txtPortNo.Text = ""; }
 
-                var sInterfaceUsername = configDBContext.GetConfigurationData(sUsernameConfigKey).FirstOrDefault();
-                if (sInterfaceUsername != null)
-                {
-                    txtUsername.Text = sInterfaceUsername.ConfigurationValue.ToString();
-                }
-                else { txtUsername.Text = ""; }
+                //var sInterfaceUsername = configDBContext.GetConfigurationData(sUsernameConfigKey).FirstOrDefault();
+                //if (sInterfaceUsername != null)
+                //{
+                //    txtUsername.Text = sInterfaceUsername.ConfigurationValue.ToString();
+                //}
+                //else { txtUsername.Text = ""; }
 
-                var sInterfacePassword = configDBContext.GetConfigurationData(sPasswordConfigKey).FirstOrDefault();
-                if (sInterfacePassword != null)
-                {
-                    txtPassword.Password = sInterfacePassword.ConfigurationValue.ToString();
-                }
-                else { txtPassword.Password = ""; }
+                //var sInterfacePassword = configDBContext.GetConfigurationData(sPasswordConfigKey).FirstOrDefault();
+                //if (sInterfacePassword != null)
+                //{
+                //    txtPassword.Password = sInterfacePassword.ConfigurationValue.ToString();
+                //}
+                //else { txtPassword.Password = ""; }
+
+                txtIP.Text = sPIMSInformation.sIPURL;
+                txtPortNo.Text = sPIMSInformation.sPortNo;
+                txtUsername.Text = sPIMSInformation.sUsername;
+                txtPassword.Password = sPIMSInformation.sPassword;
             }
             else
             {
@@ -731,11 +763,25 @@ namespace VCheckViewer.Views.Pages.Setting.Interface
                 CurrentLIS = "None";
             }
 
+            setPIMSInformation();
+
         }
 
         private void DownloadButton_Clicked(object sender, RoutedEventArgs e)
         {
             Process.Start(new ProcessStartInfo(App.UpdateLink) { UseShellExecute = true });
         }
+    }
+
+    public class PIMSInformation
+    {
+        public string sPIMS { get; set; }
+        public string sIPURL { get; set; }
+
+        public string sPortNo { get; set; }
+
+        public string sUsername { get; set; }
+
+        public string sPassword { get; set; }
     }
 }

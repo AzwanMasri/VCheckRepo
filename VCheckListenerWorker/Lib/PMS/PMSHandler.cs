@@ -219,7 +219,21 @@ namespace VCheckListenerWorker.Lib.PMS
                 }
                 else
                 {
-                    url = port == "80" ? url : url + ":" + port;
+                    if (!(port == "80" || port == "443"))
+                    {
+                        var splitURL = url.Split("/");
+
+                        if (splitURL[0].ToLower().Contains("http"))
+                        {
+                            splitURL[2] = splitURL[2] + ":" + port;
+                        }
+                        else
+                        {
+                            splitURL[0] = splitURL[0] + ":" + port;
+                        }
+
+                        url = string.Join("/", splitURL);
+                    }
 
                     GeneralAPI sAPI = new GeneralAPI();
                     sRespAPI = await sAPI.SendData(url, sRequestAPI, username, password);

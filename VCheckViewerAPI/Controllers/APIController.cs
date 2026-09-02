@@ -960,9 +960,11 @@ namespace VCheckViewerAPI.Controllers
                 {
                     request.Body.Status = 1;
                     request.Body.Description = "Clinic";
-                    request.Body.Address = request.Body.Address.Replace("'", "''");
-                    request.Body.Name = request.Body.Name.Replace("'", "''");
-                    request.Body.ContactName = request.Body.ContactName.Replace("'", "''");
+
+                    if (!string.IsNullOrEmpty(request.Body.Address)) { request.Body.Address = request.Body.Address.Replace("'", "''"); }
+                    if (!string.IsNullOrEmpty(request.Body.Name)) { request.Body.Name = request.Body.Name.Replace("'", "''"); }
+                    if (!string.IsNullOrEmpty(request.Body.ContactName)) { request.Body.ContactName = request.Body.ContactName.Replace("'", "''"); }
+
                     var temp = JsonConvert.SerializeObject(request.Body);
                     var locationObject = JsonConvert.DeserializeObject<LocationModel>(temp);
                     ClientModel sAuthProfile = _apiRepository.GetClientProfileByClientKey(request.Header.clientKey);
@@ -1459,6 +1461,86 @@ namespace VCheckViewerAPI.Controllers
                 response.Body.ResponseMessage = "Exception Error";
 
                 VCheck.APILogging.CallLogging.InsertErrorLog("GetTestList", Guid.NewGuid().ToString(), response.Body.ResponseCode, response.Body.ResponseStatus,
+                                            response.Body.ResponseMessage, ((ex != null) ? ex.ToString() : ""));
+            }
+
+            if (response.Body.ResponseCode != "VV.0001")
+            {
+                return BadRequest(response);
+            }
+
+            return response;
+        }
+
+        /// <summary>
+        /// Get Test List
+        /// </summary>
+        /// <param name="request"></param>
+        /// <returns></returns>
+        [HttpPost(Name = "GetFullInfoTestList")]
+        public ActionResult<ResponseModel> GetFullInfoTestList(TestDataRequest request)
+        {
+            var response = new ResponseModel();
+            response.Header = new HeaderModel() { timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ"), clientKey = request.Header.clientKey }; ;
+            response.Body = new ResponseBody();
+
+            String responseCode = "";
+            String responseMessage = "";
+            String responseStatus = "";
+
+            List<TestDataObjectExtended> sResultList = new List<TestDataObjectExtended>();
+
+            try
+            {
+                if (request.Header.clientKey != null && _apiRepository.Authenticate(request.Header.clientKey, out CanViewOther))
+                {
+                    ClientModel sAuthProfile = _apiRepository.GetClientProfileByClientKey(request.Header.clientKey);
+
+                    var sTestList = TestResultsRepository.GetAllTestList(ConfigSettings.GetConfigurationSettings());
+                    if (sTestList != null && sTestList.Count > 0)
+                    {
+                        foreach (var test in sTestList)
+                        {
+                            sResultList.Add(new TestDataObjectExtended
+                            {
+                                testid = test.TestID,
+                                testname = test.TestName,
+                                testdescription = test.TestDescription,
+                                species = test.Species,
+                                analyzers = test.Analyzer
+                            });
+                        }
+                    }
+
+                    responseCode = "VV.0001";
+                    responseStatus = "Success";
+                    responseMessage = "Success";
+                }
+                else
+                {
+                    responseCode = "VV.0003";
+                    responseStatus = "Fail";
+                    responseMessage = "Unauthorized Request";
+                }
+
+                response.Body.ResponseCode = responseCode;
+                response.Body.ResponseStatus = responseStatus;
+                response.Body.ResponseMessage = responseMessage;
+                response.Body.Results = sResultList;
+
+                //--------- Log Payload -------//
+                VCheck.APILogging.CallLogging.InsertAPiLog("GetFullInfoTestList", Guid.NewGuid().ToString(), request.Header.timestamp,
+                                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
+                                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
+                                               responseMessage);
+            }
+            catch (Exception ex)
+            {
+                response.Body.ResponseCode = "VV.9999";
+                response.Body.ResponseStatus = "Exception";
+                response.Body.ResponseMessage = "Exception Error";
+
+                VCheck.APILogging.CallLogging.InsertErrorLog("GetFullInfoTestList", Guid.NewGuid().ToString(), response.Body.ResponseCode, response.Body.ResponseStatus,
                                             response.Body.ResponseMessage, ((ex != null) ? ex.ToString() : ""));
             }
 

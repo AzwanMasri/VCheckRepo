@@ -35,6 +35,8 @@ namespace VCheckListenerWorker
 
         public static MainModel MainModel { get; } = new MainModel();
 
+        public DateTime startTime;
+
         public Worker(ILogger<Worker> logger)
         {
             _logger = logger;
@@ -85,6 +87,7 @@ namespace VCheckListenerWorker
                             bool isConnected = true;
                             int byteLength = sClient.Available;
                             Console.WriteLine($"Continue listening....{byteLength}");
+                            startTime = DateTime.Now;
                             while (isConnected)
                             {
                                 Thread.Sleep(1000);
@@ -141,6 +144,9 @@ namespace VCheckListenerWorker
 
                                     for (int i = 0; i < lines.Length; i++)
                                     {
+                                        //var splitString = lines[i].Split("|");
+                                        //if (splitString.Count() == 1 || string.IsNullOrEmpty(splitString[0])) { lines[i - 1] = lines[i - 1] + lines[i]; lines[i] = ""; }
+
                                         if (!lines[i].Contains("|")) { lines[i - 1] = lines[i - 1] + lines[i]; lines[i] = ""; }
                                     }
 
@@ -166,6 +172,8 @@ namespace VCheckListenerWorker
                                     sAckMessage = await SendAckMessage(sIMessage, sData.Trim());
                                     var sMessageByte = Encoding.UTF8.GetBytes(sAckMessage);
                                     sClient.Send(sMessageByte, SocketFlags.None);
+
+                                    //Console.WriteLine("Time taken : " + (DateTime.Now - startTime));
                                     //OutputMessage(configBuilder, sFileName, null, null, sAckMessage);
                                     OutputMessage(configBuilder, sFileName, sData, null, sAckMessage);
 

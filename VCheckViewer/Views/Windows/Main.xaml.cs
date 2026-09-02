@@ -2213,7 +2213,24 @@ namespace VCheckViewer.Views.Windows
                             else
                             {
                                 VCheck.Interface.API.GeneralAPI sAPI = new VCheck.Interface.API.GeneralAPI();
-                                sRespAPI = await sAPI.SendData(url + ":" + port, sRequestAPI, username, password);
+
+                                if (!(port == "80" || port == "443"))
+                                {
+                                    var splitURL = url.Split("/");
+
+                                    if (splitURL[0].ToLower().Contains("http"))
+                                    {
+                                        splitURL[2] = splitURL[2] + ":" + port;
+                                    }
+                                    else
+                                    {
+                                        splitURL[0] = splitURL[0] + ":" + port;
+                                    }
+
+                                    url = string.Join("/", splitURL);
+                                }
+
+                                sRespAPI = await sAPI.SendData(url, sRequestAPI, username, password);
                             }
                         }
 

@@ -659,18 +659,22 @@ namespace VCheckViewer_Others.Lib.DocumentTemplate
 
                 if (sIsPrint)
                 {
-                    //App.FilePath = "Report-temp.pdf";
-                    //sDocument.GeneratePdf(App.FilePath);
+                    // Generate a unique filename in the system temp folder
+                    string tempFilePath = Path.Combine(
+                        Path.GetTempPath(),
+                        $"Report_{Guid.NewGuid():N}.pdf"
+                    );
 
-                    //Process process = new Process();
-                    //process.StartInfo = new ProcessStartInfo()
-                    //{
-                    //    FileName = App.FilePath,
-                    //    UseShellExecute = true
-                    //};
-                    //process.Start();
+                    App.FilePath = tempFilePath;
+                    sDocument.GeneratePdf(App.FilePath);
 
-                    sDocument.GeneratePdfAndShow();
+                    Process process = new Process();
+                    process.StartInfo = new ProcessStartInfo()
+                    {
+                        FileName = App.FilePath,
+                        UseShellExecute = true
+                    };
+                    process.Start();
                 }
                 else
                 {

@@ -116,7 +116,7 @@ namespace VCheck.Lib.Data
                     else
                     {
                         //location.ID = GenerateUniqueKey(20);
-                        location.ID = location.PhoneNum.Replace(" ", "").Replace("-","");
+                        location.ID = string.IsNullOrEmpty(location.ID) ? location.PhoneNum.Replace(" ", "").Replace("-","") : location.ID;
                         location.CreatedDate = DateTime.Now.ToUniversalTime();
 
                         ctx.mst_location.Add(location);
