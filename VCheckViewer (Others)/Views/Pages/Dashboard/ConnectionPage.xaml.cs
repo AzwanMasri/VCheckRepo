@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,12 +18,11 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VCheck.Lib.Data.DBContext;
-using VCheckViewer.Lib.Function;
+using VCheckViewer_Others.Lib.Function;
 using Brush = System.Windows.Media.Brush;
 using Brushes = System.Windows.Media.Brushes;
-using System.Net.NetworkInformation;
 
-namespace VCheckViewer.Views.Pages.Dashboard
+namespace VCheckViewer_Others.Views.Pages.Dashboard
 {
     /// <summary>
     /// Interaction logic for ConnectionPage.xaml
@@ -37,10 +37,19 @@ namespace VCheckViewer.Views.Pages.Dashboard
         public ConnectionPage()
         {
             InitializeComponent();
-            DataContext = this;
+            //DataContext = this;
 
-            cbConnectionType = new ObservableCollection<ComboBoxItem>();
-            LoadConnectionTypeOptions();
+            //cbConnectionType = App.MainViewModel.cbConnectionType;
+
+            //var sConfigObj = configDBContext.GetConfigurationData("Connection_Type").FirstOrDefault();
+            //if (sConfigObj != null)
+            //{
+            //    SelectedcbConnectionType = cbConnectionType.Where(a => (string)a.Tag == sConfigObj.ConfigurationValue).FirstOrDefault();
+            //}
+            //else
+            //{
+            //    SelectedcbConnectionType = cbConnectionType.FirstOrDefault();
+            //}
 
             if (App.MainViewModel.CurrentUsers.Role == "Lab User")
             {
@@ -176,9 +185,6 @@ namespace VCheckViewer.Views.Pages.Dashboard
         /// <summary>
         /// Get current IP Address
         /// </summary>
-        /// <summary>
-        /// Resolve Listener IP using Connection_Type (same rules as VCheckListenerWorker).
-        /// </summary>
         public static string GetIPAddressAccordingToType()
         {
             try
@@ -247,22 +253,6 @@ namespace VCheckViewer.Views.Pages.Dashboard
             return bytes.Length == 4 && bytes[0] == 169 && bytes[1] == 254;
         }
 
-        /// <summary>
-        /// Legacy DNS-based IP lookup (kept for reference; not used for Listener display/bind).
-        /// </summary>
-        public static string GetAssignedIPAddress()
-        {
-            var host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (var ip in host.AddressList)
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork && ip.ToString() != "127.0.0.1")
-                {
-                    return ip.ToString();
-                }
-            }
-            return "";
-        }
-
         private void RefreshButton_Click(object sender, RoutedEventArgs e)
         {
             RestartListener();
@@ -280,7 +270,7 @@ namespace VCheckViewer.Views.Pages.Dashboard
             {
                 ProcessStartInfo psi = new ProcessStartInfo
                 {
-                    FileName = "C:\\Users\\SVRITL-0003\\source\\repos\\VCheckRepo\\VCheckListenerWorker\\bin\\Debug\\net8.0\\VCheckListenerWorker.exe", // Replace with your executable or script
+                    FileName = "C:\\VCheck\\VCheckListenerWorker\\VCheckListenerWorker.exe", // Replace with your executable or script
                     UseShellExecute = true,   // Required for 'runas'
                     Verb = "runas",           // Triggers UAC prompt for admin rights
                     Arguments = ""            // Optional: pass arguments here
@@ -320,8 +310,7 @@ namespace VCheckViewer.Views.Pages.Dashboard
                             }
                         }
 
-                        //string exePath = @"C:\VCheck\VCheckListenerWorker\VCheckListenerWorker.exe";
-                        string exePath = "C:\\Users\\SVRITL-0003\\source\\repos\\VCheckRepo\\VCheckListenerWorker\\bin\\Debug\\net8.0\\VCheckListenerWorker.exe";
+                        string exePath = @"C:\VCheck\VCheckListenerWorker\VCheckListenerWorker.exe";
 
                         ProcessStartInfo psi = new ProcessStartInfo
                         {
@@ -366,7 +355,6 @@ namespace VCheckViewer.Views.Pages.Dashboard
             RestartListener();
             RefreshAll();
             App.RefreshMaintenanceHandler(e, sender);
-
         }
 
 

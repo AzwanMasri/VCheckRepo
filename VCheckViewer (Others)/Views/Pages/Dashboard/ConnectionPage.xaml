@@ -1,9 +1,9 @@
-﻿<Page x:Class="VCheckViewer.Views.Pages.Dashboard.ConnectionPage"
+﻿<Page x:Class="VCheckViewer_Others.Views.Pages.Dashboard.ConnectionPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-      xmlns:local="clr-namespace:VCheckViewer.Views.Pages.Dashboard"
+      xmlns:local="clr-namespace:VCheckViewer_Others.Views.Pages.Dashboard"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ConnectionPage">
@@ -94,6 +94,7 @@
                         <TextBlock Grid.Row="2" Grid.Column="1" x:Name="ListenerPort" HorizontalAlignment="Center"/>
                         <TextBlock Grid.Row="3" Grid.Column="0" Text="Connection Type" FontWeight="ExtraBold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
                         <ComboBox Grid.Row="3" Grid.Column="1" x:Name="ConnectionType" ItemsSource="{Binding cbConnectionType}" SelectedItem="{Binding SelectedcbConnectionType}" BorderThickness="0" VerticalAlignment="Center" Foreground="Black"/>
+
 
                         <Button Name="SaveButton" Grid.Row="4" Grid.Column="1" Width="60" HorizontalAlignment="Right" Foreground="White" Content="{Binding Path=General_Label_Save, Source={StaticResource Resources}}" Margin="0,5,0,0" Click="SaveButton_Click"
                         Background="{DynamicResource Themes_ButtonColor}" BorderBrush="{DynamicResource Themes_ButtonColor}" Style="{DynamicResource RoundButton}" />

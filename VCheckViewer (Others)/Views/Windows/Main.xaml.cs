@@ -1,4 +1,4 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -20,26 +20,27 @@ using VCheck.Interface.API.Lib.General;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
-using VCheckViewer.Converter;
-using VCheckViewer.Lib.Culture;
-using VCheckViewer.Lib.Function;
-using VCheckViewer.Views.Pages;
-using VCheckViewer.Views.Pages.Dashboard;
-using VCheckViewer.Views.Pages.Login;
-using VCheckViewer.Views.Pages.Maintenance;
-using VCheckViewer.Views.Pages.Notification;
-using VCheckViewer.Views.Pages.Results;
-using VCheckViewer.Views.Pages.Schedule;
-using VCheckViewer.Views.Pages.Setting.Clinic;
-using VCheckViewer.Views.Pages.Setting.Device;
-using VCheckViewer.Views.Pages.Setting.Interface;
-using VCheckViewer.Views.Pages.Setting.LanguageCountry;
-using VCheckViewer.Views.Pages.Setting.Report;
-using VCheckViewer.Views.Pages.Setting.User;
+using VCheckViewer_Others.Converter;
+using VCheckViewer_Others.Lib.Culture;
+using VCheckViewer_Others.Lib.Function;
+using VCheckViewer_Others.Views.Pages;
+using VCheckViewer_Others.Views.Pages.Dashboard;
+using VCheckViewer_Others.Views.Pages.Login;
+using VCheckViewer_Others.Views.Pages.Maintenance;
+using VCheckViewer_Others.Views.Pages.Notification;
+using VCheckViewer_Others.Views.Pages.Results;
+using VCheckViewer_Others.Views.Pages.Schedule;
+using VCheckViewer_Others.Views.Pages.Setting;
+using VCheckViewer_Others.Views.Pages.Setting.Clinic;
+using VCheckViewer_Others.Views.Pages.Setting.Device;
+using VCheckViewer_Others.Views.Pages.Setting.Interface;
+using VCheckViewer_Others.Views.Pages.Setting.LanguageCountry;
+using VCheckViewer_Others.Views.Pages.Setting.Report;
+using VCheckViewer_Others.Views.Pages.Setting.User;
 using Brushes = System.Windows.Media.Brushes;
 using CheckBox = System.Windows.Controls.CheckBox;
 
-namespace VCheckViewer.Views.Windows
+namespace VCheckViewer_Others.Views.Windows
 {
     /// <summary>
     /// Interaction logic for Main.xaml
@@ -123,6 +124,7 @@ namespace VCheckViewer.Views.Windows
             initializedDropdownSelectionList();
 
             Username.Header = App.MainViewModel.CurrentUsers.StaffName;
+            UpdateProfileInitials();
 
             //System.Windows.Data.Binding b = new System.Windows.Data.Binding("Dashboard_Title_PageTitle");
             //b.Source = System.Windows.Application.Current.TryFindResource("Resources");
@@ -366,7 +368,7 @@ namespace VCheckViewer.Views.Windows
 
         void GoToLanguageCountryPage(object sender, EventArgs e)
         {
-            frameContent.Content = new LanguageCountryPage();
+            OpenSettings(SettingPage.CategoryLanguage);
         }
         void GoToDevicePage(object sender, EventArgs e)
         {
@@ -386,13 +388,13 @@ namespace VCheckViewer.Views.Windows
         {
             checklanguage();
 
-            frameContent.Content = new ReportPage();
+            OpenSettings(SettingPage.CategoryReport);
         }
         void GoToClinicInfoPage(object sender, EventArgs e)
         {
             checklanguage();
 
-            frameContent.Content = new ClinicInfoPage();
+            OpenSettings(SettingPage.CategoryClinic);
         }
 
         void GoToViewResultPage(object sender, EventArgs e)
@@ -417,7 +419,7 @@ namespace VCheckViewer.Views.Windows
         {
             checklanguage();
 
-            frameContent.Content = new UserPage();
+            OpenSettings(SettingPage.CategoryUsers);
         }
 
         void GoToInformationPage(object sender, EventArgs e)
@@ -1245,7 +1247,7 @@ namespace VCheckViewer.Views.Windows
 
         private void MainUserPage()
         {
-            frameContent.Content = new UserPage();
+            OpenSettings(SettingPage.CategoryUsers);
         }
 
         private void MainResultPage()
@@ -1328,7 +1330,7 @@ namespace VCheckViewer.Views.Windows
             App.MainViewModel.cbDateFormat.Add(new ComboBoxItem { Tag = "yyyy/dd/MM", Content = "YYYY/DD/MM" });
             App.MainViewModel.cbDateFormat.Add(new ComboBoxItem { Tag = "yyyy/MM/dd", Content = "YYYY/MM/DD" });
 
-            App.MainViewModel.cbConnectionType.Add(new ComboBoxItem { Tag = "ethernet", Content = "Wired" }); 
+            App.MainViewModel.cbConnectionType.Add(new ComboBoxItem { Tag = "ethernet", Content = "Wired" });
             App.MainViewModel.cbConnectionType.Add(new ComboBoxItem { Tag = "wifi", Content = "Wireless" });
         }
 
@@ -1524,6 +1526,7 @@ namespace VCheckViewer.Views.Windows
                     {
                         App.MainViewModel.Users = App.MainViewModel.CurrentUsers;
                         Username.Header = App.MainViewModel.CurrentUsers.StaffName;
+                        UpdateProfileInitials();
 
                         notificationTemplate = TemplateContext.GetTemplateByCodeLang("US02", (sLangCode != null) ? sLangCode.ConfigurationValue : "");
                         notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''");
@@ -2368,6 +2371,26 @@ namespace VCheckViewer.Views.Windows
             CurrentPage = "Notification";
         }
 
+        public void OpenNotificationPanel()
+        {
+            thumbNotification_MouseLeftButtonDown(this, null);
+        }
+
+        public void OpenProfileMenu()
+        {
+            Username.IsSubmenuOpen = true;
+        }
+
+        public int GetNotificationCount()
+        {
+            if (NotificationCountBorder.Visibility != Visibility.Visible)
+            {
+                return 0;
+            }
+
+            return NotificationCount.Text == "99+" ? 99 : int.Parse(NotificationCount.Text);
+        }
+
         private void thumbNotification_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (string.IsNullOrEmpty(CurrentPage))
@@ -2390,9 +2413,14 @@ namespace VCheckViewer.Views.Windows
         {
             checklanguage();
 
-            if (App.MainViewModel.CurrentUsers.Role == "User") { frameContent.Content = new LanguageCountryPage(); }
-            else { frameContent.Content = new UserPage();}
-            
+            if (App.MainViewModel.CurrentUsers.Role == "User")
+            {
+                OpenSettings(SettingPage.CategoryLanguage);
+            }
+            else
+            {
+                OpenSettings(SettingPage.CategoryUsers);
+            }
 
             System.Windows.Data.Binding b = new System.Windows.Data.Binding("Setting_Title_PageTitle");
             b.Source = System.Windows.Application.Current.TryFindResource("Resources");
@@ -2401,6 +2429,24 @@ namespace VCheckViewer.Views.Windows
             refreshMenuItemStyle(mnSettings);
 
             CurrentPage = "";
+        }
+
+        private void OpenSettings(string category)
+        {
+            var settingsPage = frameContent.Content as SettingPage;
+            if (settingsPage == null)
+            {
+                settingsPage = new SettingPage();
+                frameContent.Content = settingsPage;
+            }
+
+            settingsPage.ShowCategory(category);
+
+            System.Windows.Data.Binding b = new System.Windows.Data.Binding("Setting_Title_PageTitle");
+            b.Source = System.Windows.Application.Current.TryFindResource("Resources");
+            PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
+
+            refreshMenuItemStyle(mnSettings);
         }
 
         private void btnCollapse_Click(object sender, RoutedEventArgs e)
@@ -2492,6 +2538,13 @@ namespace VCheckViewer.Views.Windows
 
             String sThemeName = sTheme + ".xaml";
             AppTheme.ChangeTheme(new Uri("Themes/" + sThemeName, UriKind.Relative));
+
+            // Theme toggle is hidden in the prototype shell; keep buttons optional.
+            if (btnDarkTheme == null || btnLightTheme == null)
+            {
+                return;
+            }
+
             if (sTheme.ToLower() == "light")
             {
                 btnDarkTheme.Background = Brushes.Transparent;
@@ -2517,8 +2570,17 @@ namespace VCheckViewer.Views.Windows
                 frameContent.Content = new DashboardPage();
                 sMenu = mnDashboard;
             }
+            if (sCurrentContent.ToString().Contains("SettingPage"))
+            {
+                var current = sCurrentContent as SettingPage;
+                var category = current?.CurrentCategory ?? SettingPage.CategoryUsers;
+                var settingsPage = new SettingPage();
+                frameContent.Content = settingsPage;
+                settingsPage.ShowCategory(category);
+                sMenu = mnSettings;
+            }
             if (sCurrentContent.ToString().Contains("LanguageCountryPage")){ 
-                frameContent.Content = new LanguageCountryPage();
+                OpenSettings(SettingPage.CategoryLanguage);
                 sMenu = mnSettings;
             }
             if (sCurrentContent.ToString().Contains("DevicePage")){ 
@@ -2531,6 +2593,7 @@ namespace VCheckViewer.Views.Windows
             }
             if (sCurrentContent.ToString().Contains("ResultPage"))
             {
+                frameContent.Content = new ResultPage();
                 sMenu = mnResults;
             }
             if (sCurrentContent.ToString().Contains("User"))
@@ -2610,10 +2673,47 @@ namespace VCheckViewer.Views.Windows
         {
             ClearMenuItemStyle();
 
-            String? sColor = System.Windows.Application.Current.Resources["Themes_MenuHighligted"].ToString();
+            if (TryFindResource("NavActiveBrush") is SolidColorBrush navActive)
+            {
+                sItem.Background = navActive;
+                sItem.BorderBrush = navActive;
+            }
+            else
+            {
+                String? sColor = System.Windows.Application.Current.Resources["Themes_MenuHighligted"].ToString();
+                sItem.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
+                sItem.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
+            }
+        }
 
-            sItem.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
-            sItem.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
+        private void UpdateProfileInitials()
+        {
+            if (ProfileInitials == null)
+            {
+                return;
+            }
+
+            var currentUser = App.MainViewModel.CurrentUsers;
+            var source = !string.IsNullOrWhiteSpace(currentUser?.StaffName)
+                ? currentUser.StaffName
+                : currentUser?.FullName;
+
+            if (string.IsNullOrWhiteSpace(source))
+            {
+                ProfileInitials.Text = "SA";
+                return;
+            }
+
+            var parts = source.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length >= 2)
+            {
+                ProfileInitials.Text = $"{char.ToUpper(parts[0][0])}{char.ToUpper(parts[1][0])}";
+                return;
+            }
+
+            ProfileInitials.Text = parts[0].Length >= 2
+                ? parts[0][..2].ToUpperInvariant()
+                : parts[0].ToUpperInvariant();
         }
 
         private ObservableCollection<DateTime> GenerateSelectedDateRange(String sStart, String sEnd)
