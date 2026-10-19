@@ -18,7 +18,9 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using VCheck.Lib.Data.DBContext;
+using VCheck.Lib.Data.Models;
 using VCheckViewer_Others.Lib.Function;
+using VCheckViewer_Others.Services;
 using Brush = System.Windows.Media.Brush;
 using Brushes = System.Windows.Media.Brushes;
 
@@ -63,6 +65,8 @@ namespace VCheckViewer_Others.Views.Pages.Dashboard
             }
 
             RefreshAll();
+
+            APIClientKey.Text = CreateOrUpdateClientKey(true);
         }
 
         private void LoadConnectionTypeOptions()
@@ -165,7 +169,7 @@ namespace VCheckViewer_Others.Views.Pages.Dashboard
         {
             try
             {
-                VCheck.Interface.API.VCheckAPI sAPI = new VCheck.Interface.API.VCheckAPI();
+                APIService sAPI = new APIService();
 
                 return await sAPI.TestConnection();
             }
@@ -179,7 +183,7 @@ namespace VCheckViewer_Others.Views.Pages.Dashboard
 
         public bool CheckListener()
         {
-            return Process.GetProcessesByName("VCheckListenerWorker").Any();
+            return Process.GetProcessesByName("VCheckListenerWorker_Others").Any();
         }
 
         /// <summary>
@@ -264,13 +268,13 @@ namespace VCheckViewer_Others.Views.Pages.Dashboard
 
         private void RestartListener()
         {
-            Process[] processes = Process.GetProcessesByName("VCheckListenerWorker");
+            Process[] processes = Process.GetProcessesByName("VCheckListenerWorker_Others");
 
             if (!processes.Any())
             {
                 ProcessStartInfo psi = new ProcessStartInfo
                 {
-                    FileName = "C:\\VCheck\\VCheckListenerWorker\\VCheckListenerWorker.exe", // Replace with your executable or script
+                    FileName = "C:\\VCheck\\VCheckListenerWorker\\VCheckListenerWorker_Others.exe", // Replace with your executable or script
                     UseShellExecute = true,   // Required for 'runas'
                     Verb = "runas",           // Triggers UAC prompt for admin rights
                     Arguments = ""            // Optional: pass arguments here
@@ -310,7 +314,7 @@ namespace VCheckViewer_Others.Views.Pages.Dashboard
                             }
                         }
 
-                        string exePath = @"C:\VCheck\VCheckListenerWorker\VCheckListenerWorker.exe";
+                        string exePath = @"C:\VCheck\VCheckListenerWorker\VCheckListenerWorker_Others.exe";
 
                         ProcessStartInfo psi = new ProcessStartInfo
                         {
@@ -371,6 +375,72 @@ namespace VCheckViewer_Others.Views.Pages.Dashboard
         private void DownloadButton_Clicked(object sender, RoutedEventArgs e)
         {
             Process.Start(new ProcessStartInfo(App.UpdateLink) { UseShellExecute = true });
+        }
+
+
+
+        private void GenerateNewClientKey()
+        {
+            APIClientKey.Text = CreateOrUpdateClientKey();
+        }
+
+
+        public string CreateOrUpdateClientKey(bool DontUpdate = false)
+        {
+            var generatedUniqueKey = Guid.NewGuid().ToString().Replace("-", "");
+            var ClientID = 0;
+
+            try
+            {
+                using (ClientAuthDBContext _AuthContext = new ClientAuthDBContext())
+                {
+                    var sClient = _AuthContext.Mst_Client.Where(x => x.Name == "Bionote").FirstOrDefault();
+
+                    if (sClient == null)
+                    {
+                        sClient = new ClientModel() { ID = 1, Name = "Bionote", Description = "Bionote", RunningNo = 1, Version = "1.9", Status = 1, CreatedDate = DateTime.Now, CreatedBy = "Vcheck Viewer" };
+                        _AuthContext.Mst_Client.Add(sClient);
+                        _AuthContext.SaveChanges();
+                    }
+
+                    ClientID = sClient.ID;
+
+                }
+
+                using (ClientAuthDBContext _AuthContext2 = new ClientAuthDBContext())
+                {
+                    var sClientAuth = _AuthContext2.Mst_Client_Auth.Where(x => x.ClientID == ClientID).FirstOrDefault();
+
+                    if (sClientAuth != null)
+                    {
+                        if (DontUpdate) { return sClientAuth.ClientKey; }
+
+                        sClientAuth.ClientKey = generatedUniqueKey;
+                        sClientAuth.UpdatedDate = DateTime.Now;
+                        sClientAuth.updatedBy = "VCheck Viewer";
+
+                        _AuthContext2.Update(sClientAuth);
+                    }
+                    else
+                    {
+                        _AuthContext2.Add(new ClientAuthModel() { ClientID = ClientID, CanViewOthers = 1, ClientKey = generatedUniqueKey, StartDate = DateOnly.MinValue, EndDate = DateOnly.MaxValue, CreatedDate = DateTime.Now, CreatedBy = "VCheck Viewer" });
+                    }
+
+                    _AuthContext2.SaveChanges();
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+
+            return generatedUniqueKey;
+        }
+
+        private void GenerateButton_Click(object sender, RoutedEventArgs e)
+        {
+            GenerateNewClientKey();
         }
     }
 }

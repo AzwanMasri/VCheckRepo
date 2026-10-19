@@ -1,24 +1,46 @@
-﻿using System;
+﻿using log4net;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using MySqlConnector;
+using System;
+using System.CodeDom;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using VCheck.Lib.Data.Models;
 using VCheck.Lib.Data.DBContext;
-using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
-using System.CodeDom;
-using log4net;
-using System.Reflection;
-using Microsoft.EntityFrameworkCore.Query.Internal;
-using MySqlConnector;
+using VCheck.Lib.Data.Models;
 
 namespace VCheck.Lib.Data
 {
     public class TestResultsRepository
     {
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
+
+        public static List<TestResultListingExtendedObj> sResult;
+        public static int iIndex;
+
+        public static List<TestListModel> sCurrentTestList = InitiateTestListData();
+
+        public static List<TestListModel> InitiateTestListData()
+        {
+            try
+            {
+                using (var ctx = new TestResultDBContext(Host.CreateApplicationBuilder().Configuration))
+                {
+                    return ctx.mst_testlist.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                return new List<TestListModel>();
+            }
+
+        }
 
         /// <summary>
         /// Get recent test result details
@@ -329,9 +351,9 @@ namespace VCheck.Lib.Data
                                                                            String sKeyword, String sSortDirection, int pageIndex, int pageSize, string isPMSUser,
                                                                            out int totalRecords, int sDeviceID = 0)
         {
-            List<TestResultListingExtendedObj> sResult = new List<TestResultListingExtendedObj>();
+            sResult = new List<TestResultListingExtendedObj>();
             totalRecords = 0;
-            int iIndex = 1;
+            iIndex = 1;
 
             try
             {
@@ -452,6 +474,9 @@ namespace VCheck.Lib.Data
                         };
 
 
+                        sSelectCommand = null;
+                        patientIDSerialNumFilter = null;
+                        deviceFilter = null;
                         sConn.Close();
                     }
                 }
@@ -678,10 +703,12 @@ namespace VCheck.Lib.Data
 
             try
             {
-                using (var ctx = new TestResultDBContext(config))
+                if (sCurrentTestList.Count == 0)
                 {
-                    return ctx.mst_testlist.ToList();
+                    sCurrentTestList = InitiateTestListData();
                 }
+
+                return sCurrentTestList;
             }
             catch (Exception ex)
             {
@@ -720,12 +747,12 @@ namespace VCheck.Lib.Data
         {
             try
             {
-                using (var ctx = new TestResultDBContext(config))
+                if (sCurrentTestList.Count == 0)
                 {
-                    return ctx.mst_testlist.Where(x => testNames.Contains(x.TestName.Replace(" (C10)", ""))).Select(y => new TestIDAnalyzers(){ TestID = y.TestID, Analyzers = y.Analyzer }).ToList();
-
-                    //return ctx.mst_testlist.Where(x => testNames.Contains(x.TestName)).Select(y => y.Analyzer).ToArray();
+                    sCurrentTestList = InitiateTestListData();
                 }
+
+                return sCurrentTestList.Where(x => testNames.Contains(x.TestName.Replace(" (C10)", ""))).Select(y => new TestIDAnalyzers() { TestID = y.TestID, Analyzers = y.Analyzer }).ToList();
             }
             catch (Exception ex)
             {
@@ -761,22 +788,22 @@ namespace VCheck.Lib.Data
         /// </summary>
         /// <param name="config"></param>
         /// <returns></returns>
-        public static List<string> GetAllTestListByAnalyzer(IConfiguration config, List<string> analyzer)
-        {
+        //public static List<string> GetAllTestListByAnalyzer(IConfiguration config, List<string> analyzer)
+        //{
 
-            try
-            {
-                using (var ctx = new TestResultDBContext(config))
-                {
-                    return ctx.mst_testlist.AsEnumerable().Where(x => x.Analyzer.Split(", ").Intersect(analyzer).Any()).Select(y => y.TestName).ToList();
-                }
-            }
-            catch (Exception ex)
-            {
-                log.Error("Error >>> " + ex.ToString());
-                return null;
-            }
-        }
+        //    try
+        //    {
+        //        using (var ctx = new TestResultDBContext(config))
+        //        {
+        //            return ctx.mst_testlist.AsEnumerable().Where(x => x.Analyzer.Split(", ").Intersect(analyzer).Any()).Select(y => y.TestName).ToList();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.Error("Error >>> " + ex.ToString());
+        //        return null;
+        //    }
+        //}
 
         /// <summary>
         /// Get test by unique ID
@@ -788,10 +815,12 @@ namespace VCheck.Lib.Data
 
             try
             {
-                using (var ctx = new TestResultDBContext(config))
+                if (sCurrentTestList.Count == 0)
                 {
-                    return ctx.mst_testlist.FirstOrDefault(x => x.TestID == uniqueID);
+                    sCurrentTestList = InitiateTestListData();
                 }
+
+                return sCurrentTestList.FirstOrDefault(x => x.TestID == uniqueID);
             }
             catch (Exception ex)
             {
@@ -810,10 +839,12 @@ namespace VCheck.Lib.Data
 
             try
             {
-                using (var ctx = new TestResultDBContext(config))
+                if (sCurrentTestList.Count == 0)
                 {
-                    return ctx.mst_testlist.FirstOrDefault(x => x.TestName == name);
+                    sCurrentTestList = InitiateTestListData();
                 }
+
+                return sCurrentTestList.FirstOrDefault(x => x.TestName.Replace(" (C10)", "") == name);
             }
             catch (Exception ex)
             {
@@ -1037,6 +1068,34 @@ namespace VCheck.Lib.Data
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Get test result matching schedule
+        /// </summary>
+        /// <param name="config"></param>
+        /// <returns></returns>
+        public static List<TestResultModel> GetTestResultMatchSchedule(IConfiguration config, string sPatientID, string sTestName)
+        {
+            List<string> serialNoList = new List<string>();
+            List<TestResultModel> TestInfo = new List<TestResultModel>();
+            List<TestDeviceName> testDeviceNames = new List<TestDeviceName>();
+            var sTestNameSplit = sTestName.Split(',');
+            try
+            {
+                using (var ctx = new TestResultDBContext(config))
+                {
+                    TestInfo = ctx.txn_testResults.Where(x => x.PatientID == sPatientID && sTestNameSplit.Contains(x.TestResultType)).ToList();
+                }
+
+                return TestInfo;
+            }
+            catch (Exception ex)
+            {
+                log.Error("Error >>> " + ex.ToString());
+            }
+
+            return null;
         }
     }
 }

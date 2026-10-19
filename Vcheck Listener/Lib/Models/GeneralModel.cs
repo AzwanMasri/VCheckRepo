@@ -39,5 +39,6 @@ namespace Vcheck_Listener.Lib.Models
         public string PIMSPassword { get; set; } = string.Empty;
         public string ConversionChart { get; set; } = string.Empty;
         public string ClinicID { get; set; } = string.Empty;
+        public string ConnectionType { get; set; } = string.Empty;
     }
 }

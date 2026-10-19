@@ -18,6 +18,9 @@ namespace VCheckListenerWorker.Lib.Logic
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
         public static string graphFolder = Host.CreateApplicationBuilder().Configuration.GetSection("FileOutput:Graph").Value;
 
+        public static string[] cCortisolParameter = { "Pre-ACTH", "Post-ACTH", "Pre-dose(L)", "Post-4Hours(L)", "Post-8Hours(L)", "Pre-dose(H)", "Post-4Hours(H)", "Post-8Hours(H)" };
+        public static string[] ignoreParameter = { "cCortisol", "Pre-ACTH", "Pre-dose(L)", "Pre-dose(H)" };
+
         /// <summary>
         /// Insert Test Result Raw Data
         /// </summary>
@@ -161,9 +164,6 @@ namespace VCheckListenerWorker.Lib.Logic
         /// <returns></returns>
         public static List<txn_testresults_details> createTestResultsMultipleParam(txn_testresults sTestResult, List<txn_testresults_details> sTestResultDetail, out txn_testresults sCurrentTestResult, List<txn_testresults_graphsExtended> sTestResultGraph = null)
         {
-            string[] cCortisolParameter = { "Pre-ACTH", "Post-ACTH", "Pre-dose(L)", "Post-4Hours(L)", "Post-8Hours(L)", "Pre-dose(H)", "Post-4Hours(H)", "Post-8Hours(H)" };
-            string[] ignoreParameter = { "cCortisol", "Pre-ACTH", "Pre-dose(L)", "Pre-dose(H)" };
-
             try
             {
                 if (sTestResult.TestResultType == "cCortisol")
@@ -205,15 +205,19 @@ namespace VCheckListenerWorker.Lib.Logic
                             Directory.CreateDirectory(graphFolder + sTestResult.ID);
                         }
 
+                        txn_testresults_graphs graph;
+
                         foreach (var d in sTestResultGraph)
                         {
-                            var graph = new txn_testresults_graphs() { TestResultRowID = sTestResult.ID, FileName = d.FileName, CreatedDate = DateTime.Now, CreatedBy = "VCheckViewer Listener" };
+                            graph = new txn_testresults_graphs() { TestResultRowID = sTestResult.ID, FileName = d.FileName, CreatedDate = DateTime.Now, CreatedBy = "VCheckViewer Listener" };
                             ctx.txn_testresults_graphs.Add(graph);
 
                             byte[] imageBytes = Convert.FromBase64String(d.Base64String);
 
                             File.WriteAllBytes(graphFolder + sTestResult.ID + "\\" + d.FileName, imageBytes);
                         }
+
+                        graph = null;
                         ctx.SaveChanges();
                     }
 
@@ -627,18 +631,18 @@ namespace VCheckListenerWorker.Lib.Logic
 
                     if (string.IsNullOrEmpty(analyzer))
                     {
-                        referenceRangeInfos = ctx.mst_testresults_referencerange.AsEnumerable().Where(x => x.Parameter == parameter);
+                        referenceRangeInfos = ctx.mst_testresults_referencerange.AsEnumerable().Where(x => x.Parameter.ToLower() == parameter.ToLower());
                     }
                     else
                     {
-                        referenceRangeInfos = ctx.mst_testresults_referencerange.AsEnumerable().Where(x => x.Parameter == parameter && x.Analyzer.Split(", ").Contains(analyzer));
+                        referenceRangeInfos = ctx.mst_testresults_referencerange.AsEnumerable().Where(x => x.Parameter.ToLower() == parameter.ToLower() && x.Analyzer.Split(", ").Contains(analyzer));
                     }
                     
                     TestResultReferenceRangeModel referenceRangeInfo = new TestResultReferenceRangeModel();
 
                     if (referenceRangeInfos != null && referenceRangeInfos.Count() > 0)
                     {
-                        referenceRangeInfo = referenceRangeInfos.FirstOrDefault(x => x.Species == species && x.AgeGroup == ageGroup);
+                        referenceRangeInfo = referenceRangeInfos.FirstOrDefault(x => x.Species.ToLower() == species.ToLower() && x.AgeGroup == ageGroup);
                     }
                     else
                     {
@@ -652,7 +656,7 @@ namespace VCheckListenerWorker.Lib.Logic
                     }
                     else
                     {
-                        referenceRangeInfo = referenceRangeInfos.FirstOrDefault(x => x.Species == species);
+                        referenceRangeInfo = referenceRangeInfos.FirstOrDefault(x => x.Species.ToLower() == species.ToLower());
 
                         if(referenceRangeInfo != null)
                         {
@@ -660,7 +664,7 @@ namespace VCheckListenerWorker.Lib.Logic
                         }
                         else
                         {
-                            referenceRangeInfo = referenceRangeInfos.FirstOrDefault(x => x.AgeGroup == ageGroup);
+                            referenceRangeInfo = referenceRangeInfos.FirstOrDefault(x => x.AgeGroup.ToLower() == ageGroup.ToLower());
 
                             if(referenceRangeInfo != null)
                             {

@@ -33,17 +33,20 @@ namespace VCheckViewer.Views.Pages.Results
         public ObservableCollection<ComboBoxItem> cbSort { get; set; }
         public ComboBoxItem SelectedcbSort { get; set;  }
 
-        public int currentPage = 1;
-        public int paginationSize = 20;
-        public int startPagination = 1;
-        public int endPagination = 0;
-        public int iTotalCount = 0;
-        public string oldName;
-        public TestResultListingExtendedObj currentRow;
+        public static int currentPage = 1;
+        public static int paginationSize = 20;
+        public static int startPagination = 1;
+        public static int endPagination = 0;
+        public static int iTotalCount = 0;
+        public static string oldName;
+        public static TestResultListingExtendedObj currentRow;
+        public static String sKeyword;
 
         public static event EventHandler? DownloadPrintReport;
         public static event EventHandler? UpdatePatientNameEvent;
         public static event EventHandler? UpdateDoctorNameEvent;
+
+        public static LoginPage loginPage = new LoginPage();
 
         public ResultPage()
         {
@@ -297,9 +300,8 @@ namespace VCheckViewer.Views.Pages.Results
                 sEnd = RangeDateStart.SelectedDates.FirstOrDefault().AddDays(1).AddMinutes(-1).ToString("yyyy-MM-dd HH:mm:ss");
             }
 
-            String sKeyword = KeywordSearchBar.Text;
+            sKeyword = KeywordSearchBar.Text;
 
-            LoginPage loginPage = new LoginPage();
             await loginPage.CheckPMSUser();
 
             return VCheck.Lib.Data.TestResultsRepository.GetTestResultListBySearch(

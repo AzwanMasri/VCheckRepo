@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using VCheck.Interface.API;
+//using VCheck.Interface.API;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer_Others.Lib.Function;
@@ -140,12 +140,12 @@ namespace VCheckViewer_Others.Views.Pages.Setting.Clinic
 
         private async Task GetClinicInfo()
         {
-            var clinicInfoString = "";
+            var clinicInfoString = "Local";
             ComboBoxItem selectedItem = (ComboBoxItem)ClinicCountryCodeSearch.SelectedItem;
             var ClinicPhoneNo = selectedItem.Tag + " " + ClinicPhoneNumSearch.Text;
             var ClinicID = ClinicPhoneNo.Replace(" ", "").Replace("-", "");
             var sPMS = configDBContext.GetConfigurationData("InterfaceSettingsPMS").FirstOrDefault();
-            VCheckAPI VcheckAPI = new VCheckAPI();
+            //VCheckAPI VcheckAPI = new VCheckAPI();
             bool isGreywind = false;
 
             //GreywindAPI sAPI = new GreywindAPI();
@@ -153,18 +153,18 @@ namespace VCheckViewer_Others.Views.Pages.Setting.Clinic
 
             //var clinicInfoString = await sAPI.GetClinicInfo(ClinicID, PMSURL);
 
-            if (sPMS != null && sPMS.ConfigurationValue == "Greywind")
-            {
-                GreywindAPI sAPI = new GreywindAPI();
-                var PMSURL = await VcheckAPI.GetPMSUrl(2);
+            //if (sPMS != null && sPMS.ConfigurationValue == "Greywind")
+            //{
+            //    GreywindAPI sAPI = new GreywindAPI();
+            //    var PMSURL = await VcheckAPI.GetPMSUrl(2);
 
-                clinicInfoString = await sAPI.GetClinicInfo(ClinicID, PMSURL);
-                isGreywind = true;
-            }
-            else
-            {
-                clinicInfoString = await VcheckAPI.GetLocation(ClinicID);
-            }
+            //    clinicInfoString = await sAPI.GetClinicInfo(ClinicID, PMSURL);
+            //    isGreywind = true;
+            //}
+            //else
+            //{
+            //    clinicInfoString = await VcheckAPI.GetLocation(ClinicID);
+            //}
 
             if (string.IsNullOrEmpty(clinicInfoString))
             {
@@ -177,13 +177,13 @@ namespace VCheckViewer_Others.Views.Pages.Setting.Clinic
             {
                 if (isGreywind)
                 {
-                    var ClinicInfo = JsonConvert.DeserializeObject<VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest>(clinicInfoString);
+                    //var ClinicInfo = JsonConvert.DeserializeObject<VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest>(clinicInfoString);
 
-                    ClinicName.Text = ClinicInfo.name_1;
-                    ClinicAddress.Text = ClinicInfo.address_1;
-                    ClinicCity.Text = ClinicInfo.city;
-                    ClinicState.Text = ClinicInfo.state;
-                    ClinicPhoneNum.Text = ClinicPhoneNumSearch.Text;
+                    //ClinicName.Text = ClinicInfo.name_1;
+                    //ClinicAddress.Text = ClinicInfo.address_1;
+                    //ClinicCity.Text = ClinicInfo.city;
+                    //ClinicState.Text = ClinicInfo.state;
+                    //ClinicPhoneNum.Text = ClinicPhoneNumSearch.Text;
 
                 }
                 else

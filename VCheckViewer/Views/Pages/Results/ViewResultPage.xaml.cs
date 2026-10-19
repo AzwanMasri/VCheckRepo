@@ -278,7 +278,7 @@ namespace VCheckViewer.Views.Pages.Results
                         iconVisibility = "Visible";
                     }
 
-                    var rangeString = string.IsNullOrEmpty(range[0]) ? "" : range[0] + " - " + range[1];
+                    var rangeString = string.IsNullOrEmpty(range[0]) || range.Length < 2 ? "" : range[0] + " - " + range[1];
                     rangeString = string.IsNullOrEmpty(rangeString) ? referenceRange : rangeString;
 
                     TestResultDetailsExtension testDetailExtension = new TestResultDetailsExtension()

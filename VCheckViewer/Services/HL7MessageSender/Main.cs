@@ -51,6 +51,8 @@ namespace VCheckViewer.Services.HL7MessageSender
 
             if (deviceType.TypeName == "C10")
             {
+                var ipAddress = device.DeviceIPAddress.Replace(" ", "");
+
                 foreach (var sContent in sContents)
                 {
                     try
@@ -62,8 +64,6 @@ namespace VCheckViewer.Services.HL7MessageSender
 
                             try
                             {
-                                var ipAddress = device.DeviceIPAddress.Replace(" ", "");
-
                                 ourTcpClient = new TcpClient();
                                 await ourTcpClient.ConnectAsync(IPAddress.Parse(ipAddress), 5067).WaitAsync(cts.Token);
 

@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>dotnet-VCheckListenerWorker-eece9956-5c34-4a9f-b29a-222907e5155d</UserSecretsId>
     <PlatformTarget>AnyCPU</PlatformTarget>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

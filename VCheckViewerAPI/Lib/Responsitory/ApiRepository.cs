@@ -1,5 +1,6 @@
 ﻿using log4net;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.Reflection;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
@@ -9,23 +10,149 @@ namespace VCheck.Lib.Data
 {
     public class ApiRepository
     {
-        private ClientAuthDBContext _AuthContext = new ClientAuthDBContext();
-        private APIErrorDBContext _aPIErrorDBContext = new APIErrorDBContext(Host.CreateApplicationBuilder().Configuration);
+        //private ClientAuthDBContext _AuthContext = new ClientAuthDBContext();
+        //private APIErrorDBContext _aPIErrorDBContext = new APIErrorDBContext(Host.CreateApplicationBuilder().Configuration);
         //private ScheduleDBContext _scheduleTestContext = new ScheduleDBContext(Host.CreateApplicationBuilder().Configuration);
         //private TestResultDBContext _testResultContext = new TestResultDBContext(Host.CreateApplicationBuilder().Configuration);
 
         private static readonly ILog log = LogManager.GetLogger(MethodBase.GetCurrentMethod()?.DeclaringType);
 
-        public bool Authenticate(string clientKey, out int CanViewOther)
+        public static List<ClientInfo> _clientInfo = FillClientInfo();
+        public static List<IPAddressLastRequest> _iPAddressLastRequest = new List<IPAddressLastRequest>();
+
+        public class ClientInfo
         {
-            CanViewOther = 0;
+            public int ID { get; set; }
+            public string ClientName { get; set; }
+            public string ClientKey { get; set; }
+            public int CanViewOther { get; set; }
+            public string Version { get; set; }
+            public string URL { get; set; }
+            public string Port { get; set; }
+        }
+
+        public class IPAddressLastRequest
+        {
+            public string IPAddress { get; set; }
+            public DateTime LastRequestDatetime { get; set; }
+        }
+
+        public static List<ClientInfo> FillClientInfo()
+        {
+            List<ClientInfo> clientInfos = new List<ClientInfo>();
+            var url = "";
+            var port = "";
 
             try
             {
-                var ClientAuthIndex = _AuthContext.Mst_Client_Auth.Where(x => x.ClientKey == clientKey).FirstOrDefault();
-                CanViewOther = ClientAuthIndex.CanViewOthers;
+                using (var ClientContext = new ClientAuthDBContext())
+                {
+                    var ClientIndex = ClientContext.Mst_Client.Where(x => x.Status == 1).ToList();
+                    var clientIDList = ClientIndex.Select(x => x.ID);
 
-                return _AuthContext.Mst_Client.Where(x => x.ID == ClientAuthIndex.ID && x.Status == 1).Any();
+                    var ClientAuthIndex = ClientContext.Mst_Client_Auth.Where(x => clientIDList.Contains(x.ClientID)).ToList();
+                    var ClientURL = ClientContext.Mst_URL.Where(x => clientIDList.Contains(x.ClientID)).ToList();
+
+                    foreach (var client in ClientAuthIndex)
+                    {
+                        var clientTemp = ClientIndex.FirstOrDefault(x => x.ID == client.ClientID);
+                        var clientName = clientTemp.Name;
+                        var version = clientTemp.Version;
+
+                        var clientURL = ClientURL.FirstOrDefault(x => x.ClientID == client.ClientID);
+
+                        if (clientURL != null)
+                        {
+                            url = clientURL.URL;
+                            port = clientURL.Port;
+                        }
+
+                        clientInfos.Add(new ClientInfo { ID = client.ClientID, ClientName = clientName, ClientKey = client.ClientKey, CanViewOther = client.CanViewOthers, Version = version, URL = url, Port = port });
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return clientInfos;
+        }
+
+        public static void RefreshIpAddressLastRequest(string ipAddress, DateTime lastRequestDatetime)
+        {
+            try
+            {
+                int index = _iPAddressLastRequest.FindIndex(x => x.IPAddress == ipAddress);
+                if (index != -1)
+                {
+                    _iPAddressLastRequest[index] = new IPAddressLastRequest() { IPAddress = ipAddress, LastRequestDatetime = DateTime.Now };
+                }
+                else
+                {
+                    _iPAddressLastRequest.Add(new IPAddressLastRequest() { IPAddress = ipAddress, LastRequestDatetime = DateTime.Now });
+                }
+            }
+            catch (Exception ex) 
+            {
+                log.Error("ApiRepository >>> RefreshIpAddressLastRequest >>> " + ex.ToString());
+            }
+        }
+
+        public List<IPAddressLastRequest> GetIPAddressLastRequests()
+        {
+            return _iPAddressLastRequest;
+        }
+
+        public bool CheckLastRequest(string ipAddress)
+        {
+            bool Allow = true;
+
+            try
+            {
+                var tempData = GetIPAddressLastRequests();
+                var tempData2 = tempData.FirstOrDefault(x => x.IPAddress == ipAddress);
+
+                if (tempData2 != null && tempData2.LastRequestDatetime > DateTime.Now.AddMinutes(-1))
+                {
+                    Allow = false;
+                }
+                else
+                {
+                    RefreshIpAddressLastRequest(ipAddress, DateTime.Now);
+                }
+            }
+            catch (Exception ex) 
+            {
+                log.Error("ApiRepository >>> CheckLastRequest >>> " + ex.ToString());
+                Allow = false;
+            }
+
+            return Allow;
+        }
+
+        public bool Authenticate(string clientKey, out int CanViewOther)
+        {
+            CanViewOther = 0;
+            var isAuthenticate = false;
+
+            try
+            {
+                var clientInfo = _clientInfo.FirstOrDefault(x => x.ClientKey == clientKey);
+
+                if (clientInfo != null)
+                {
+                    CanViewOther = clientInfo.CanViewOther;
+
+                    isAuthenticate = true;
+                }
+
+                return isAuthenticate;
+
+                //var ClientAuthIndex = _AuthContext.Mst_Client_Auth.Where(x => x.ClientKey == clientKey).FirstOrDefault();
+                //CanViewOther = ClientAuthIndex.CanViewOthers;
+
+                //return _AuthContext.Mst_Client.Where(x => x.ID == ClientAuthIndex.ClientID && x.Status == 1).Any();
             }
             catch (Exception ex)
             {
@@ -34,30 +161,46 @@ namespace VCheck.Lib.Data
             }
         }
 
-        public bool ValidateTokenExpiry(String clientkey)
-        {
-            DateOnly sToday = DateOnly.FromDateTime(DateTime.Now);
+        //public bool ValidateTokenExpiry(String clientkey)
+        //{
+        //    DateOnly sToday = DateOnly.FromDateTime(DateTime.Now);
 
-            try
-            {
-                return _AuthContext.Mst_Client_Auth.Where(x => x.ClientKey == clientkey && (x.StartDate <= sToday && x.EndDate >= sToday)).Any();
-            }
-            catch (Exception ex)
-            {
-                log.Error("ApiRepository >>> ValidateTokenExpiry >>> " + ex.ToString());
-                return false;
-            }
-        }
+        //    try
+        //    {
+        //        return _AuthContext.Mst_Client_Auth.Where(x => x.ClientKey == clientkey && (x.StartDate <= sToday && x.EndDate >= sToday)).Any();
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        log.Error("ApiRepository >>> ValidateTokenExpiry >>> " + ex.ToString());
+        //        return false;
+        //    }
+        //}
 
         public ClientModel GetClientProfileByClientKey(String sClientKey)
         {
             try
             {
-                var sClientAuth = _AuthContext.Mst_Client_Auth.Where(x => x.ClientKey == sClientKey).FirstOrDefault();
-                if (sClientAuth != null)
+                var ClientTemp = new ClientModel();
+
+                var clientInfo = _clientInfo.FirstOrDefault(x => x.ClientKey == sClientKey);
+
+                if (clientInfo != null)
                 {
-                    return _AuthContext.Mst_Client.Where(x => x.ID == sClientAuth.ClientID).FirstOrDefault();
+                    ClientTemp.Name = clientInfo.ClientName;
+                    ClientTemp.Version = clientInfo.Version;
                 }
+                else
+                {
+                    ClientTemp = null;
+                }
+
+                return ClientTemp;
+
+                //var sClientAuth = _AuthContext.Mst_Client_Auth.Where(x => x.ClientKey == sClientKey).FirstOrDefault();
+                //if (sClientAuth != null)
+                //{
+                //    return _AuthContext.Mst_Client.Where(x => x.ID == sClientAuth.ClientID).FirstOrDefault();
+                //}
             }
             catch (Exception ex)
             {
@@ -131,7 +274,7 @@ namespace VCheck.Lib.Data
                     responseMessage = "Success";
                     returnData = data;
                 }
-                else if (!string.IsNullOrEmpty(analyzerName) && (data.SentToAnalyzer == null || !data.SentToAnalyzer.Split(",").Contains("analyzerName")))
+                else if (!string.IsNullOrEmpty(analyzerName) && (data.SentToAnalyzer == null || !data.SentToAnalyzer.Split(",").Contains(analyzerName)))
                 {
                     data.SentToAnalyzer = data.SentToAnalyzer == null ? analyzerName : data.SentToAnalyzer + "," + analyzerName;
                     data.UpdatedBy = updatedBy;
@@ -303,44 +446,44 @@ namespace VCheck.Lib.Data
             }
         }
 
-        public void CancelScheduledTestByUniqueID(string scheduledUniqueID, string updatedBy, out string responseCode, out string responseMessage, out string responseStatus)
-        {
-            try
-            {
-                var data = ScheduledTestRepository.GetScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), scheduledUniqueID);
-                if (data == null)
-                {
-                    responseCode = "VV.0002";
-                    responseMessage = "No Data Found";
-                }
-                else if (data.ScheduleTestStatus == 1)
-                {
-                    responseCode = "VV.0001";
-                    responseMessage = "Scheduled test are already canceled.";
-                }
-                else
-                {
-                    data.ScheduleTestStatus = 1;
-                    data.UpdatedBy = updatedBy;
-                    data.UpdatedDate = DateTime.Now.ToUniversalTime();
+        //public void CancelScheduledTestByUniqueID(string scheduledUniqueID, string updatedBy, out string responseCode, out string responseMessage, out string responseStatus)
+        //{
+        //    try
+        //    {
+        //        var data = ScheduledTestRepository.GetScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), scheduledUniqueID);
+        //        if (data == null)
+        //        {
+        //            responseCode = "VV.0002";
+        //            responseMessage = "No Data Found";
+        //        }
+        //        else if (data.ScheduleTestStatus == 1)
+        //        {
+        //            responseCode = "VV.0001";
+        //            responseMessage = "Scheduled test are already canceled.";
+        //        }
+        //        else
+        //        {
+        //            data.ScheduleTestStatus = 1;
+        //            data.UpdatedBy = updatedBy;
+        //            data.UpdatedDate = DateTime.Now.ToUniversalTime();
 
-                    ScheduledTestRepository.UpdateScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), data);
+        //            ScheduledTestRepository.UpdateScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), data);
 
-                    responseCode = "VV.0001";
-                    responseMessage = "Scheduled test successfully canceled.";
-                }
+        //            responseCode = "VV.0001";
+        //            responseMessage = "Scheduled test successfully canceled.";
+        //        }
 
-                responseStatus = "Success";
-            }
-            catch (Exception ex)
-            {
-                responseCode = "VV.9999";
-                responseStatus = "Fail";
-                responseMessage = "Internal Error";
+        //        responseStatus = "Success";
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        responseCode = "VV.9999";
+        //        responseStatus = "Fail";
+        //        responseMessage = "Internal Error";
 
-                log.Error("Database Error >>> ", ex);
-            }
-        }
+        //        log.Error("Database Error >>> ", ex);
+        //    }
+        //}
 
         public void CancelScheduledTestByOrderID(string orderID, string locationID, string updatedBy, out string responseCode, out string responseMessage, out string responseStatus)
         {
@@ -634,12 +777,15 @@ namespace VCheck.Lib.Data
             var accessionNo = 0;
             try
             {
-                var client = _AuthContext.Mst_Client.FirstOrDefault(x => x.Name == clientName);
-                accessionNo = client.RunningNo;
-                client.RunningNo = accessionNo + 1;
+                using (var ClientContext = new ClientAuthDBContext())
+                {
+                    var client = ClientContext.Mst_Client.FirstOrDefault(x => x.Name == clientName);
+                    accessionNo = client.RunningNo;
+                    client.RunningNo = accessionNo + 1;
 
-                _AuthContext.Update(client);
-                _AuthContext.SaveChanges();
+                    ClientContext.Update(client);
+                    ClientContext.SaveChanges();
+                }
 
                 return accessionNo;
             }
@@ -653,12 +799,26 @@ namespace VCheck.Lib.Data
 
         public string GetURLByClientID(int clientID)
         {
+            var fullURL = "No URL found.";
+
             try
             {
-                var client = _AuthContext.Mst_URL.FirstOrDefault(x => x.ClientID == clientID);
-                var url = client != null ? client.URL : "";
-                var port = client != null && client.Port != "80" && client.Port != "443" ? ":" + client.Port : "";
-                return client != null ? url + port : "No URL found.";
+                var clientInfo = _clientInfo.FirstOrDefault(x => x.ID == clientID);
+
+                if(clientInfo != null)
+                {
+                    var url = clientInfo.URL;
+                    var port = string.IsNullOrEmpty(clientInfo.Port) && clientInfo.Port != "80" && clientInfo.Port != "443" ? ":" + clientInfo.Port : "";
+
+                    fullURL = url + port;
+                }
+
+                return fullURL;
+
+                //var client = _AuthContext.Mst_URL.FirstOrDefault(x => x.ClientID == clientID);
+                //var url = client != null ? client.URL : "";
+                //var port = client != null && client.Port != "80" && client.Port != "443" ? ":" + client.Port : "";
+                //return client != null ? url + port : "No URL found.";
             }
             catch (Exception ex)
             {
@@ -668,56 +828,76 @@ namespace VCheck.Lib.Data
 
         public void SaveError(string ClinicID, ResponseModel responseModel, CreateScheduledDataRequest createScheduledDataRequest, string ClientName, string TestName)
         {
-            if (!string.IsNullOrEmpty(TestName)) { createScheduledDataRequest.body.ScheduledTestName = TestName; }
+            using (var _APIErrorDBContext = new APIErrorDBContext(Host.CreateApplicationBuilder().Configuration))
+            {
+                if (!string.IsNullOrEmpty(TestName)) { createScheduledDataRequest.body.ScheduledTestName = TestName; }
 
-            APIErrorModel aPIErrorModel = new APIErrorModel() { ClinicID = ClinicID, ErrorMessage =  JsonConvert.SerializeObject(responseModel), ScheduleData = JsonConvert.SerializeObject(createScheduledDataRequest), CreatedBy = ClientName, CreatedDate = DateTime.Now.ToUniversalTime() };
+                APIErrorModel aPIErrorModel = new APIErrorModel() { ClinicID = ClinicID, ErrorMessage = JsonConvert.SerializeObject(responseModel), ScheduleData = JsonConvert.SerializeObject(createScheduledDataRequest), CreatedBy = ClientName, CreatedDate = DateTime.Now.ToUniversalTime() };
 
-            _aPIErrorDBContext.Add(aPIErrorModel);
-            _aPIErrorDBContext.SaveChanges();
+                _APIErrorDBContext.Add(aPIErrorModel);
+                _APIErrorDBContext.SaveChanges();
+            }
         }
 
         public List<APIErrorModel> GetErrorListByLocation(string ClinicID, string? StartDate, string? EndDate)
         {
             var errorList = new List<APIErrorModel>();
 
-            if (!string.IsNullOrEmpty(StartDate))
+            using (var _APIErrorDBContext = new APIErrorDBContext(Host.CreateApplicationBuilder().Configuration))
             {
-                errorList = _aPIErrorDBContext.txn_error.Where(x => x.ClinicID == ClinicID && x.CreatedDate >= DateTime.Parse(StartDate) && x.CreatedDate <= DateTime.Parse(EndDate)).ToList();
-            }
-            else
-            {
-                errorList = _aPIErrorDBContext.txn_error.Where(x => x.ClinicID == ClinicID).ToList();
-            }
 
-            foreach (var error in errorList) 
-            {
-                error.Sync = 1;
-            }
+                if (!string.IsNullOrEmpty(StartDate))
+                {
+                    errorList = _APIErrorDBContext.txn_error.Where(x => x.ClinicID == ClinicID && x.CreatedDate >= DateTime.Parse(StartDate) && x.CreatedDate <= DateTime.Parse(EndDate)).ToList();
+                }
+                else
+                {
+                    errorList = _APIErrorDBContext.txn_error.Where(x => x.ClinicID == ClinicID).ToList();
+                }
 
-            _aPIErrorDBContext.UpdateRange(errorList);
-            _aPIErrorDBContext.SaveChanges();
+                foreach (var error in errorList)
+                {
+                    error.Sync = 1;
+                }
+
+                _APIErrorDBContext.UpdateRange(errorList);
+                _APIErrorDBContext.SaveChanges();
+            }
 
             return errorList;
         }
 
         public List<APIErrorModel> GetAllErrorNotSync(string ClinicID)
         {
-            var errorList = _aPIErrorDBContext.txn_error.Where(x => x.ClinicID == ClinicID && x.Sync == 0).ToList();
+            var errorList = new List<APIErrorModel>();
 
-            foreach (var error in errorList)
+            using (var _APIErrorDBContext = new APIErrorDBContext(Host.CreateApplicationBuilder().Configuration))
             {
-                error.Sync = 1;
+                errorList = _APIErrorDBContext.txn_error.Where(x => x.ClinicID == ClinicID && x.Sync == 0).ToList();
+
+                foreach (var error in errorList)
+                {
+                    error.Sync = 1;
+                }
+
+                _APIErrorDBContext.UpdateRange(errorList);
+                _APIErrorDBContext.SaveChanges();
             }
 
-            _aPIErrorDBContext.UpdateRange(errorList);
-            _aPIErrorDBContext.SaveChanges();
 
             return errorList;
         }
 
         public int GetTotalErrorListUnread(string ClinicID)
         {
-            return _aPIErrorDBContext.txn_error.Where(x => x.ClinicID == ClinicID && x.Sync == 0).Count();
+            int Count = 0;
+
+            using (var _APIErrorDBContext = new APIErrorDBContext(Host.CreateApplicationBuilder().Configuration))
+            {
+                Count = _APIErrorDBContext.txn_error.Where(x => x.ClinicID == ClinicID && x.Sync == 0).Count();
+            }
+
+            return Count;
         }
 
     }

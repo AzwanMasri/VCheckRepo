@@ -1,19 +1,20 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using MySqlConnector;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
-using MySqlConnector;
 using VCheck.Lib.Data.Models;
 
 namespace VCheck.Lib.Data.DBContext
 {
     public class ScheduleDBContext : DbContext
     {
-        private readonly IConfiguration config;
+        private readonly IConfiguration config = Host.CreateApplicationBuilder().Configuration;
         public DbSet<ScheduledTestModel> Txn_ScheduledTests { get; set; }
 
         public ScheduleDBContext(IConfiguration config)

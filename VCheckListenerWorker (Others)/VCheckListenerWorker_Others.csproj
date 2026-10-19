@@ -1,0 +1,82 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-VCheckListenerWorker_Others-eece9956-5c34-4a9f-b29a-222907e5155d</UserSecretsId>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <OutputType>WinExe</OutputType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <Optimize>False</Optimize>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Lib\Util\ResponseRepo.cs" />
+    <Compile Remove="Message.cs" />
+    <Compile Remove="Segment.cs" />
+    <Compile Remove="Utils.cs" />
+    <Compile Remove="Worker2.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Storage\Certificates\Sectigo Public Server Authentication Root R46.crt" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Storage\Certificates\Sectigo Public Server Authentication Root R46.crt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="3.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.WindowsServices" Version="8.0.1" />
+    <PackageReference Include="Microsoft.NETCore.App" Version="2.2.8" />
+    <PackageReference Include="MySql.Data.EntityFramework" Version="9.1.0" />
+    <PackageReference Include="nhapi" Version="3.2.2" />
+    <PackageReference Include="NHapiTools" Version="2.0.4" />
+    <PackageReference Include="Obfuscar" Version="2.2.40">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.2" />
+    <PackageReference Include="ScottPlot" Version="5.1.57" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="bin\" />
+    <Folder Include="Storage\Output\ACK\" />
+    <Folder Include="Storage\Output\HL7\" />
+    <Folder Include="Storage\Output\XML\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Library\VCheck.Lib.Data\VCheck.Lib.Data.csproj" />
+    <ProjectReference Include="..\VCheck.Interface.API\VCheck.Interface.API.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="PresentationFramework">
+      <HintPath>..\..\..\Program Files\dotnet\packs\Microsoft.WindowsDesktop.App.Ref\8.0.10\ref\net8.0\PresentationFramework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="obfuscar.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+</Project>

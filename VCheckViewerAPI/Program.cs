@@ -1,9 +1,11 @@
 using log4net.Config;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
 using System.Net;
 using System.Reflection;
 using System.Text;
+using System.Threading.RateLimiting;
 using VCheck.Lib.Data.Models;
 using VCheckViewerAPI.Lib.Util;
 using VCheckViewerAPI.Message.General;
@@ -15,6 +17,26 @@ XmlConfigurator.Configure(log4net.LogManager.GetRepository(Assembly.GetEntryAsse
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddPolicy("IpRateLimit", httpContext =>
+    {
+        var ip = httpContext.Connection.RemoteIpAddress?.ToString()
+                 ?? "unknown";
+
+        return RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: ip,
+            factory: _ => new FixedWindowRateLimiterOptions
+            {
+                PermitLimit = 1,
+                Window = TimeSpan.FromMinutes(1),
+                QueueLimit = 0
+            });
+    });
+
+    options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
+});
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -22,7 +44,11 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddHostedService<BackgroundServices>();
+
 var app = builder.Build();
+
+app.UseRateLimiter();
 
 //// Configure the HTTP request pipeline.
 app.UseSwagger();

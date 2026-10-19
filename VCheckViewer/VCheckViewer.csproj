@@ -131,6 +131,7 @@
     <None Remove="Storage\Device\VCheck2400Image.png" />
     <None Remove="Storage\Device\VCheckC1.png" />
     <None Remove="Storage\Device\VCheckC10.png" />
+    <None Remove="Storage\Device\VCheckC2.png" />
     <None Remove="Storage\Device\VCheckH6.png" />
     <None Remove="Storage\Device\VCheckU3.png" />
   </ItemGroup>
@@ -884,6 +885,7 @@
     <Resource Include="Storage\Device\VCheck2400Image.png" />
     <Resource Include="Storage\Device\VCheckC1.png" />
     <Resource Include="Storage\Device\VCheckC10.png" />
+    <Resource Include="Storage\Device\VCheckC2.png" />
     <Resource Include="Storage\Device\VCheckH6.png" />
     <Resource Include="Storage\Device\VCheckU3.png" />
   </ItemGroup>

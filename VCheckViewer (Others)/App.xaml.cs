@@ -4,18 +4,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Win32;
-using Microsoft.Windows.Themes;
 using System.Data;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using System.IO.Compression;
 using System.Reflection;
 using System.Resources;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Interop;
-using System.Windows.Media;
 using System.Windows.Threading;
 using VCheck.Helper;
 using VCheck.Interface.API;
@@ -25,10 +20,8 @@ using VCheckViewer_Others.Lib.Culture;
 using VCheckViewer_Others.Services;
 using VCheckViewer_Others.Services.MessageBox;
 using VCheckViewer_Others.ViewModels.Windows;
-using VCheckViewer_Others.Views.Pages.Login;
-using VCheckViewer_Others.Views.Windows;
+using VCheckViewer_Others.Views.Pages.Schedule;
 using Wpf.Ui;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace VCheckViewer_Others
 {
@@ -38,7 +31,7 @@ namespace VCheckViewer_Others
     public partial class App
     {
         public static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private string currentVersion = "1.8";
+        private string currentVersion = "1.0";
         public static MainViewModel MainViewModel { get; } = new MainViewModel();
 
         public static event EventHandler GoPreviousPage;
@@ -69,7 +62,7 @@ namespace VCheckViewer_Others
         public static string LatestAppVersionFolder { get; set; }
         public static long TestResultID { get; set; }
         public static ScheduledTestModel ScheduleTestInfo { set; get; }
-        public static ScheduledTestModelExtended ScheduleTestInfoExtended { set; get; }
+        public static VCheck.Lib.Data.Models.ScheduledTestModelExtended ScheduleTestInfoExtended { set; get; }
         public static int AnalyzerID { set; get; }
         public static List<string> Parameters { get; set; }
         public static List<TestDeviceName> Device { get; set; }
@@ -105,17 +98,10 @@ namespace VCheckViewer_Others
             {
                 try
                 {
-                    //File.WriteAllText(
-                    //System.IO.Path.Combine(AppContext.BaseDirectory, "ConfigureAppConfiguration.txt"),
-                    //"Can configure app configuration");
                     c.SetBasePath(Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location));
                 }
                 catch (Exception ex)
                 {
-                    //File.WriteAllText(
-                    //System.IO.Path.Combine(AppContext.BaseDirectory, "App_Configuration_Error.txt"),
-                    //ex.ToString());
-                    //Environment.Exit(1);
                     log.Error("App Configuration Error >>> ", ex);
                 }
             })
@@ -178,10 +164,6 @@ namespace VCheckViewer_Others
                 }
                 catch(Exception ex)
                 {
-                    //File.WriteAllText(
-                    //System.IO.Path.Combine(AppContext.BaseDirectory, "Service_Configuration_Error.txt"),
-                    //ex.ToString());
-                    //Environment.Exit(1);
                     log.Error("Service Configuration Error >>> ", ex);
                 }
                 
@@ -403,35 +385,11 @@ namespace VCheckViewer_Others
             }
             catch (Exception ex)
             {
-                //File.WriteAllText(
-                //    System.IO.Path.Combine(AppContext.BaseDirectory, "startup_error.txt"),
-                //    ex.ToString());
-                //Environment.Exit(1);
-
                 log.Error("Startup Error >>> ", ex);
             }
 
-            //File.WriteAllText(
-            //System.IO.Path.Combine(AppContext.BaseDirectory, "OnStartup.txt"),
-            //"before host start");
-
             _host.Start();
-
-            //LoginWindow LoginPage = new LoginWindow();
-            //LoginPage.Navigate(new RegisterPage());
-            //Current.MainWindow = LoginPage;
-            //RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-            //LoginPage.Show();
         }
-
-        //protected override void OnStartup(StartupEventArgs e)
-        //{
-        //    base.OnStartup(e);
-        //    var w = new System.Windows.Window { Width = 800, Height = 600, Title = "Test Window" };
-        //    w.Content = new TextBlock { Text = "Hello Kiosk!", FontSize = 32, VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = System.Windows.HorizontalAlignment.Center };
-        //    Current.MainWindow = w;
-        //    w.Show();
-        //}
 
         /// <summary>
         /// Occurs when the application is closing.
@@ -440,6 +398,8 @@ namespace VCheckViewer_Others
         {
             try
             {
+                Views.Windows.Main.DisposeTimerHandler(e, sender);
+
                 await _host.StopAsync();
 
                 _host.Dispose();

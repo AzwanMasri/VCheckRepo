@@ -613,7 +613,8 @@ namespace VCheckViewer_Others.Lib.DocumentTemplate
                                             }
                                         }
 
-                                        if (garphPerRow != 3) { totalRow = test.TestResultsGraph.Count(); }
+                                        if (test.TestResultsGraph.Count() == 4) { totalRow = 2; }
+                                        else if (garphPerRow != 3) { totalRow = test.TestResultsGraph.Count(); }
                                         else
                                         {
                                             totalRow = Math.DivRem(test.TestResultsGraph.Count(), garphPerRow, out remainder);
@@ -659,18 +660,22 @@ namespace VCheckViewer_Others.Lib.DocumentTemplate
 
                 if (sIsPrint)
                 {
-                    //App.FilePath = "Report-temp.pdf";
-                    //sDocument.GeneratePdf(App.FilePath);
+                    // Generate a unique filename in the system temp folder
+                    string tempFilePath = Path.Combine(
+                        Path.GetTempPath(),
+                        $"Report_{Guid.NewGuid():N}.pdf"
+                    );
 
-                    //Process process = new Process();
-                    //process.StartInfo = new ProcessStartInfo()
-                    //{
-                    //    FileName = App.FilePath,
-                    //    UseShellExecute = true
-                    //};
-                    //process.Start();
+                    App.FilePath = tempFilePath;
+                    sDocument.GeneratePdf(App.FilePath);
 
-                    sDocument.GeneratePdfAndShow();
+                    Process process = new Process();
+                    process.StartInfo = new ProcessStartInfo()
+                    {
+                        FileName = App.FilePath,
+                        UseShellExecute = true
+                    };
+                    process.Start();
                 }
                 else
                 {

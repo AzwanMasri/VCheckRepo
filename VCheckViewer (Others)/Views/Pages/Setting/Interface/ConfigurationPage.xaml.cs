@@ -12,7 +12,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
-using VCheck.Interface.API;
+//using VCheck.Interface.API;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer_Others.Lib.Function;
@@ -26,6 +26,8 @@ namespace VCheckViewer_Others.Views.Pages.Setting.Interface
     public partial class ConfigurationPage : Page
     {
         public ConfigurationDBContext configDBContext = new ConfigurationDBContext(ConfigSettings.GetConfigurationSettings());
+        public PIMSInformation sPIMSInformation = new PIMSInformation();
+
         public String sIPConfigKey = "InterfaceSettingsIP";
         public String sPortNoConfigKey = "InterfaceSettingsPortNo";
         public String sUsernameConfigKey = "InterfaceSettingsUsername";
@@ -43,11 +45,27 @@ namespace VCheckViewer_Others.Views.Pages.Setting.Interface
         public ConfigurationPage()
         {
             InitializeComponent();
+            setPIMSInformation();
             GetPMSURLAsync(2);
 
 
             ConnectionStatus = null;
             ConnectionStatus += ConnectionStatusReload;
+        }
+
+        private void setPIMSInformation()
+        {
+            var sInterfacePMS = configDBContext.GetConfigurationData(sPMSConfigKey).FirstOrDefault();
+            var sInterfaceIP = configDBContext.GetConfigurationData(sIPConfigKey).FirstOrDefault();
+            var sInterfacePortNo = configDBContext.GetConfigurationData(sPortNoConfigKey).FirstOrDefault();
+            var sInterfaceUsername = configDBContext.GetConfigurationData(sUsernameConfigKey).FirstOrDefault();
+            var sInterfacePassword = configDBContext.GetConfigurationData(sPasswordConfigKey).FirstOrDefault();
+
+            sPIMSInformation.sPIMS = sInterfacePMS != null ? sInterfacePMS.ConfigurationValue.ToString() : "";
+            sPIMSInformation.sIPURL = sInterfaceIP != null ? sInterfaceIP.ConfigurationValue.ToString() : "";
+            sPIMSInformation.sPortNo = sInterfacePortNo != null ? sInterfacePortNo.ConfigurationValue.ToString() : "";
+            sPIMSInformation.sUsername = sInterfaceUsername != null ? sInterfaceUsername.ConfigurationValue.ToString() : "";
+            sPIMSInformation.sPassword = sInterfacePassword != null ? sInterfacePassword.ConfigurationValue.ToString() : "";
         }
 
         private void CheckPMSSelected()
@@ -115,6 +133,7 @@ namespace VCheckViewer_Others.Views.Pages.Setting.Interface
         private void FieldsVal_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
             Boolean isFieldEmpty = false;
+            Boolean isFieldChanges = false;
 
             if (Other.IsChecked.GetValueOrDefault())
             {
@@ -131,6 +150,8 @@ namespace VCheckViewer_Others.Views.Pages.Setting.Interface
                 {
                     borderIP.BorderBrush = System.Windows.Media.Brushes.Black;
                     borderIP.ToolTip = null;
+
+                    if (sIP != sPIMSInformation.sIPURL) { isFieldChanges = true; }
                 }
 
                 if (String.IsNullOrEmpty(txtPortNo.Text) || int.Parse(txtPortNo.Text) == 0)
@@ -145,6 +166,8 @@ namespace VCheckViewer_Others.Views.Pages.Setting.Interface
                 {
                     borderPortNo.BorderBrush = System.Windows.Media.Brushes.Black;
                     borderPortNo.ToolTip = null;
+
+                    if (txtPortNo.Text != sPIMSInformation.sPortNo) { isFieldChanges = true; }
                 }
 
                 if (String.IsNullOrEmpty(txtUsername.Text))
@@ -159,6 +182,8 @@ namespace VCheckViewer_Others.Views.Pages.Setting.Interface
                 {
                     borderUsername.BorderBrush = System.Windows.Media.Brushes.Black;
                     borderUsername.ToolTip = null;
+
+                    if (txtUsername.Text != sPIMSInformation.sUsername) { isFieldChanges = true; }
                 }
 
                 if (String.IsNullOrEmpty(txtPassword.Password))
@@ -173,9 +198,11 @@ namespace VCheckViewer_Others.Views.Pages.Setting.Interface
                 {
                     borderPassword.BorderBrush = System.Windows.Media.Brushes.Black;
                     borderPassword.ToolTip = null;
+
+                    if (txtPassword.Password != sPIMSInformation.sPassword) { isFieldChanges = true; }
                 }
 
-                if(CurrentLIS == "Other")
+                if (CurrentLIS == "Other")
                 {
                     btnConnect.Content = Properties.Resources.Maintenance_Label_Connected;
                     btnConnect.Tag = "Connected";
@@ -482,8 +509,8 @@ namespace VCheckViewer_Others.Views.Pages.Setting.Interface
 
         public async Task GetPMSURLAsync(int clientID)
         {
-            VCheckAPI VcheckAPI = new VCheckAPI();
-            PMSURL =  await VcheckAPI.GetPMSUrl(clientID);
+            //VCheckAPI VcheckAPI = new VCheckAPI();
+            //PMSURL =  await VcheckAPI.GetPMSUrl(clientID);
             
 
             if (string.IsNullOrEmpty(PMSURL)) { Greywind.IsEnabled = false; }
@@ -533,7 +560,7 @@ namespace VCheckViewer_Others.Views.Pages.Setting.Interface
             {
                 ClinicID = sClinicID.ConfigurationValue.ToString();
 
-                disableConnect = await CheckGreywindClinic();
+                //disableConnect = await CheckGreywindClinic();
             }
             else if(noPhoneNumber)
             {
@@ -556,124 +583,75 @@ namespace VCheckViewer_Others.Views.Pages.Setting.Interface
             }
         }
 
-        private async Task<bool> CheckGreywindClinic()
-        {
-            GreywindAPI sAPI = new GreywindAPI();
+        //private async Task<bool> CheckGreywindClinic()
+        //{
+        //    GreywindAPI sAPI = new GreywindAPI();
 
-            return await sAPI.ClinicExist(ClinicID, PMSURL);
-        }
+        //    return await sAPI.ClinicExist(ClinicID, PMSURL);
+        //}
 
         private async Task<bool> CreateClinicInfoPMS()
         {
             var sSettingsObj = configDBContext.GetConfigurationData("");
             var clinic = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicID");
-            var ClinicIDNotExist = true;
-            var success = false;
 
-            if (clinic != null)
+            if (clinic == null)
             {
-                ClinicID = clinic.ConfigurationValue;
-                ClinicIDNotExist = false;
-                success = true;
-            }
-            else
-            {
-                ClinicID = await CreateClinicInfoVcheck(sSettingsObj);
+                configDBContext.AddConfiguration("ClinicID", "Local");
             }
 
-            if (string.IsNullOrEmpty(ClinicID))
-            {
-                return false;
-            }
-            else
-            {
-                if (ClinicIDNotExist)
-                {
-                    configDBContext.AddConfiguration("ClinicID", ClinicID);
-                }
-
-                if (Greywind.IsChecked.GetValueOrDefault())
-                {
-                    success = await CheckGreywindClinic();
-                }
-                else { return true; }
-
-                if (success)
-                {
-                    return true;
-                }
-                else
-                {
-                    if (!ClinicIDNotExist)
-                    {
-                        ClinicID = await CreateClinicInfoVcheck(sSettingsObj, ClinicID);
-
-                        success = await CheckGreywindClinic();
-                    }
-
-                    if (!string.IsNullOrEmpty(ClinicID) && !success)
-                    {
-                        success = await CreateClinicInfoGW(sSettingsObj);
-                    }
-                    else if (!string.IsNullOrEmpty(ClinicID) && success)
-                    {
-                        configDBContext.UpdateConfiguration("ClinicID", ClinicID);
-                    }
-
-                    return success;
-                }
-            }
+            return true;
         }
 
-        public async Task<String> CreateClinicInfoVcheck(List<ConfigurationModel> sSettingsObj, string ClinicID = "")
-        {
-            VCheckAPI vcheckAPI = new VCheckAPI();
+        //public async Task<String> CreateClinicInfoVcheck(List<ConfigurationModel> sSettingsObj, string ClinicID = "")
+        //{
+        //    VCheckAPI vcheckAPI = new VCheckAPI();
 
-            var name = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicName").ConfigurationValue;
-            var address = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicAddress").ConfigurationValue;
-            var city = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicCity").ConfigurationValue;
-            var state = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicState").ConfigurationValue;
-            var phoneNum = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicPhoneNum").ConfigurationValue;
+        //    var name = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicName").ConfigurationValue;
+        //    var address = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicAddress").ConfigurationValue;
+        //    var city = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicCity").ConfigurationValue;
+        //    var state = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicState").ConfigurationValue;
+        //    var phoneNum = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicPhoneNum").ConfigurationValue;
 
-            VCheck.Interface.API.Lib.General.LocationModel location = new VCheck.Interface.API.Lib.General.LocationModel()
-            {
-                ID = ClinicID,
-                Name = name,
-                Address = address,
-                ContactName = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicContactName").ConfigurationValue,
-                PhoneNum = phoneNum,
-                Email = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicEmail").ConfigurationValue,
-                Description = "Clinic",
-                Status = 1,
-                CreatedBy = Greywind.IsChecked.GetValueOrDefault() ? "Greywind" : "Others"
-            };
+        //    VCheck.Interface.API.Lib.General.LocationModel location = new VCheck.Interface.API.Lib.General.LocationModel()
+        //    {
+        //        ID = ClinicID,
+        //        Name = name,
+        //        Address = address,
+        //        ContactName = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicContactName").ConfigurationValue,
+        //        PhoneNum = phoneNum,
+        //        Email = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicEmail").ConfigurationValue,
+        //        Description = "Clinic",
+        //        Status = 1,
+        //        CreatedBy = Greywind.IsChecked.GetValueOrDefault() ? "Greywind" : "Others"
+        //    };
 
-            return await vcheckAPI.UpdateLocation(location);
-        }
+        //    return await vcheckAPI.UpdateLocation(location);
+        //}
 
-        public async Task<bool> CreateClinicInfoGW(List<ConfigurationModel> sSettingsObj)
-        {
-            GreywindAPI greywindAPI = new GreywindAPI();
+        //public async Task<bool> CreateClinicInfoGW(List<ConfigurationModel> sSettingsObj)
+        //{
+        //    GreywindAPI greywindAPI = new GreywindAPI();
 
-            var name = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicName").ConfigurationValue;
-            var address = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicAddress").ConfigurationValue;
-            var city = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicCity").ConfigurationValue;
-            var state = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicState").ConfigurationValue;
-            var phoneNum = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicPhoneNum").ConfigurationValue;
+        //    var name = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicName").ConfigurationValue;
+        //    var address = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicAddress").ConfigurationValue;
+        //    var city = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicCity").ConfigurationValue;
+        //    var state = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicState").ConfigurationValue;
+        //    var phoneNum = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicPhoneNum").ConfigurationValue;
 
-            VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest insertLocation = new VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest()
-            {
-                clinic_id = ClinicID,
-                name = name,
-                address_1 = address,
-                city = city,
-                state = state,
-                phone = phoneNum,
-                api_access = "1"
-            };
+        //    VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest insertLocation = new VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest()
+        //    {
+        //        clinic_id = ClinicID,
+        //        name = name,
+        //        address_1 = address,
+        //        city = city,
+        //        state = state,
+        //        phone = phoneNum,
+        //        api_access = "1"
+        //    };
 
-            return await greywindAPI.InsertClinicInfo(insertLocation, PMSURL);
-        }
+        //    return await greywindAPI.InsertClinicInfo(insertLocation, PMSURL);
+        //}
 
         public static void ConnectionStatusHandler(EventArgs e, object sender)
         {
@@ -737,5 +715,17 @@ namespace VCheckViewer_Others.Views.Pages.Setting.Interface
         {
             Process.Start(new ProcessStartInfo(App.UpdateLink) { UseShellExecute = true });
         }
+    }
+
+    public class PIMSInformation
+    {
+        public string sPIMS { get; set; }
+        public string sIPURL { get; set; }
+
+        public string sPortNo { get; set; }
+
+        public string sUsername { get; set; }
+
+        public string sPassword { get; set; }
     }
 }
