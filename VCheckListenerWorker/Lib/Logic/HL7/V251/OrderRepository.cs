@@ -28,6 +28,10 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V251
             var clinicID = TestResultRepository.GetConfigurationByKey("ClinicID");
             VCheckAPI vCheckAPI = new VCheckAPI();
             var schedulesString = await vCheckAPI.GetScheduleListNotSent(clinicID.ConfigurationValue);
+            var PMS = TestResultRepository.GetConfigurationByKey("InterfaceSettingsPMS");
+
+            if (clinicID == null || PMS == null || PMS.ConfigurationValue == "None") { return GenerateEndMarker(messageCount); }
+
             var schedulesExtended = string.IsNullOrEmpty(schedulesString) ? new List<ScheduledTestModelExtended>() : JsonConvert.DeserializeObject<List<ScheduledTestModelExtended>>(schedulesString);
 
             if (schedulesExtended.Count > 0)

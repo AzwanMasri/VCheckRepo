@@ -15,25 +15,39 @@ using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Reflection;
 using System.Text;
-using VCheck.Interface.API;
+using VCheck.Lib.Data;
 using VCheck.Lib.Data.Models;
-using VCheckListenerWorker_Other.Lib.Logic;
-using VCheckListenerWorker_Other.Lib.Logic.HL7.V231;
-using VCheckListenerWorker_Other.Lib.Models;
-using VCheckListenerWorker_Other.Lib.ValidationContext;
+using VCheckListenerWorker_Others.Lib.Logic;
+using VCheckListenerWorker_Others.Lib.Logic.HL7.V231;
+using VCheckListenerWorker_Others.Lib.Models;
+using VCheckListenerWorker_Others.Lib.ValidationContext;
 
-namespace VCheckListenerWorker_Other
+namespace VCheckListenerWorker_Others
 {
     public class Worker : BackgroundService
     {
+        private const long MemoryThresholdBytes = 200L * 1024L * 1024L;
+
         private readonly ILogger<Worker> _logger;
         System.Net.Sockets.Socket sListener;
-        VCheckListenerWorker_Other.Lib.Util.Logger sLogger;
+        public static VCheckListenerWorker_Others.Lib.Util.Logger sLogger;
+        bool saveHL7 = true;
 
         public String sSystemName = "VCheckViewer Listener";
         public string[] ConstantConnectionAnalyzer = { "H6", "U3", "V200", "V2400" };
 
         public static MainModel MainModel { get; } = new MainModel();
+
+        public static DateTime startTime;
+        public static string deviceType;
+        public static IPEndPoint remoteIpEndPoint;
+        public static string clientIpAddress;
+        public static string clientIpPort;
+
+        public static Lib.Models.DeviceModel device;
+        public static mst_configuration clinicID;
+
+        public static HostApplicationBuilder configBuilder;
 
         public Worker(ILogger<Worker> logger)
         {
@@ -47,28 +61,26 @@ namespace VCheckListenerWorker_Other
         /// <returns></returns>
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
+
+
             try
             {
+                configBuilder = Host.CreateApplicationBuilder();
+
                 while (!stoppingToken.IsCancellationRequested)
                 {
-                    var test = Guid.NewGuid().ToString();
-
                     XmlConfigurator.Configure(log4net.LogManager.GetRepository(Assembly.GetEntryAssembly()),
                                               new FileInfo("log4Net.config"));
                     sLogger = new Lib.Util.Logger();
 
-                    var configBuilder = Host.CreateApplicationBuilder();
-
                     Socket sClient = sListener.Accept();
+                    
+                    remoteIpEndPoint = sClient.RemoteEndPoint as IPEndPoint;
 
-                    string deviceType;
-                    IPEndPoint remoteIpEndPoint = sClient.RemoteEndPoint as IPEndPoint;
-
-                    string clientIpAddress = remoteIpEndPoint.Address.ToString();
-                    string clientIpPort = remoteIpEndPoint.Port.ToString();
-                    Console.WriteLine("Client connected from " + clientIpAddress + ":" + clientIpPort + ".");
-                    var device = TestResultRepository.GetDeviceByIPSerialNo(clientIpAddress, null, out deviceType);
-                    var clinicID = TestResultRepository.GetConfigurationByKey("ClinicID");
+                    clientIpAddress = remoteIpEndPoint.Address.ToString();
+                    clientIpPort = remoteIpEndPoint.Port.ToString();
+                    device = TestResultRepository.GetDeviceByIPSerialNo(clientIpAddress, null, out deviceType);
+                    clinicID = TestResultRepository.GetConfigurationByKey("ClinicID");
 
                     var childSocket = new Thread(async () =>
                     {
@@ -77,6 +89,14 @@ namespace VCheckListenerWorker_Other
                         MainModel.DeviceType = deviceType;
                         bool continueLoop = true;
                         NHapi.Base.Model.IMessage sIMessage = null;
+                        string sDataTemp;
+                        string sData;
+                        string[] lines;
+                        string[] splitString;
+                        byte[] sMessageByte;
+                        String sXMLMessage;
+                        String sAckMessage;
+                        String sFileName;
 
                         //while (clinicID != null && continueLoop)
                         while (continueLoop)
@@ -84,7 +104,8 @@ namespace VCheckListenerWorker_Other
                             
                             bool isConnected = true;
                             int byteLength = sClient.Available;
-                            Console.WriteLine($"Continue listening....{byteLength}");
+                            //Console.WriteLine($"Continue listening....{byteLength}");
+                            startTime = DateTime.Now;
                             while (isConnected)
                             {
                                 Thread.Sleep(1000);
@@ -96,17 +117,17 @@ namespace VCheckListenerWorker_Other
 
                             if (!isConnected)
                             {
-                                Console.WriteLine("Client disconnected from " + clientIpAddress + ":" + clientIpPort + ".");
+                                //Console.WriteLine("Client disconnected from " + clientIpAddress + ":" + clientIpPort + ".");
                                 break;
                             }
 
                             byte[] bBuffer = new byte[byteLength];
 
                             int s = sClient.Receive(bBuffer);
-                            String sDataTemp = Encoding.UTF8.GetString(bBuffer, 0, s);
+                            sDataTemp = Encoding.UTF8.GetString(bBuffer, 0, s);
                             sDataTemp = sDataTemp.Replace("\u001c", "")
                                          .Replace("\n", "\r");
-                            String sData = sDataTemp;
+                            sData = sDataTemp;
 
                             //Console.WriteLine($"Receiving data with byte length {byteLength}....");
 
@@ -137,11 +158,14 @@ namespace VCheckListenerWorker_Other
                                         continueProcessData = true;
                                     }
 
-                                    var lines = sData.Split("\r", StringSplitOptions.RemoveEmptyEntries);
+                                    lines = sData.Split("\r", StringSplitOptions.RemoveEmptyEntries);
 
                                     for (int i = 0; i < lines.Length; i++)
                                     {
-                                        if (!lines[i].Contains("|")) { lines[i - 1] = lines[i - 1] + lines[i]; lines[i] = ""; }
+                                        splitString = lines[i].Split("|");
+                                        if (splitString.Count() == 1 || string.IsNullOrEmpty(splitString[0])) { lines[i - 1] = lines[i - 1] + lines[i]; lines[i] = ""; }
+
+                                        //if (!lines[i].Contains("|")) { lines[i - 1] = lines[i - 1] + lines[i]; lines[i] = ""; }
                                     }
 
                                     sData = string.Join("\r", lines);
@@ -152,45 +176,38 @@ namespace VCheckListenerWorker_Other
                                 catch (Exception e)
                                 {
                                     _logger.LogError("Message failed during parsing: " + e.Message);
-                                    Console.WriteLine("Message failed during parsing: " + e.Message);
+                                    //Console.WriteLine("Message failed during parsing: " + e.Message);
                                 }
 
-                                String sXMLMessage = String.Empty;
-                                String sAckMessage = String.Empty;
-                                String sFileName = "TestResult_" + DateTime.Now.ToString("yyyyMMddHHmmss");
+
+                                sFileName = "TestResult_" + DateTime.Now.ToString("yyyyMMddHHmmss");
 
                                 //OutputMessage(configBuilder, "TestResultTest_" + DateTime.Now.ToString("yyyyMMddHHmmss"), sData, null, null);
 
                                 if (sIMessage != null)
                                 {
                                     sAckMessage = await SendAckMessage(sIMessage, sData.Trim());
-                                    var sMessageByte = Encoding.UTF8.GetBytes(sAckMessage);
+                                    sMessageByte = Encoding.UTF8.GetBytes(sAckMessage);
                                     sClient.Send(sMessageByte, SocketFlags.None);
-                                    //OutputMessage(configBuilder, sFileName, null, null, sAckMessage);
                                     OutputMessage(configBuilder, sFileName, sData, null, sAckMessage);
-
-                                    //if (!ConstantConnectionAnalyzer.Contains(deviceType))
-                                    //{
-                                    //    sClient.Close();
-                                    //    Console.WriteLine("[one-way] Client disconnected from " + clientIpAddress + ":" + clientIpPort + ".");
-                                    //    continueLoop = false;
-                                    //}
 
                                     if (continueProcessData)
                                     {
                                         Task.Run(() => ProcessIMessage(sIMessage, sSystemName));
                                         sXMLMessage = sXMLParser.Encode(sIMessage);
-                                        //OutputMessage(configBuilder, sFileName, sData, sXMLMessage, null);
                                     }
                                 }
                                 else
                                 {
+                                    saveHL7 = true;
                                     sFileName = "ErrorTestResult_" + DateTime.Now.ToString("yyyyMMddHHmmss");
                                     OutputMessage(configBuilder, sFileName, sData, null, null);
                                 }
 
-                                Console.WriteLine("---------------------------------------------------------------------------------");
+                                //Console.WriteLine("---------------------------------------------------------------------------------");
                             }
+
+                            saveHL7 = true;
                         }
 
                         //if (ConstantConnectionAnalyzer.Contains(deviceType))
@@ -198,8 +215,21 @@ namespace VCheckListenerWorker_Other
                         //    sClient.Close();
                         //}
 
+                        tempData = null;
+                        sIMessage = null;
+                        sDataTemp = null;
+                        sData = null;
+                        lines = Array.Empty<string>();
+                        splitString = Array.Empty<string>();
+                        sMessageByte = Array.Empty<byte>();
+                        sXMLMessage = null;
+                        sAckMessage = null;
+                        sFileName = null;
+
                         sClient.Close();
+                        sClient = null;
                         //Console.WriteLine("Client disconnected from " + clientIpAddress + ":" + clientIpPort + ".");
+
                     });
 
                     childSocket.Start();
@@ -208,40 +238,63 @@ namespace VCheckListenerWorker_Other
                     {
                         var childSocket2 = new Thread(async () =>
                         {
-                            VCheckAPI vCheckAPI = new VCheckAPI();
+                            byte[] testsMessageByte;
+                            string order;
 
                             while (clinicID != null)
                             {
-                                var schedulesString = await vCheckAPI.GetScheduleListNotSent(clinicID.ConfigurationValue);
-                                var schedulesExtended = string.IsNullOrEmpty(schedulesString) ? new List<ScheduledTestModelExtended>() : JsonConvert.DeserializeObject<List<ScheduledTestModelExtended>>(schedulesString);
+                                ScheduledTestRepository.RefreshData();
+                                var schedulesExtended = ScheduledTestRepository.GetScheduleListByLocationNotSent(configBuilder.Configuration, "Local");
 
                                 if (schedulesExtended.Count > 0)
                                 {
                                     schedulesExtended = schedulesExtended.Where(x => x.IDAnalyzers.Where(y => y.Analyzers == "H6").Count() != 0).ToList();
-                                    var order = await OrderRepository.GenerateOrderMessageORM(schedulesExtended);
+                                    order = await OrderRepository.GenerateOrderMessageORM(schedulesExtended);
 
                                     if (!string.IsNullOrEmpty(order))
                                     {
-                                        var testsMessageByte = Encoding.UTF8.GetBytes(order);
+                                        testsMessageByte = Encoding.UTF8.GetBytes(order);
                                         sClient.SendAsync(testsMessageByte, SocketFlags.None);
 
                                         foreach (var schedule in schedulesExtended)
                                         {
-                                            await vCheckAPI.UpdateScheduleStatus(schedule.Schedule.LocationID, schedule.Schedule.PatientID, schedule.Schedule.ScheduleUniqueID.Split("-")[1], schedule.Schedule.CreatedBy, 1);
-                                            await vCheckAPI.UpdateScheduleAnalyzer("H6", schedule.Schedule.ScheduleUniqueID);
+                                            ScheduledTestRepository.RefreshData();
+                                            var data = ScheduledTestRepository.GetScheduledTestByOrderID(configBuilder.Configuration, schedule.Schedule.ScheduleUniqueID.Split("-")[1], schedule.Schedule.CreatedBy, schedule.Schedule.LocationID);
+
+                                            if (data != null && data.ScheduleTestStatus != 1)
+                                            {
+                                                data.ScheduleTestStatus = 1;
+                                                data.UpdatedBy = schedule.Schedule.CreatedBy;
+                                                data.UpdatedDate = DateTime.Now;
+
+                                                if (data.SentToAnalyzer == null || !data.SentToAnalyzer.Split(",").Contains("H6"))
+                                                {
+                                                    data.SentToAnalyzer = data.SentToAnalyzer == null ? "H6" : data.SentToAnalyzer + "," + "H6";
+                                                }
+
+                                                ScheduledTestRepository.UpdateScheduledTestByUniqueID(configBuilder.Configuration, data);
+                                            }
                                         }
+
                                     }
+
+                                    order = null;
+                                    testsMessageByte = Array.Empty<byte>();
 
                                 }
 
+                                schedulesExtended = null;
+
                                 //Thread.Sleep(TimeSpan.FromMinutes(5));
-                                Thread.Sleep(5000);
+                                Thread.Sleep(20000);
                             }
+
                         });
 
                         childSocket2.Start();
                     }
 
+                    ConditionalFullGC();
                 }
             }
             catch (Exception e)
@@ -267,22 +320,12 @@ namespace VCheckListenerWorker_Other
             {
                 try
                 {
-
-                    //var builder = Host.CreateApplicationBuilder();
-                    //sHostIP = builder.Configuration.GetSection("Listener:HostIP").Value;                
-                    //iPortNo = Convert.ToInt32(builder.Configuration.GetSection("Listener:Port").Value);
-
-                    //sHostIP = "169.254.98.184";
                     iPortNo = 8585;
-                    //iPortNo = 1001;
-
-                    //sHostIP = GetAssignedIPAddress();
-                    //sHostIP = GetIPAddressFromDatabase(out iPortNo);
                     sHostIP = GetIPAddressAccordingToType();
 
                     if (!string.IsNullOrEmpty(sHostIP))
                     {
-                        Console.WriteLine("Starting Listener...");
+                        //Console.WriteLine("Starting Listener...");
 
                         //IPEndPoint sIPEndPoint = new IPEndPoint(IPAddress.Any, iPortNo);
                         System.Net.IPEndPoint sIPEndPoint = System.Net.IPEndPoint.Parse(String.Concat(sHostIP, ":", iPortNo));
@@ -290,11 +333,12 @@ namespace VCheckListenerWorker_Other
                         sListener = new System.Net.Sockets.Socket(System.Net.Sockets.AddressFamily.InterNetwork, System.Net.Sockets.SocketType.Stream, System.Net.Sockets.ProtocolType.Tcp);
 
                         sListener.Bind(sIPEndPoint);
-                        sListener.Listen(3);
+                        //sListener.Listen(3);
+                        sListener.Listen((int)SocketOptionName.MaxConnections);
 
                         //Console.WriteLine(Guid.NewGuid().ToString());
 
-                        Console.WriteLine("Listener Start Successful.");
+                        //Console.WriteLine("Listener Start Successful.");
                         Console.WriteLine("IP Address : " + sHostIP);
                         Console.WriteLine("Port No : " + iPortNo);
                         Console.WriteLine("-------------------------------------------------------------------");
@@ -362,6 +406,10 @@ namespace VCheckListenerWorker_Other
                     {
                         Lib.Logic.HL7.V26.HL7Repository.ProcessMessageAsync(sIMessage, sSystemName);
                     }
+                    else if (sIMessage.Message.Message.GetType() == typeof(NHapi.Model.V26.Message.OUL_R22))
+                    {
+                        Lib.Logic.HL7.V26.HL7Repository.ProcessMessageOULAsync(sIMessage, sSystemName);
+                    }
                     break;
 
                 case "2.5.1":
@@ -369,12 +417,9 @@ namespace VCheckListenerWorker_Other
                     {
                         Lib.Logic.HL7.V251.HL7Repository.ProcessMessage(sIMessage, sSystemName);
                         //Lib.Logic.HL7.V251.tempHL7.ProcessMessage(sIMessage, sSystemName);
-                        Console.WriteLine("Data processed...");
+                        //Console.WriteLine("Data processed..."); 
                     }
-                    else
-                    {
-                        Console.WriteLine("Data processed normally...");
-                    }
+
                     break;
 
                 case "2.3.1":
@@ -412,9 +457,14 @@ namespace VCheckListenerWorker_Other
                         sMessage = await Lib.Logic.HL7.V26.OrderRepository.ProcessMessageAsync(hl7Split);
                         sMessage.Replace("\n", "");
                     }
+                    else if (type == typeof(NHapi.Model.V26.Message.OUL_R22))
+                    {
+                        sMessage = Lib.Logic.HL7.V26.AckRepository.GenerateAcknowlegeMessageOUL(sIMessage);
+                    }
                     else
                     {
                         sMessage = Lib.Logic.HL7.V26.AckRepository.GenerateAcknowlegeMessage(sIMessage);
+                        saveHL7 = false;
                     }
 
                     break;
@@ -456,6 +506,8 @@ namespace VCheckListenerWorker_Other
                     break;
             }
 
+            hl7Split = Array.Empty<string>();
+
             return sMessage;
         }
 
@@ -469,6 +521,7 @@ namespace VCheckListenerWorker_Other
         /// <param name="sAckMessage"></param>
         public void OutputMessage(HostApplicationBuilder sBuilder, String sFileName, String sData, String sXMLMessage, String sAckMessage)
         {
+            //if (!saveHL7) { return; }
             try
             {
                 String sOutputPathHL7 = sBuilder.Configuration.GetSection("FileOutput:HL7").Value;
@@ -484,7 +537,7 @@ namespace VCheckListenerWorker_Other
                     }
                     File.WriteAllText(outputPathHL7 + sFileName + ".hl7", sData, System.Text.Encoding.ASCII);
 
-                    Console.WriteLine("Saved HL7 Message.");
+                    //Console.WriteLine("Saved HL7 Message.");
                 }
 
                 // Output to XML file
@@ -507,7 +560,7 @@ namespace VCheckListenerWorker_Other
                     }
                     File.WriteAllText(outputPathACK + sFileName + ".hl7", sAckMessage, System.Text.Encoding.ASCII);
 
-                    Console.WriteLine("Saved ACK Message.");
+                    //Console.WriteLine("Saved ACK Message.");
                 }
             }
             catch (Exception ex)
@@ -556,6 +609,45 @@ namespace VCheckListenerWorker_Other
             return ipAddress;
         }
 
+        //public static string GetIPAddressAccordingToType()
+        //{
+        //    var connectionType = TestResultRepository.GetConfigurationByKey("Connection_Type");
+        //    string selectedIpAddress = "";
+        //    var NetworkType = connectionType != null && connectionType.ConfigurationValue == "ethernet" ? NetworkInterfaceType.Ethernet : NetworkInterfaceType.Wireless80211;
+
+        //    try
+        //    {
+        //        // Get all network interfaces
+        //        foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+        //        {
+        //            // Skip interfaces that are not up
+        //            if (ni.OperationalStatus != OperationalStatus.Up && ni.NetworkInterfaceType != NetworkInterfaceType.Loopback)
+        //                continue;
+
+        //            // Filter only Ethernet or Wireless interfaces
+        //            if (ni.NetworkInterfaceType != NetworkType)
+        //                continue;
+
+        //            // Get IPv4 addresses for this interface
+        //            var ipProps = ni.GetIPProperties();
+        //            var ipv4Addrs = ipProps.UnicastAddresses
+        //                .FirstOrDefault(x => x.Address.AddressFamily == AddressFamily.InterNetwork);
+
+        //            if (ipv4Addrs != null)
+        //            {
+        //                selectedIpAddress = ipv4Addrs.Address.ToString();
+        //                break;
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //    }
+
+        //    return selectedIpAddress;
+        //}
+
         public static string GetIPAddressAccordingToType()
         {
             try
@@ -587,7 +679,7 @@ namespace VCheckListenerWorker_Other
                 return "";
             }
         }
-
+        
         private static string FindIpByConnectionType(string connectionType)
         {
             NetworkInterfaceType networkType = connectionType == "ethernet"
@@ -622,6 +714,38 @@ namespace VCheckListenerWorker_Other
             byte[] bytes = address.GetAddressBytes();
             // 169.254.x.x
             return bytes.Length == 4 && bytes[0] == 169 && bytes[1] == 254;
+        }
+
+        static void ConditionalFullGC()
+        {
+            try
+            {
+                long currentMemory = GC.GetTotalMemory(forceFullCollection: false);
+                Console.WriteLine($"Current memory usage: {currentMemory / (1024 * 1024)} MB");
+
+                if (currentMemory > MemoryThresholdBytes)
+                {
+                    Console.WriteLine("Memory threshold exceeded — running full GC...");
+
+                    GC.Collect(
+                        GC.MaxGeneration,                // Collect all generations
+                        GCCollectionMode.Forced,         // Force collection
+                        blocking: true,                  // Wait until done
+                        compacting: true                  // Compact heap
+                    );
+
+                    GC.WaitForPendingFinalizers();
+                    Console.WriteLine("Full GC completed.");
+                }
+                else
+                {
+                    Console.WriteLine("Memory usage below threshold — skipping GC.");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error during GC: {ex.Message}");
+            }
         }
     }
 }

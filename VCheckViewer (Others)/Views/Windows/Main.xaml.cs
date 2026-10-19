@@ -1,4 +1,6 @@
-﻿using DocumentFormat.OpenXml.Wordprocessing;
+﻿using DocumentFormat.OpenXml.Office2016.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -23,6 +25,7 @@ using VCheck.Lib.Data.Models;
 using VCheckViewer_Others.Converter;
 using VCheckViewer_Others.Lib.Culture;
 using VCheckViewer_Others.Lib.Function;
+using VCheckViewer_Others.Services;
 using VCheckViewer_Others.Views.Pages;
 using VCheckViewer_Others.Views.Pages.Dashboard;
 using VCheckViewer_Others.Views.Pages.Login;
@@ -47,6 +50,8 @@ namespace VCheckViewer_Others.Views.Windows
     /// </summary>
     public partial class Main : Window
     {
+        public static event EventHandler? DisposeTimer;
+
         static MasterCodeDataDBContext sContext = App.GetService<MasterCodeDataDBContext>();
         static RolesDBContext rolesContext = App.GetService<RolesDBContext>();
         static UserDBContext usersContext = App.GetService<UserDBContext>();
@@ -124,7 +129,6 @@ namespace VCheckViewer_Others.Views.Windows
             initializedDropdownSelectionList();
 
             Username.Header = App.MainViewModel.CurrentUsers.StaffName;
-            UpdateProfileInitials();
 
             //System.Windows.Data.Binding b = new System.Windows.Data.Binding("Dashboard_Title_PageTitle");
             //b.Source = System.Windows.Application.Current.TryFindResource("Resources");
@@ -147,6 +151,9 @@ namespace VCheckViewer_Others.Views.Windows
             CheckUnReadNotificationAsync(true);
             CheckExpiredSchedule();
 
+            DisposeTimer = null;
+            DisposeTimer += DisposeMainTimer;
+
             // Initialize the timer
             _timer = new DispatcherTimer
             {
@@ -168,9 +175,9 @@ namespace VCheckViewer_Others.Views.Windows
         {
             try
             {
-                VCheckAPI sAPI = new VCheckAPI();
+                APIService sAPI = new APIService();
                 var apiStatus = await sAPI.TestConnection();
-                var listenerStatus = Process.GetProcessesByName("VCheckListenerWorker").Any();
+                var listenerStatus = Process.GetProcessesByName("VCheckListenerWorker_Others").Any();
 
                 ListenerStatus.Fill = listenerStatus ? Brushes.LightGreen : Brushes.Red;
                 APIStatus.Fill = apiStatus ? Brushes.LightGreen : Brushes.Red;
@@ -193,46 +200,6 @@ namespace VCheckViewer_Others.Views.Windows
         {
             NotificationTranslate.Text = Properties.Resources.Main_Label_SideMenuNotification;
 
-            if (Sync)
-            {
-                var clinicInfo = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
-
-                if (clinicInfo != null)
-                {
-                    VCheckAPI sAPI = new VCheckAPI();
-                    string errorListString = await sAPI.GetAllErrorNotSync(clinicInfo.ConfigurationValue);
-
-                    if (errorListString != null)
-                    {
-                        var errorList = JsonConvert.DeserializeObject<List<APIErrorModel>>(errorListString);
-                        List<NotificationModel> errorNotification = new List<NotificationModel>();
-
-                        ConfigurationModel sLangCode = ConfigurationContext.GetConfigurationData("SystemSettings_Language").FirstOrDefault();
-                        var notificationTemplate = TemplateContext.GetTemplateByCodeLang("SE01", (sLangCode != null ? sLangCode.ConfigurationValue : ""));
-                        var temp = notificationTemplate;
-
-                        foreach (var error in errorList)
-                        {
-                            VCheck.Lib.Data.Models.ResponseModel responseModel = JsonConvert.DeserializeObject<VCheck.Lib.Data.Models.ResponseModel>(error.ErrorMessage);
-                            CreateScheduledDataRequest scheduledModel = JsonConvert.DeserializeObject<CreateScheduledDataRequest>(error.ScheduleData);
-                            //var content = "Order test [" + scheduledModel.body.ScheduledTestName + "] for " + scheduledModel.body.PatientName + "(" + scheduledModel.body.PatientID + ") failed to be created. Error ''" + responseModel.Body.ResponseMessage + "''. \nPlease create the schedule again with correct information.";
-                            var content = temp.TemplateContent.Replace("###<testname>###", scheduledModel.body.ScheduledTestName).Replace("###<name>###", scheduledModel.body.PatientName).Replace("###<id>###", scheduledModel.body.PatientID).Replace("###<message>###", responseModel.Body.ResponseMessage);
-
-                            errorNotification.Add(new NotificationModel()
-                            {
-                                //NotificationID = error.ID,
-                                NotificationType = "Schedule Error",
-                                NotificationTitle = temp.TemplateTitle,
-                                NotificationContent = content,
-                                CreatedDateDatetime = error.CreatedDate.Value
-                            });
-                        }
-
-                        if (errorNotification.Count() > 0) { NotificationContext.InsertNotificationRange(errorNotification); }
-                    }
-                }
-            }
-
             var totalNotification = NotificationContext.GetTotalUnreadNotification();
 
             UnreadCount.Text = totalNotification == 0 ? "" : " (" + totalNotification + ")";
@@ -248,13 +215,16 @@ namespace VCheckViewer_Others.Views.Windows
             List<NotificationModel> expiredNotification = new List<NotificationModel>();
             var listString = "";
 
-            if (sConfigObj != null)
-            {
-                VCheckAPI vcheckAPI = new VCheckAPI();
-                listString = await vcheckAPI.GetScheduleList(sConfigObj.ConfigurationValue, false, true);
-            }
+            //if (sConfigObj != null)
+            //{
+            //    VCheckAPI vcheckAPI = new VCheckAPI();
+            //    listString = await vcheckAPI.GetScheduleList(sConfigObj.ConfigurationValue, false, true);
+            //}
 
-            List<ScheduledTestModel> sScheduledList = string.IsNullOrEmpty(listString) ? new List<ScheduledTestModel>() : JsonConvert.DeserializeObject<List<ScheduledTestModel>>(listString);
+            //List<ScheduledTestModel> sScheduledList = string.IsNullOrEmpty(listString) ? new List<ScheduledTestModel>() : JsonConvert.DeserializeObject<List<ScheduledTestModel>>(listString);
+
+            ScheduledTestRepository.RefreshData();
+            List<ScheduledTestModel> sScheduledList = ScheduledTestRepository.GetExpiredScheduleListByLocation(ConfigSettings.GetConfigurationSettings(), "Local");
 
             ConfigurationModel sLangCode = ConfigurationContext.GetConfigurationData("SystemSettings_Language").FirstOrDefault();
             var notificationTemplate = TemplateContext.GetTemplateByCodeLang("SE02", (sLangCode != null ? sLangCode.ConfigurationValue : ""));
@@ -309,6 +279,8 @@ namespace VCheckViewer_Others.Views.Windows
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
 
             GoToViewUserPage(sender, e);
+
+            DisposeAllTimer(e, sender);
         }
 
         private void ResetPassword(object sender, RoutedEventArgs e)
@@ -320,6 +292,8 @@ namespace VCheckViewer_Others.Views.Windows
             System.Windows.Data.Binding b = new System.Windows.Data.Binding("ResetPassword_Title_PageTitle");
             b.Source = System.Windows.Application.Current.TryFindResource("Resources");
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
+
+            DisposeAllTimer(e, sender);
         }
 
         private void MaintenanceButton_Click(object sender, RoutedEventArgs e)
@@ -329,16 +303,20 @@ namespace VCheckViewer_Others.Views.Windows
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
 
             GoToMaintenancePage(sender, e);
+
+            DisposeAllTimer(e, sender);
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
+            DisposeAllTimer(e, sender);
             App.MainViewModel.Origin = "Logout";
             Popup(sender, e);
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
+            DisposeAllTimer(e, sender);
             Environment.Exit(0);
         }
 
@@ -368,7 +346,7 @@ namespace VCheckViewer_Others.Views.Windows
 
         void GoToLanguageCountryPage(object sender, EventArgs e)
         {
-            OpenSettings(SettingPage.CategoryLanguage);
+            frameContent.Content = new LanguageCountryPage();
         }
         void GoToDevicePage(object sender, EventArgs e)
         {
@@ -388,13 +366,13 @@ namespace VCheckViewer_Others.Views.Windows
         {
             checklanguage();
 
-            OpenSettings(SettingPage.CategoryReport);
+            frameContent.Content = new ReportPage();
         }
         void GoToClinicInfoPage(object sender, EventArgs e)
         {
             checklanguage();
 
-            OpenSettings(SettingPage.CategoryClinic);
+            frameContent.Content = new ClinicInfoPage();
         }
 
         void GoToViewResultPage(object sender, EventArgs e)
@@ -410,6 +388,8 @@ namespace VCheckViewer_Others.Views.Windows
         {
             frameContent.Content = new ResultPage();
 
+            DisposeAllTimer(e, sender);
+
             refreshMenuItemStyle(mnResults);
 
             CurrentPage = "";
@@ -419,7 +399,9 @@ namespace VCheckViewer_Others.Views.Windows
         {
             checklanguage();
 
-            OpenSettings(SettingPage.CategoryUsers);
+            DisposeAllTimer(e, sender);
+
+            frameContent.Content = new UserPage();
         }
 
         void GoToInformationPage(object sender, EventArgs e)
@@ -495,13 +477,13 @@ namespace VCheckViewer_Others.Views.Windows
             {
                 PopupSetup(false, false, true, false, false, false, false, false);
 
-                PopupContent.Text = Properties.Resources.Popup_Message_SavePMSLISHIS; 
+                PopupContent.Text = Properties.Resources.Popup_Message_SavePMSLISHIS;
             }
             if (App.MainViewModel.Origin == "ListingDownloadCompleted")
             {
                 PopupSetup(false, false, true, false, false, false, false, false);
 
-                PopupContent.Text = Properties.Resources.Results_Message_DownloadComplete; 
+                PopupContent.Text = Properties.Resources.Results_Message_DownloadComplete;
             }
             if (App.MainViewModel.Origin == "TestResultDownloadCompleted")
             {
@@ -509,7 +491,7 @@ namespace VCheckViewer_Others.Views.Windows
 
                 var sBuilder = Microsoft.Extensions.Hosting.Host.CreateApplicationBuilder();
 
-                PopupContent.Text = Properties.Resources.Results_Message_TestResultDownloadCompleted + "\r\n "+ Properties.Resources.Popup_Message_TheFileIsAt + " \r\n" + sBuilder.Configuration.GetSection("Configuration:DownloadFolderPath").Value;
+                PopupContent.Text = Properties.Resources.Results_Message_TestResultDownloadCompleted + "\r\n " + Properties.Resources.Popup_Message_TheFileIsAt + " \r\n" + sBuilder.Configuration.GetSection("Configuration:DownloadFolderPath").Value;
             }
             if (App.MainViewModel.Origin == "FailedDownloadListing")
             {
@@ -547,14 +529,8 @@ namespace VCheckViewer_Others.Views.Windows
                 sTestResultObj = TestResultsRepository.GetTestResultByID(ConfigSettings.GetConfigurationSettings(), Convert.ToInt64(App.MainViewModel.TestResultID));
                 var listString = "";
 
-                if (sConfigObj != null)
-                {
-                    VCheckAPI vcheckAPI = new VCheckAPI();
-                    listString = await vcheckAPI.GetScheduleList(sConfigObj.ConfigurationValue, true, false, sTestResultObj.TestResultType);
-                    App.ClinicID = sConfigObj.ConfigurationValue;
-                }
-
-                List<ScheduledTestModel> sScheduledList = string.IsNullOrEmpty(listString) ? new List<ScheduledTestModel>() : JsonConvert.DeserializeObject<List<ScheduledTestModel>>(listString);
+                ScheduledTestRepository.RefreshData();
+                List<ScheduledTestModel> sScheduledList = ScheduledTestRepository.GetNotCompletedScheduleListByLocation(ConfigSettings.GetConfigurationSettings(), "Local", sTestResultObj.TestResultType, false, true);
 
                 if (sScheduledList != null && sScheduledList.Count > 0)
                 {
@@ -576,11 +552,11 @@ namespace VCheckViewer_Others.Views.Windows
 
                         deviceComboList.Add(new ComboBoxItem
                         {
-                            Content = Properties.Resources.Schedule_Label_PatientID + " " + s.PatientID + ", " + "Name: " + s.PatientName + " (" + scheduleDatetime+")",
+                            Content = Properties.Resources.Schedule_Label_PatientID + " " + s.PatientID + ", " + "Name: " + s.PatientName + " (" + scheduleDatetime + ")",
                             Tag = uniqueID
                         });
                     }
-                    
+
 
                     deviceList.ItemsSource = deviceComboList;
                     deviceList.SelectedIndex = 0;
@@ -594,14 +570,14 @@ namespace VCheckViewer_Others.Views.Windows
                     App.MainViewModel.Origin = "NoScheduleFound";
                     PopupContent.Text = Properties.Resources.Popup_Message_NoScheduleFound;
                     PopupSetup(false, false, true, false, true, false, false, false);
-                }                
+                }
 
                 //ShowPopup = false;
                 //SendToPMSHandler(e, sender);
             }
             if (App.MainViewModel.Origin == "SendToAnalyzer")
             {
-                var ignoreDeviceType = new string[]{ "H6", "V200", "V2400", "C1" };
+                var ignoreDeviceType = new string[] { "H6", "V200", "V2400", "C1" };
                 var analyzerList = new List<string>();
 
                 if (App.ScheduleTestInfoExtended != null)
@@ -801,7 +777,7 @@ namespace VCheckViewer_Others.Views.Windows
                     parameterList.Items.Add(stackPanel);
                 }
 
-                PopupContent.Text = "Select Test Result";
+                PopupContent.Text = "Select Additional Test Result";
             }
             if (App.MainViewModel.Origin == "SelectParameters")
             {
@@ -875,9 +851,9 @@ namespace VCheckViewer_Others.Views.Windows
                 PopupSetup(false, false, true, true, false, false, false, true);
 
                 //App.Device.AddRange(TestResultsRepository.GetRelatedTestResultsByPatientIDAndAnalyzer(ConfigSettings.GetConfigurationSettings(),App.DowloadPrintObject[0].TestResult.PatientID,App.Device[0].DeviceName));
-                App.Device.AddRange(TestResultsRepository.GetRelatedTestResultByPatientID(ConfigSettings.GetConfigurationSettings(),App.DowloadPrintObject[0].TestResult.PatientID,App.Device[0].DeviceName));
+                App.Device.AddRange(TestResultsRepository.GetRelatedTestResultByPatientID(ConfigSettings.GetConfigurationSettings(), App.DowloadPrintObject[0].TestResult.PatientID, App.Device[0].DeviceName));
 
-                if(App.Device.Count > 1)
+                if (App.Device.Count > 1)
                 {
                     parameterList.Items.Clear();
 
@@ -981,7 +957,8 @@ namespace VCheckViewer_Others.Views.Windows
             if (App.MainViewModel.Origin == "ChangeLanguageCountry") { ChangeLanguageCountryHandler(e, sender); }
             //if (App.MainViewModel.Origin == "SettingsUpdate" || App.MainViewModel.Origin == "ReportSettingsUpdate" || App.MainViewModel.Origin == "LISSettingsUpdate") { UpdateSettingsHandlerAsync(e, sender); }
             //if (App.MainViewModel.Origin == "ClinicInfoUpdate") { UpdateClinicInfoHandlerAsync(e, sender); }
-            if (App.MainViewModel.Origin == "CancelSchedule") {
+            if (App.MainViewModel.Origin == "CancelSchedule")
+            {
 
                 var uniqueIDPart = App.ScheduleTestInfo.ScheduleUniqueID.Split("-");
                 var orderID = uniqueIDPart[1];
@@ -989,19 +966,32 @@ namespace VCheckViewer_Others.Views.Windows
                 bool success = true;
                 string location = App.ScheduleTestInfo.LocationID;
 
-                if (App.ScheduleTestInfo.CreatedBy == "Greywind")
-                {
-                    GetInterfaceInfo();
-                    GreywindAPI sAPI = new GreywindAPI();
-                    VCheckAPI VcheckAPI = new VCheckAPI();
-                    url = await VcheckAPI.GetPMSUrl(2);
-                    success = sAPI.UpdateScheduleStatus(orderID, accessionNum, "C", url);
-                }
+                //if (App.ScheduleTestInfo.CreatedBy == "Greywind")
+                //{
+                //    GetInterfaceInfo();
+                //    GreywindAPI sAPI = new GreywindAPI();
+                //    VCheckAPI VcheckAPI = new VCheckAPI();
+                //    url = await VcheckAPI.GetPMSUrl(2);
+                //    success = sAPI.UpdateScheduleStatus(orderID, accessionNum, "C", url);
+                //}
 
                 if (success)
                 {
-                    VCheckAPI vCheckAPI = new VCheckAPI();
-                    var updateStatusSuccess = await vCheckAPI.UpdateScheduleStatus(App.ScheduleTestInfo.LocationID, App.ScheduleTestInfo.PatientID, orderID, App.ScheduleTestInfo.CreatedBy, 2);
+                    //VCheckAPI vCheckAPI = new VCheckAPI();
+                    //var updateStatusSuccess = await vCheckAPI.UpdateScheduleStatus(App.ScheduleTestInfo.LocationID, App.ScheduleTestInfo.PatientID, orderID, App.ScheduleTestInfo.CreatedBy, 2);
+                    ScheduledTestRepository.RefreshData();
+                    var data = ScheduledTestRepository.GetScheduledTestByOrderID(ConfigSettings.GetConfigurationSettings(), orderID, App.ScheduleTestInfo.CreatedBy, "Local");
+                    
+                    if(data != null && data.ScheduleTestStatus != 2)
+                    {
+                        data.ScheduleTestStatus = 2;
+                        data.TestCompleted = 1;
+                        data.UpdatedBy = App.ScheduleTestInfo.CreatedBy;
+                        data.UpdatedDate = DateTime.Now;
+
+                        ScheduledTestRepository.UpdateScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), data);
+                    }
+
                     SchedulePage.ReloadScheduleHandler(e, sender);
 
                     App.MainViewModel.Origin = "ScheduleCancelled";
@@ -1067,7 +1057,7 @@ namespace VCheckViewer_Others.Views.Windows
 
         private void btnOk_Click(object sender, RoutedEventArgs e)
         {
-            if (App.MainViewModel.Origin == "SettingsUpdateCompleted" || 
+            if (App.MainViewModel.Origin == "SettingsUpdateCompleted" ||
                 App.MainViewModel.Origin == "ListingDownloadCompleted" ||
                 App.MainViewModel.Origin == "TestResultDownloadCompleted" ||
                 App.MainViewModel.Origin == "FailedDownloadListing" ||
@@ -1112,7 +1102,7 @@ namespace VCheckViewer_Others.Views.Windows
                     App.MainViewModel.ScheduleUniqueID = sSelectedItem.Tag.ToString();
 
                     SendToPMSHandler(e, sender);
-                } 
+                }
             }
 
             else if (App.MainViewModel.Origin == "SendToAnalyzer")
@@ -1247,7 +1237,7 @@ namespace VCheckViewer_Others.Views.Windows
 
         private void MainUserPage()
         {
-            OpenSettings(SettingPage.CategoryUsers);
+            frameContent.Content = new UserPage();
         }
 
         private void MainResultPage()
@@ -1298,9 +1288,9 @@ namespace VCheckViewer_Others.Views.Windows
             cbDefaultItem = new ComboBoxItem { Content = Properties.Resources.ClinicInfo_Label_CountryCode, Tag = "" };
             App.MainViewModel.SelectedcbCountryPhoneNum = cbDefaultItem;
             App.MainViewModel.cbCountryPhoneNum.Add(cbDefaultItem);
-            foreach (var item in countryPhoneMumList) 
-            { 
-                foreach(var childItem in item.PhoneNum.Split(", "))
+            foreach (var item in countryPhoneMumList)
+            {
+                foreach (var childItem in item.PhoneNum.Split(", "))
                 {
                     App.MainViewModel.cbCountryPhoneNum.Add(new ComboBoxItem { Content = item.CountryCode + " +" + childItem, Tag = childItem });
                 }
@@ -1319,7 +1309,7 @@ namespace VCheckViewer_Others.Views.Windows
             foreach (var item in sortDirectionList)
             {
                 App.MainViewModel.cbSort.Add(new ComboBoxItem
-                { 
+                {
                     Content = item.CodeName,
                     Tag = item.CodeID
                 });
@@ -1330,7 +1320,6 @@ namespace VCheckViewer_Others.Views.Windows
             App.MainViewModel.cbDateFormat.Add(new ComboBoxItem { Tag = "yyyy/dd/MM", Content = "YYYY/DD/MM" });
             App.MainViewModel.cbDateFormat.Add(new ComboBoxItem { Tag = "yyyy/MM/dd", Content = "YYYY/MM/DD" });
 
-            App.MainViewModel.cbConnectionType.Add(new ComboBoxItem { Tag = "wifi", Content = "Wireless" });
             App.MainViewModel.cbConnectionType.Add(new ComboBoxItem { Tag = "ethernet", Content = "Wired" });
             App.MainViewModel.cbConnectionType.Add(new ComboBoxItem { Tag = "wifi", Content = "Wireless" });
         }
@@ -1527,7 +1516,6 @@ namespace VCheckViewer_Others.Views.Windows
                     {
                         App.MainViewModel.Users = App.MainViewModel.CurrentUsers;
                         Username.Header = App.MainViewModel.CurrentUsers.StaffName;
-                        UpdateProfileInitials();
 
                         notificationTemplate = TemplateContext.GetTemplateByCodeLang("US02", (sLangCode != null) ? sLangCode.ConfigurationValue : "");
                         notificationTemplate.TemplateContent = notificationTemplate.TemplateContent.Replace("'", "''");
@@ -1582,7 +1570,7 @@ namespace VCheckViewer_Others.Views.Windows
             {
                 App.log.Error("Update User Error >>> ", ex);
             }
-            
+
         }
 
         private void AddDeviceHandler(EventArgs e, object sender)
@@ -1743,7 +1731,7 @@ namespace VCheckViewer_Others.Views.Windows
                 System.Windows.Controls.Primitives.Popup sMessagePopup = new System.Windows.Controls.Primitives.Popup();
                 sMessagePopup.IsOpen = true;
 
-                if(App.MainViewModel.Origin == "ReportSettingsUpdate")
+                if (App.MainViewModel.Origin == "ReportSettingsUpdate")
                 {
                     //App.MainViewModel.Origin = "ReportSettingsUpdateCompleted";
                 }
@@ -1791,49 +1779,49 @@ namespace VCheckViewer_Others.Views.Windows
                 ConfigurationModel? ClinicID = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
                 ConfigurationModel? PMS = ConfigurationContext.GetConfigurationData("InterfaceSettingsPMS").FirstOrDefault();
 
-                if (ClinicID != null && !string.IsNullOrEmpty(ClinicID.ConfigurationValue) && PMS != null && PMS.ConfigurationValue != "None")
-                {
-                    VCheckAPI vcheckAPI = new VCheckAPI();
-                    GreywindAPI greywindAPI = new GreywindAPI();
+                //if (ClinicID != null && !string.IsNullOrEmpty(ClinicID.ConfigurationValue) && PMS != null && PMS.ConfigurationValue != "None")
+                //{
+                //    VCheckAPI vcheckAPI = new VCheckAPI();
+                //    GreywindAPI greywindAPI = new GreywindAPI();
 
-                    var name = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicName").ConfigurationValue;
-                    var address = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicAddress").ConfigurationValue;
-                    var city = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicCity").ConfigurationValue;
-                    var state = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicState").ConfigurationValue;
-                    var phoneNum = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicPhoneNum").ConfigurationValue;
-                    var clinicID = ClinicID.ConfigurationValue;
+                //    var name = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicName").ConfigurationValue;
+                //    var address = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicAddress").ConfigurationValue;
+                //    var city = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicCity").ConfigurationValue;
+                //    var state = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicState").ConfigurationValue;
+                //    var phoneNum = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicPhoneNum").ConfigurationValue;
+                //    var clinicID = ClinicID.ConfigurationValue;
 
-                    VCheck.Interface.API.Lib.General.LocationModel location = new VCheck.Interface.API.Lib.General.LocationModel()
-                    {
-                        ID = ClinicID.ConfigurationValue,
-                        Name = name,
-                        Address = address,
-                        ContactName = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicContactName").ConfigurationValue,
-                        PhoneNum = phoneNum,
-                        Email = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicEmail").ConfigurationValue,
-                        CreatedBy = PMS.ConfigurationValue
-                    };
+                //    VCheck.Interface.API.Lib.General.LocationModel location = new VCheck.Interface.API.Lib.General.LocationModel()
+                //    {
+                //        ID = ClinicID.ConfigurationValue,
+                //        Name = name,
+                //        Address = address,
+                //        ContactName = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicContactName").ConfigurationValue,
+                //        PhoneNum = phoneNum,
+                //        Email = sSettingsObj.FirstOrDefault(x => x.ConfigurationKey == "ClinicEmail").ConfigurationValue,
+                //        CreatedBy = PMS.ConfigurationValue
+                //    };
 
-                    var locationID = await vcheckAPI.UpdateLocation(location);
+                //    var locationID = await vcheckAPI.UpdateLocation(location);
 
-                    if(PMS != null && PMS.ConfigurationValue == "Greywind")
-                    {
-                        var PMSURL = await vcheckAPI.GetPMSUrl(2);
+                //    if (PMS != null && PMS.ConfigurationValue == "Greywind")
+                //    {
+                //        var PMSURL = await vcheckAPI.GetPMSUrl(2);
 
-                        VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest insertLocation = new VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest()
-                        {
-                            name = name,
-                            address_1 = address,
-                            city = city,
-                            state = state,
-                            phone = phoneNum,
-                            api_access = "1"
-                        };
+                //        VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest insertLocation = new VCheck.Interface.API.Greywind.RequestMessage.InsertLocationRequest()
+                //        {
+                //            name = name,
+                //            address_1 = address,
+                //            city = city,
+                //            state = state,
+                //            phone = phoneNum,
+                //            api_access = "1"
+                //        };
 
-                        await greywindAPI.InsertClinicInfo(insertLocation, PMSURL, clinicID);
-                    }
-                    
-                }
+                //        await greywindAPI.InsertClinicInfo(insertLocation, PMSURL, clinicID);
+                //    }
+
+                //}
 
                 App.MainViewModel.Origin = "ClinicInfoUpdateCompleted";
                 App.MainViewModel.ConfigurationModel = ConfigurationContext.GetConfigurationData("");
@@ -1897,7 +1885,7 @@ namespace VCheckViewer_Others.Views.Windows
                 selectedTest.AddRange(stackpanel.Children.OfType<CheckBox>().Where(x => x.IsChecked == true && x.Name.ToString() != "SelectAll"));
             }
 
-            foreach(var test in selectedTest)
+            foreach (var test in selectedTest)
             {
                 //edited by aqil
                 //var TestID = App.Device.FirstOrDefault(x => x.DeviceName == test.Content).TestID;
@@ -1935,7 +1923,7 @@ namespace VCheckViewer_Others.Views.Windows
                 foreach (var border in borders)
                 {
                     CheckBox checkBox = (border.Child as CheckBox);
-                    if(checkBox.IsChecked == true && checkBox.Name.ToString() != "SelectAll")
+                    if (checkBox.IsChecked == true && checkBox.Name.ToString() != "SelectAll")
                     {
                         selectedParameters.Add(checkBox);
                     }
@@ -1996,7 +1984,7 @@ namespace VCheckViewer_Others.Views.Windows
                     //}
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 App.log.Error("Change language Error >>> ", ex);
             }
@@ -2005,268 +1993,321 @@ namespace VCheckViewer_Others.Views.Windows
         // ------------- Temporary ------------------- //
         private async void SendToPMSHandler(EventArgs e, object sender)
         {
-            VCheck.Interface.API.Greywind.RequestMessage.UpdateResultRequest sRequestAPI = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultRequest();
-            long iTestResultID = 0;
-            String sUniqueID = App.MainViewModel.ScheduleUniqueID;
-            var test = App.ClinicID;
-
-            if (!String.IsNullOrEmpty(App.MainViewModel.TestResultID))
+            try
             {
-                iTestResultID = Convert.ToInt64(App.MainViewModel.TestResultID);
+                VCheck.Interface.API.Greywind.RequestMessage.UpdateResultRequest sRequestAPI = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultRequest();
+                long iTestResultID = 0;
+                String sUniqueID = App.MainViewModel.ScheduleUniqueID;
+                var test = App.ClinicID;
 
-                //var sTestResultObj = TestResultsRepository.GetTestResultByID(ConfigSettings.GetConfigurationSettings(), iTestResultID);
-                var sTestResultNotes = TestResultsRepository.GetTestResultNotesByID(ConfigSettings.GetConfigurationSettings(), iTestResultID);
-                if (sTestResultObj != null)
+                if (!String.IsNullOrEmpty(App.MainViewModel.TestResultID))
                 {
-                    string notes = "";
+                    iTestResultID = Convert.ToInt64(App.MainViewModel.TestResultID);
 
-                    if(sTestResultNotes != null && sTestResultNotes.Count() > 0)
+                    //var sTestResultObj = TestResultsRepository.GetTestResultByID(ConfigSettings.GetConfigurationSettings(), iTestResultID);
+                    var sTestResultNotes = TestResultsRepository.GetTestResultNotesByID(ConfigSettings.GetConfigurationSettings(), iTestResultID);
+                    if (sTestResultObj != null)
                     {
-                        foreach (var note in sTestResultNotes)
+                        string notes = "";
+
+                        if (sTestResultNotes != null && sTestResultNotes.Count() > 0)
                         {
-                            notes = string.IsNullOrEmpty(notes) ? notes + "-" + note.Comment : notes + "\n-" + note.Comment;
-                        }
-                    }
-
-                    List<VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelTestObject> sResultListing = new List<VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelTestObject>();
-                    List<VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelsObject> sPanelListing = new List<VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelsObject>();
-
-                    String sOrderID = "";
-                    var sDetailsObj = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), iTestResultID);
-                    //var parameters = sDetailsObj.Select(x => x.TestParameter).ToList();
-                    VCheckAPI VcheckAPI = new VCheckAPI();
-                    //var scheduleString = await VcheckAPI.GetSchedule(App.ClinicID, sTestResultObj.PatientID, parameters);
-                    var scheduleString = await VcheckAPI.GetSchedule(App.ClinicID, null, null, sUniqueID);
-                    var sScheduledTestObj = JsonConvert.DeserializeObject<ScheduledTestModel>(scheduleString);
-
-                    if (sScheduledTestObj != null && sScheduledTestObj.ID != 0)
-                    {
-                        string[] ownerName = sScheduledTestObj.OwnerName.Split(" ");
-                        var lastName = "";
-                        int start = 0;
-
-                        foreach (var name in ownerName)
-                        {
-                            if(ownerName.Length == 1)
+                            foreach (var note in sTestResultNotes)
                             {
-                                lastName = name;
-                            }
-                            else if(start != 0)
-                            {
-                                lastName = string.IsNullOrEmpty(lastName) ? lastName + ownerName[start] : lastName + " " + ownerName[start];
-                            }
-
-                            start++;
-                        }
-
-                        if (sScheduledTestObj.ScheduleUniqueID.Contains("-"))
-                        {
-                            var UniqueIDSplit = sScheduledTestObj.ScheduleUniqueID.Split("-");
-                            if (UniqueIDSplit.Length > 0)
-                            {
-                                sOrderID = UniqueIDSplit[1];
-                                sRequestAPI.accessionnumber = UniqueIDSplit[2];
+                                notes = string.IsNullOrEmpty(notes) ? notes + "-" + note.Comment : notes + "\n-" + note.Comment;
                             }
                         }
 
-                        sRequestAPI.clinic_id = sScheduledTestObj.LocationID.ToString();
-                        sRequestAPI.reportdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd HH:mm:ss");
-                        sRequestAPI.providerid = "";
+                        List<VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelTestObject> sResultListing = new List<VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelTestObject>();
+                        List<VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelsObject> sPanelListing = new List<VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelsObject>();
 
-                        VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPatientObject sPatientObj = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPatientObject();
-                        sPatientObj.patientid = sScheduledTestObj.PatientID;
-                        sPatientObj.firstname = (sScheduledTestObj != null) ? sScheduledTestObj.PatientName : "";
-                        sPatientObj.lastname = lastName;
-                        sPatientObj.gender = (sScheduledTestObj != null) ? sScheduledTestObj.Gender : "";
-                        sPatientObj.birthday = sScheduledTestObj.PatientDOB != null ? sScheduledTestObj.PatientDOB.Value.ToString("yyyy-MM-dd") : "";
-                        sPatientObj.species = (sScheduledTestObj != null) ? sScheduledTestObj.Species : "";
-                        sPatientObj.breed = "";
+                        String sOrderID = "";
+                        var sDetailsObj = TestResultsRepository.GetResultDetailsByTestResultID(ConfigSettings.GetConfigurationSettings(), iTestResultID);
+                        //var parameters = sDetailsObj.Select(x => x.TestParameter).ToList();
+                        //VCheckAPI VcheckAPI = new VCheckAPI();
+                        ////var scheduleString = await VcheckAPI.GetSchedule(App.ClinicID, sTestResultObj.PatientID, parameters);
+                        //var scheduleString = await VcheckAPI.GetSchedule(App.ClinicID, null, null, sUniqueID);
+                        //var sScheduledTestObj = JsonConvert.DeserializeObject<ScheduledTestModel>(scheduleString);
 
-                        sRequestAPI.patient = sPatientObj;
+                        ScheduledTestRepository.RefreshData();
+                        var sScheduledTestObj = ScheduledTestRepository.GetScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), sUniqueID, "Unique");
 
-                        VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelsObject sPanelObj = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelsObject();
-
-                        var panel = string.IsNullOrEmpty(sTestResultObj.TestResultType) ? "VCheck" : sTestResultObj.TestResultType;
-                        var testResponseString = await VcheckAPI.GetTestByNameOrCode(panel, null);
-                        var sResultTestCode = string.IsNullOrEmpty(testResponseString) ? "VCheck" : JsonConvert.DeserializeObject<VCheck.Lib.Data.Models.TestDataObject>(testResponseString).testid;
-
-                        sPanelObj.code = sResultTestCode;
-                        sPanelObj.name = panel;
-                        sPanelObj.status = "F";
-                        sPanelObj.source = "";
-                        sPanelObj.resultdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd HH:mm:ss");
-
-                        var initialParameterID = sResultTestCode + "-" + sOrderID;
-
-                        if (sDetailsObj != null && sDetailsObj.Count > 0)
+                        if (sScheduledTestObj != null && sScheduledTestObj.ID != 0)
                         {
-                            int count = 0;
+                            string[] ownerName = sScheduledTestObj.OwnerName.Split(" ");
+                            var lastName = "";
+                            int start = 0;
 
-                            foreach (var d in sDetailsObj)
+                            foreach (var name in ownerName)
                             {
-                                String[] sRange = Array.Empty<string>();
-                                string referenceLow = "";
-                                string referenceHigh = "";
-
-                                if (!string.IsNullOrEmpty(d.ReferenceRange))
+                                if (ownerName.Length == 1)
                                 {
-                                    String sReferenceRange = d.ReferenceRange.Replace("[", "").Replace("]", "");
-                                    if (sReferenceRange != "")
-                                    {
-                                        if (sReferenceRange.Contains(","))
-                                        {
-                                            var temp = sReferenceRange.Split(",");
-                                            string[] result = new string[2];
-                                            Array.Copy(temp, 0, result, 0, 1);
-                                            Array.Copy(temp, 2, result, 1, 1);
-                                            sRange = result;
-                                        }
-                                        else if (sReferenceRange.Contains(";"))
-                                        {
-                                            sRange = sReferenceRange.Split(";");
-                                        }
-                                        else if (sReferenceRange.Contains("-"))
-                                        {
-                                            sRange = sReferenceRange.Split("-");
-                                        }
-                                        else if (sReferenceRange.Contains("<"))
-                                        {
-                                            sRange = new string[] { sReferenceRange, "" };
-                                        }
-                                        else if (sReferenceRange.Contains(">"))
-                                        {
-                                            sRange = new string[] { "", sReferenceRange };
-                                        }
+                                    lastName = name;
+                                }
+                                else if (start != 0)
+                                {
+                                    lastName = string.IsNullOrEmpty(lastName) ? lastName + ownerName[start] : lastName + " " + ownerName[start];
+                                }
 
-                                        if (sRange.Length > 1)
+                                start++;
+                            }
+
+                            if (sScheduledTestObj.ScheduleUniqueID.Contains("-"))
+                            {
+                                var UniqueIDSplit = sScheduledTestObj.ScheduleUniqueID.Split("-");
+                                if (UniqueIDSplit.Length > 0)
+                                {
+                                    sOrderID = UniqueIDSplit[1];
+                                    sRequestAPI.accessionnumber = UniqueIDSplit[2];
+                                }
+                            }
+
+                            sRequestAPI.clinic_id = sScheduledTestObj.LocationID.ToString();
+                            sRequestAPI.reportdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd HH:mm:ss");
+                            sRequestAPI.providerid = "";
+
+                            VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPatientObject sPatientObj = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPatientObject();
+                            sPatientObj.patientid = sScheduledTestObj.PatientID;
+                            sPatientObj.firstname = (sScheduledTestObj != null) ? sScheduledTestObj.PatientName : "";
+                            sPatientObj.lastname = lastName;
+                            sPatientObj.gender = (sScheduledTestObj != null) ? sScheduledTestObj.Gender : "";
+                            sPatientObj.birthday = sScheduledTestObj.PatientDOB != null ? sScheduledTestObj.PatientDOB.Value.ToString("yyyy-MM-dd") : "";
+                            sPatientObj.species = (sScheduledTestObj != null) ? sScheduledTestObj.Species : "";
+                            sPatientObj.breed = "";
+
+                            sRequestAPI.patient = sPatientObj;
+
+                            VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelsObject sPanelObj = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelsObject();
+
+                            var panel = string.IsNullOrEmpty(sTestResultObj.TestResultType) ? "VCheck" : sTestResultObj.TestResultType;
+                            //var testResponseString = await VcheckAPI.GetTestByNameOrCode(panel, null);
+                            //var sResultTestCode = string.IsNullOrEmpty(testResponseString) ? "VCheck" : JsonConvert.DeserializeObject<VCheck.Lib.Data.Models.TestDataObject>(testResponseString).testid;
+
+                            var sTest = TestResultsRepository.GetTestByName(ConfigSettings.GetConfigurationSettings(), panel);
+                            var sResultTestCode = sTest != null ? sTest.TestID : "VCheck";
+
+                            sPanelObj.code = sResultTestCode;
+                            sPanelObj.name = panel;
+                            sPanelObj.status = "F";
+                            sPanelObj.source = "";
+                            sPanelObj.resultdate = sTestResultObj.CreatedDate.Value.ToString("yyyy-MM-dd HH:mm:ss");
+
+                            var initialParameterID = sResultTestCode + "-" + sOrderID;
+
+                            if (sDetailsObj != null && sDetailsObj.Count > 0)
+                            {
+                                int count = 0;
+
+                                foreach (var d in sDetailsObj)
+                                {
+                                    String[] sRange = Array.Empty<string>();
+                                    string referenceLow = "";
+                                    string referenceHigh = "";
+
+                                    if (!string.IsNullOrEmpty(d.ReferenceRange))
+                                    {
+                                        String sReferenceRange = d.ReferenceRange.Replace("[", "").Replace("]", "");
+                                        if (sReferenceRange != "")
                                         {
+                                            if (sReferenceRange.Contains(","))
+                                            {
+                                                var temp = sReferenceRange.Split(",");
+                                                string[] result = new string[2];
+                                                Array.Copy(temp, 0, result, 0, 1);
+                                                Array.Copy(temp, 2, result, 1, 1);
+                                                sRange = result;
+                                            }
+                                            else if (sReferenceRange.Contains(";"))
+                                            {
+                                                sRange = sReferenceRange.Split(";");
+                                            }
+                                            else if (sReferenceRange.Contains("-"))
+                                            {
+                                                sRange = sReferenceRange.Split("-");
+                                            }
+                                            else if (sReferenceRange.Contains("<"))
+                                            {
+                                                sRange = new string[] { sReferenceRange, "" };
+                                            }
+                                            else if (sReferenceRange.Contains(">"))
+                                            {
+                                                sRange = new string[] { "", sReferenceRange };
+                                            }
+
+                                            if (sRange.Length > 1)
+                                            {
+                                                referenceLow = (sRange.Length > 0) ? sRange[0] : "";
+                                                referenceHigh = (sRange.Length > 0) ? sRange[1] : "";
+                                            }
+                                        }
+                                    }
+                                    else if (!string.IsNullOrEmpty(d.MeasuringRange))
+                                    {
+                                        String sReferenceRange = d.MeasuringRange.Replace("[", "").Replace("]", "");
+                                        if (sReferenceRange != "")
+                                        {
+                                            if (sReferenceRange.Contains(";"))
+                                            {
+                                                sRange = sReferenceRange.Split(";");
+                                            }
+                                            else if (sReferenceRange.Contains("-"))
+                                            {
+                                                sRange = sReferenceRange.Split("-");
+                                            }
+
                                             referenceLow = (sRange.Length > 0) ? sRange[0] : "";
                                             referenceHigh = (sRange.Length > 0) ? sRange[1] : "";
                                         }
                                     }
-                                }
-                                else if (!string.IsNullOrEmpty(d.MeasuringRange))
-                                {
-                                    String sReferenceRange = d.MeasuringRange.Replace("[", "").Replace("]", "");
-                                    if (sReferenceRange != "")
+
+                                    string flags = null;
+
+                                    if (d.TestResultStatus == "Low") { flags = "L"; }
+                                    else if (d.TestResultStatus == "High") { flags = "H"; }
+
+                                    var Parameter = CheckParameter(d.TestParameter);
+
+                                    sResultListing.Add(new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelTestObject
                                     {
-                                        if (sReferenceRange.Contains(";"))
-                                        {
-                                            sRange = sReferenceRange.Split(";");
-                                        }
-                                        else if (sReferenceRange.Contains("-"))
-                                        {
-                                            sRange = sReferenceRange.Split("-");
-                                        }
+                                        name = Parameter,
+                                        //code = sResultTestCode + "-" + count++,
+                                        code = initialParameterID + "-" + count++,
+                                        result = d.TestResultValue,
+                                        referencelow = referenceLow,
+                                        referencehigh = referenceHigh,
+                                        unitofmeasure = d.TestResultUnit,
+                                        nature = d.TestResultStatus == "Normal" | d.TestResultStatus == "Positive" ? "N" : "A",
+                                        flags = flags,
+                                        status = "F",
+                                        notes = d.Interpretation
+                                    });
 
-                                        referenceLow = (sRange.Length > 0) ? sRange[0] : "";
-                                        referenceHigh = (sRange.Length > 0) ? sRange[1] : "";
-                                    }
                                 }
 
-                                string flags = null;
+                                sPanelObj.tests = sResultListing;
+                                sPanelObj.notes = notes;
+                            }
+                            sPanelListing.Add(sPanelObj);
 
-                                if (d.TestResultStatus == "Low") { flags = "L"; }
-                                else if (d.TestResultStatus == "High") { flags = "H"; }
+                            sRequestAPI.panels = sPanelListing;
 
-                                var Parameter = CheckParameter(d.TestParameter);
+                            //var temp = JsonConvert.SerializeObject(sRequestAPI);
 
-                                sResultListing.Add(new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultPanelTestObject
+                            GetInterfaceInfo();
+
+                            var sRespAPI = false;
+
+                            if (PMS == "Greywind")
+                            {
+                                //GreywindAPI sAPI = new GreywindAPI();
+                                //url = await VcheckAPI.GetPMSUrl(2);
+                                //sRespAPI = sAPI.UpdateResult(sRequestAPI, sOrderID, url);
+                            }
+                            else
+                            {
+                                if (isIP)
                                 {
-                                    name = Parameter,
-                                    //code = sResultTestCode + "-" + count++,
-                                    code = initialParameterID + "-" + count++,
-                                    result = d.TestResultValue,
-                                    referencelow = referenceLow,
-                                    referencehigh = referenceHigh,
-                                    unitofmeasure = d.TestResultUnit,
-                                    nature = d.TestResultStatus == "Normal" | d.TestResultStatus == "Positive" ? "N" : "A",
-                                    flags = flags,
-                                    status = "F",
-                                    notes = d.Interpretation
-                                });
+                                    Services.HL7MessageSender.Main senddata = new Services.HL7MessageSender.Main();
+                                    sRespAPI = await senddata.SendData(sRequestAPI, iIP, int.Parse(port));
+                                }
+                                else
+                                {
+                                    VCheck.Interface.API.GeneralAPI sAPI = new VCheck.Interface.API.GeneralAPI();
 
+                                    if (!(port == "80" || port == "443"))
+                                    {
+                                        var splitURL = url.Split("/");
+
+                                        if (splitURL[0].ToLower().Contains("http"))
+                                        {
+                                            splitURL[2] = splitURL[2] + ":" + port;
+                                        }
+                                        else
+                                        {
+                                            splitURL[0] = splitURL[0] + ":" + port;
+                                        }
+
+                                        url = string.Join("/", splitURL);
+                                    }
+
+                                    sRespAPI = await sAPI.SendData(url, sRequestAPI, username, password);
+                                }
                             }
 
-                            sPanelObj.tests = sResultListing;
-                            sPanelObj.notes = notes;
-                        }
-                        sPanelListing.Add(sPanelObj);
+                            var orderID = sScheduledTestObj.ScheduleUniqueID.Split("-")[1];
+                            //await VcheckAPI.UpdateScheduleStatus(sScheduledTestObj.LocationID, sScheduledTestObj.PatientID, orderID, sScheduledTestObj.CreatedBy, sRespAPI ? 4 : 3, sTestResultObj.TestResultType);
 
-                        sRequestAPI.panels = sPanelListing;
+                            ScheduledTestRepository.RefreshData();
+                            var data = ScheduledTestRepository.GetScheduledTestByOrderID(ConfigSettings.GetConfigurationSettings(), orderID, sScheduledTestObj.CreatedBy, "Local");
 
-                        //var temp = JsonConvert.SerializeObject(sRequestAPI);
-
-                        GetInterfaceInfo();
-
-                        var sRespAPI = false;
-
-                        if (PMS == "Greywind")
-                        {
-                            GreywindAPI sAPI = new GreywindAPI();
-                            url = await VcheckAPI.GetPMSUrl(2);
-                            sRespAPI = sAPI.UpdateResult(sRequestAPI, sOrderID, url);
-                        }
-                        else
-                        {
-                            if (isIP)
+                            if (data != null && data.ScheduleTestStatus != 3 && !sRespAPI)
                             {
-                                Services.HL7MessageSender.Main senddata = new Services.HL7MessageSender.Main();
-                                sRespAPI = await senddata.SendData(sRequestAPI, iIP, int.Parse(port));
+                                data.ScheduleTestStatus = 3;
+                                data.UpdatedBy = sScheduledTestObj.CreatedBy;
+                                data.UpdatedDate = DateTime.Now;
+
+                                ScheduledTestRepository.UpdateScheduledTestStatus(ConfigSettings.GetConfigurationSettings(), data, sScheduledTestObj.CreatedBy);
+                            }
+                            else if (data != null && data.ScheduleTestStatus != 4 && sRespAPI)
+                            {
+                                data.ScheduleTestStatus = 4;
+                                data.UpdatedBy = sScheduledTestObj.CreatedBy;
+                                data.UpdatedDate = DateTime.Now;
+
+                                ScheduledTestRepository.UpdateScheduledTestStatus(ConfigSettings.GetConfigurationSettings(), data, sScheduledTestObj.CreatedBy);
+                            }
+
+                            if (sRespAPI)
+                            {
+                                System.Windows.Forms.MessageBox.Show(Properties.Resources.Schedule_Label_SentToPIMS);
+
+                                sTestResultObj.PMSFunction = "Collapsed";
+
+                                if (sScheduledTestObj.PatientID != sTestResultObj.PatientID)
+                                {
+                                    sTestResultObj.PatientID = sScheduledTestObj.PatientID;
+                                }
+
+                                if (sScheduledTestObj.PatientName != sTestResultObj.PatientName)
+                                {
+                                    sTestResultObj.PatientName = sScheduledTestObj.PatientName;
+                                }
+
+                                TestResultsRepository.UpdateTestResult(ConfigSettings.GetConfigurationSettings(), sTestResultObj);
+
+                                if (App.isSchedulePage)
+                                {
+                                    SchedulePage.ReloadScheduleHandler(e, sender);
+                                }
+                                else
+                                {
+                                    ResultPage.UpdatePatientNameHandler(e, sender);
+                                }
+
+                                App.isSchedulePage = false;
                             }
                             else
                             {
-                                VCheck.Interface.API.GeneralAPI sAPI = new VCheck.Interface.API.GeneralAPI();
-                                sRespAPI = await sAPI.SendData(url + ":" + port, sRequestAPI, username, password);
+                                System.Windows.Forms.MessageBox.Show("Failed to send result to PIMS.");
                             }
-                        }
-
-                        var orderID = sScheduledTestObj.ScheduleUniqueID.Split("-")[1];
-                        await VcheckAPI.UpdateScheduleStatus(sScheduledTestObj.LocationID, sScheduledTestObj.PatientID, orderID, sScheduledTestObj.CreatedBy, sRespAPI ? 4 : 3, sTestResultObj.TestResultType);
-
-                        if (sRespAPI)
-                        {
-                            System.Windows.Forms.MessageBox.Show(Properties.Resources.Schedule_Label_SentToPIMS);
-
-                            sTestResultObj.PMSFunction = "Collapsed";
-
-                            if(sScheduledTestObj.PatientID != sTestResultObj.PatientID)
-                            {
-                                sTestResultObj.PatientID = sScheduledTestObj.PatientID;
-                            }
-
-                            if(sScheduledTestObj.PatientName != sTestResultObj.PatientName)
-                            {
-                                sTestResultObj.PatientName = sScheduledTestObj.PatientName;
-                            }
-
-                            TestResultsRepository.UpdateTestResult(ConfigSettings.GetConfigurationSettings(), sTestResultObj);
-
-                            if (App.isSchedulePage)
-                            {
-                                SchedulePage.ReloadScheduleHandler(e, sender);
-                            }
-                            else
-                            {
-                                ResultPage.UpdatePatientNameHandler(e, sender);
-                            }
-
-                            App.isSchedulePage = false;
                         }
                         else
                         {
-                            System.Windows.Forms.MessageBox.Show("Failed to send result to PIMS.");
+                            //System.Windows.Forms.MessageBox.Show(Properties.Resources.Popup_Message_APINoLinkFound);
+                            System.Windows.Forms.MessageBox.Show("Failed to link the result with this schedule.");
                         }
-                    }
-                    else
-                    {
-                        //System.Windows.Forms.MessageBox.Show(Properties.Resources.Popup_Message_APINoLinkFound);
-                        System.Windows.Forms.MessageBox.Show("Failed to link the result with this schedule.");
-                    }
 
-                    
+
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                System.Windows.Forms.MessageBox.Show("Failed to link the result with this schedule.");
+
+                App.log.Error("PIMS Linking Error >>> ", ex);
+            }
+            
         }
 
         private void mnDashboard_Click(object sender, RoutedEventArgs e)
@@ -2284,6 +2325,8 @@ namespace VCheckViewer_Others.Views.Windows
             refreshMenuItemStyle(mnDashboard);
 
             CurrentPage = "";
+
+            DisposeAllTimer(e, sender, "ScheduleTimer");
         }
 
         private void mnConnection_Click(object sender, RoutedEventArgs e)
@@ -2297,6 +2340,8 @@ namespace VCheckViewer_Others.Views.Windows
             refreshMenuItemStyle(mnConnection);
 
             CurrentPage = "";
+
+            DisposeAllTimer(e, sender, "ScheduleTimer");
         }
 
         private void mnSchedule_Click(object sender, RoutedEventArgs e)
@@ -2312,6 +2357,8 @@ namespace VCheckViewer_Others.Views.Windows
             refreshMenuItemStyle(mnSchedule);
 
             CurrentPage = "";
+
+            DisposeAllTimer(e, sender, "DashboardTimer");
         }
 
         private void mnResults_Click(object sender, RoutedEventArgs e)
@@ -2328,6 +2375,8 @@ namespace VCheckViewer_Others.Views.Windows
             refreshMenuItemStyle(mnResults);
 
             CurrentPage = "";
+
+            DisposeAllTimer(e, sender);
         }
 
         private void mnNotifications_Click(object sender, RoutedEventArgs e)
@@ -2349,6 +2398,8 @@ namespace VCheckViewer_Others.Views.Windows
             thumbNotification.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
 
             CurrentPage = "Notification";
+
+            DisposeAllTimer(e, sender);
         }
 
         private void thumbNotification_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -2370,33 +2421,15 @@ namespace VCheckViewer_Others.Views.Windows
             thumbNotification.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
 
             CurrentPage = "Notification";
-        }
 
-        public void OpenNotificationPanel()
-        {
-            thumbNotification_MouseLeftButtonDown(this, null);
-        }
-
-        public void OpenProfileMenu()
-        {
-            Username.IsSubmenuOpen = true;
-        }
-
-        public int GetNotificationCount()
-        {
-            if (NotificationCountBorder.Visibility != Visibility.Visible)
-            {
-                return 0;
-            }
-
-            return NotificationCount.Text == "99+" ? 99 : int.Parse(NotificationCount.Text);
+            DisposeAllTimer(e, sender);
         }
 
         private void thumbNotification_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (string.IsNullOrEmpty(CurrentPage))
             {
-                if(thumbNotification.Background == Brushes.Transparent)
+                if (thumbNotification.Background == Brushes.Transparent)
                 {
                     String? sColor = System.Windows.Application.Current.Resources["Themes_MenuHighligted"].ToString();
 
@@ -2414,14 +2447,8 @@ namespace VCheckViewer_Others.Views.Windows
         {
             checklanguage();
 
-            if (App.MainViewModel.CurrentUsers.Role == "User")
-            {
-                OpenSettings(SettingPage.CategoryLanguage);
-            }
-            else
-            {
-                OpenSettings(SettingPage.CategoryUsers);
-            }
+            if (App.MainViewModel.CurrentUsers.Role == "User") { frameContent.Content = new LanguageCountryPage(); }
+            else { frameContent.Content = new UserPage(); }
 
 
             System.Windows.Data.Binding b = new System.Windows.Data.Binding("Setting_Title_PageTitle");
@@ -2431,24 +2458,8 @@ namespace VCheckViewer_Others.Views.Windows
             refreshMenuItemStyle(mnSettings);
 
             CurrentPage = "";
-        }
 
-        private void OpenSettings(string category)
-        {
-            var settingsPage = frameContent.Content as SettingPage;
-            if (settingsPage == null)
-            {
-                settingsPage = new SettingPage();
-                frameContent.Content = settingsPage;
-            }
-
-            settingsPage.ShowCategory(category);
-
-            System.Windows.Data.Binding b = new System.Windows.Data.Binding("Setting_Title_PageTitle");
-            b.Source = System.Windows.Application.Current.TryFindResource("Resources");
-            PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
-
-            refreshMenuItemStyle(mnSettings);
+            DisposeAllTimer(e, sender);
         }
 
         private void btnCollapse_Click(object sender, RoutedEventArgs e)
@@ -2523,7 +2534,7 @@ namespace VCheckViewer_Others.Views.Windows
         {
             var sButton = (System.Windows.Controls.Button)sender;
             ConfigurationContext.UpdateConfiguration("SystemSettings_Themes", (sButton != null) ? sButton.Tag.ToString() : "");
-            
+
             CheckThemesSettings();
             refreshContent();
         }
@@ -2540,13 +2551,6 @@ namespace VCheckViewer_Others.Views.Windows
 
             String sThemeName = sTheme + ".xaml";
             AppTheme.ChangeTheme(new Uri("Themes/" + sThemeName, UriKind.Relative));
-
-            // Theme toggle is hidden in the prototype shell; keep buttons optional.
-            if (btnDarkTheme == null || btnLightTheme == null)
-            {
-                return;
-            }
-
             if (sTheme.ToLower() == "light")
             {
                 btnDarkTheme.Background = Brushes.Transparent;
@@ -2568,24 +2572,18 @@ namespace VCheckViewer_Others.Views.Windows
             System.Windows.Controls.MenuItem sMenu = new System.Windows.Controls.MenuItem();
 
             var sCurrentContent = frameContent.Content;
-            if (sCurrentContent.ToString().Contains("Dashboard")){ 
+            if (sCurrentContent.ToString().Contains("Dashboard"))
+            {
                 frameContent.Content = new DashboardPage();
                 sMenu = mnDashboard;
             }
-            if (sCurrentContent.ToString().Contains("SettingPage"))
+            if (sCurrentContent.ToString().Contains("LanguageCountryPage"))
             {
-                var current = sCurrentContent as SettingPage;
-                var category = current?.CurrentCategory ?? SettingPage.CategoryUsers;
-                var settingsPage = new SettingPage();
-                frameContent.Content = settingsPage;
-                settingsPage.ShowCategory(category);
+                frameContent.Content = new LanguageCountryPage();
                 sMenu = mnSettings;
             }
-            if (sCurrentContent.ToString().Contains("LanguageCountryPage")){ 
-                OpenSettings(SettingPage.CategoryLanguage);
-                sMenu = mnSettings;
-            }
-            if (sCurrentContent.ToString().Contains("DevicePage")){ 
+            if (sCurrentContent.ToString().Contains("DevicePage"))
+            {
                 frameContent.Content = new DevicePage();
                 sMenu = mnSettings;
             }
@@ -2595,7 +2593,6 @@ namespace VCheckViewer_Others.Views.Windows
             }
             if (sCurrentContent.ToString().Contains("ResultPage"))
             {
-                frameContent.Content = new ResultPage();
                 sMenu = mnResults;
             }
             if (sCurrentContent.ToString().Contains("User"))
@@ -2622,15 +2619,15 @@ namespace VCheckViewer_Others.Views.Windows
                 if (sSearchModel != null)
                 {
                     var Notification = new NotificationPage();
-                    Notification.reloadData(sSearchModel.SearchStart, sSearchModel.SearchEnd, 
-                                            (sSearchModel.SearchType == "All" ? null : sSearchModel.SearchType), 
-                                            sSearchModel.SearchStartDate, sSearchModel.SearchEndDate, sSearchModel.SearchKeyword, 
+                    Notification.reloadData(sSearchModel.SearchStart, sSearchModel.SearchEnd,
+                                            (sSearchModel.SearchType == "All" ? null : sSearchModel.SearchType),
+                                            sSearchModel.SearchStartDate, sSearchModel.SearchEndDate, sSearchModel.SearchKeyword,
                                             sSearchModel.SearchReset);
 
                     // Pre-selected search criteria //
                     Notification.KeywordSearchBar.Text = sSearchModel.SearchKeyword;
 
-                    foreach(var t in Notification.NotificationType.Items)
+                    foreach (var t in Notification.NotificationType.Items)
                     {
                         var comboItem = t as ComboBoxItem;
 
@@ -2675,48 +2672,10 @@ namespace VCheckViewer_Others.Views.Windows
         {
             ClearMenuItemStyle();
 
-            if (TryFindResource("NavActiveBrush") is SolidColorBrush navActive)
-            {
-                sItem.Background = navActive;
-                sItem.BorderBrush = navActive;
-            }
-            else
-            {
-                String? sColor = System.Windows.Application.Current.Resources["Themes_MenuHighligted"].ToString();
+            String? sColor = System.Windows.Application.Current.Resources["Themes_MenuHighligted"].ToString();
 
-                sItem.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
-                sItem.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
-            }
-        }
-
-        private void UpdateProfileInitials()
-        {
-            if (ProfileInitials == null)
-            {
-                return;
-            }
-
-            var currentUser = App.MainViewModel.CurrentUsers;
-            var source = !string.IsNullOrWhiteSpace(currentUser?.StaffName)
-                ? currentUser.StaffName
-                : currentUser?.FullName;
-
-            if (string.IsNullOrWhiteSpace(source))
-            {
-                ProfileInitials.Text = "SA";
-                return;
-            }
-
-            var parts = source.Split(' ', StringSplitOptions.RemoveEmptyEntries);
-            if (parts.Length >= 2)
-            {
-                ProfileInitials.Text = $"{char.ToUpper(parts[0][0])}{char.ToUpper(parts[1][0])}";
-                return;
-            }
-
-            ProfileInitials.Text = parts[0].Length >= 2
-                ? parts[0][..2].ToUpperInvariant()
-                : parts[0].ToUpperInvariant();
+            sItem.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
+            sItem.BorderBrush = new BrushConverter().ConvertFrom("#404D5B") as SolidColorBrush;
         }
 
         private ObservableCollection<DateTime> GenerateSelectedDateRange(String sStart, String sEnd)
@@ -2736,7 +2695,7 @@ namespace VCheckViewer_Others.Views.Windows
             {
                 DateTime sSDate = DateTime.ParseExact(sStart, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
                 DateTime sEDate = DateTime.ParseExact(sEnd, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
-                
+
                 sDateList.Add(sSDate);
 
                 while (sSDate < sEDate.AddDays(-1))
@@ -2770,7 +2729,7 @@ namespace VCheckViewer_Others.Views.Windows
         {
             if (App.isLanguagePage)
             {
-                System.Globalization.CultureInfo sZHCulture = new (App.MainViewModel.ConfigurationModel.FirstOrDefault(x => x.ConfigurationKey == "SystemSettings_Language").ConfigurationValue);
+                System.Globalization.CultureInfo sZHCulture = new(App.MainViewModel.ConfigurationModel.FirstOrDefault(x => x.ConfigurationKey == "SystemSettings_Language").ConfigurationValue);
 
                 CultureResources.ChangeCulture(sZHCulture);
 
@@ -2872,14 +2831,17 @@ namespace VCheckViewer_Others.Views.Windows
             sTestResultObj = TestResultsRepository.GetTestResultByID(ConfigSettings.GetConfigurationSettings(), Convert.ToInt64(App.MainViewModel.TestResultID));
             var listString = "";
 
-            if (sConfigObj != null)
-            {
-                VCheckAPI vcheckAPI = new VCheckAPI();
-                listString = await vcheckAPI.GetScheduleList(sConfigObj.ConfigurationValue, true, false, sTestResultObj.TestResultType, true);
-                App.ClinicID = sConfigObj.ConfigurationValue;
-            }
+            //if (sConfigObj != null)
+            //{
+            //    VCheckAPI vcheckAPI = new VCheckAPI();
+            //    listString = await vcheckAPI.GetScheduleList(sConfigObj.ConfigurationValue, true, false, sTestResultObj.TestResultType, true);
+            //    App.ClinicID = sConfigObj.ConfigurationValue;
+            //}
 
-            List<ScheduledTestModel> sScheduledList = string.IsNullOrEmpty(listString) ? new List<ScheduledTestModel>() : JsonConvert.DeserializeObject<List<ScheduledTestModel>>(listString);
+            //List<ScheduledTestModel> sScheduledList = string.IsNullOrEmpty(listString) ? new List<ScheduledTestModel>() : JsonConvert.DeserializeObject<List<ScheduledTestModel>>(listString);
+
+            ScheduledTestRepository.RefreshData();
+            List<ScheduledTestModel> sScheduledList = ScheduledTestRepository.GetNotCompletedScheduleListByLocation(ConfigSettings.GetConfigurationSettings(), "Local", sTestResultObj.TestResultType, true, true);
 
             if (sScheduledList != null && sScheduledList.Count > 0)
             {
@@ -2904,7 +2866,6 @@ namespace VCheckViewer_Others.Views.Windows
                         Tag = uniqueID
                     });
                 }
-
 
                 deviceList.ItemsSource = deviceComboList;
                 deviceList.SelectedIndex = 0;
@@ -2955,6 +2916,42 @@ namespace VCheckViewer_Others.Views.Windows
             }
 
             return result.ToString();
+        }
+
+        public void DisposeAllTimer(EventArgs e, object sender, string target = "")
+        {
+            if (string.IsNullOrEmpty(target) || target.ToLower() == "ScheduleTimer" || target.ToLower() == "MainTimer")
+            {
+                SchedulePage.DisposeTimerHandler(e, sender);
+            }
+
+            if (string.IsNullOrEmpty(target) || target.ToLower() == "DashboardTimer" || target.ToLower() == "MainTimer")
+            {
+                DashboardPage.DisposeTimerHandler(e, sender);
+            }
+
+            if (target.ToLower() == "MainTimer") 
+            {
+                if (_timer != null)
+                {
+                    _timer.Stop();
+                    _timer.Tick -= Timer_Tick;
+                    _timer = null;
+                }
+            }
+        }
+
+        public void DisposeMainTimer(object sender, EventArgs e)
+        {
+            DisposeAllTimer(e, sender, "MainTimer");
+        }
+
+        public static void DisposeTimerHandler(EventArgs e, object sender)
+        {
+            if (DisposeTimer != null)
+            {
+                DisposeTimer(sender, e);
+            }
         }
 
         private void mnDashboard_Click(object sender, MouseButtonEventArgs e)

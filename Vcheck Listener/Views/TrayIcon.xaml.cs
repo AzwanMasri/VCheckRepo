@@ -62,6 +62,7 @@ namespace Vcheck_Listener.Views
 
         private void ShowConfig_Click(object sender, RoutedEventArgs e)
         {
+            ConfigurationWindow.RefreshListenerInfoHandler(null, null);
             ((App)Application.Current).ShowConfigurationWindow();
         }
 

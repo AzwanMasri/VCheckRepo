@@ -98,7 +98,7 @@ namespace Vcheck_Listener.Lib.Services
 
         public static async Task SendMessage()
         {
-            String sContent = "";
+            List<(string, string)> sContents = new List<(string, string)>();
             VCheckAPI VcheckAPI = new VCheckAPI();
 
             if (DeviceTypeName == "C10")
@@ -109,83 +109,92 @@ namespace Vcheck_Listener.Lib.Services
                     var testResponseString = await VcheckAPI.GetTestByNameOrCode(null, testInfo.TestID);
                     var TestName = string.IsNullOrEmpty(testResponseString) ? "VCheck" : JsonConvert.DeserializeObject<TestDataObject>(testResponseString).testname.Replace(" (C10)", "");
 
-                    testCodeName.Add((testInfo.TestID, TestName));
+                    //testCodeName.Add((testInfo.TestID, TestName));
+
+                    sContents.Add((TestName, MessageGenerator.GenerateOMLO33Message(new List<(string, string)>() { (testInfo.TestID, TestName) }, scheduleTest)));
                 }
 
-                sContent = MessageGenerator.GenerateOMLO33Message(testCodeName, scheduleTest);
+                //sContent = MessageGenerator.GenerateOMLO33Message(testCodeName, scheduleTest);
             }
 
-            if (!string.IsNullOrEmpty(sContent)) { await Send(sContent); }
+            await Send(sContents);
         }
 
-        private async static Task Send(string sContent) 
+        private async static Task Send(List<(string, string)> sContents) 
         {
             int timeout = 6000;
             bool success = false;
+            int successRate = 0;
 
-            try
+            foreach (var sContent in sContents)
             {
-                using (var cts = new CancellationTokenSource())
+                try
                 {
-                    cts.CancelAfter(timeout);
-
-                    try
+                    using (var cts = new CancellationTokenSource())
                     {
-                        ipAddress = ipAddress.Replace(" ", "");
+                        cts.CancelAfter(timeout);
 
-                        ourTcpClient = new TcpClient();
-                        await ourTcpClient.ConnectAsync(IPAddress.Parse(ipAddress), 5067).WaitAsync(cts.Token);
-
-                        //get the IO stream on this connection to write to
-                        networkStream = ourTcpClient.GetStream();
-                        var sendMessageByteBuffer = Encoding.UTF8.GetBytes(sContent);
-
-                        if (networkStream.CanWrite)
+                        try
                         {
-                            networkStream.Write(sendMessageByteBuffer, 0, sendMessageByteBuffer.Length);
-                            byte[] receiveMessageByteBuffer = new byte[ourTcpClient.ReceiveBufferSize];
-                            var bytesReceivedFromServer = await networkStream.ReadAsync(receiveMessageByteBuffer, 0, receiveMessageByteBuffer.Length).WaitAsync(cts.Token);
+                            ipAddress = ipAddress.Replace(" ", "");
 
-                            if (bytesReceivedFromServer > 0 && networkStream.CanRead)
+                            ourTcpClient = new TcpClient();
+                            await ourTcpClient.ConnectAsync(IPAddress.Parse(ipAddress), 5067).WaitAsync(cts.Token);
+
+                            //get the IO stream on this connection to write to
+                            networkStream = ourTcpClient.GetStream();
+                            var sendMessageByteBuffer = Encoding.UTF8.GetBytes(sContent.Item2);
+
+                            if (networkStream.CanWrite)
                             {
-                                receivedMessage = Encoding.UTF8.GetString(receiveMessageByteBuffer);
+                                networkStream.Write(sendMessageByteBuffer, 0, sendMessageByteBuffer.Length);
+                                byte[] receiveMessageByteBuffer = new byte[ourTcpClient.ReceiveBufferSize];
+                                var bytesReceivedFromServer = await networkStream.ReadAsync(receiveMessageByteBuffer, 0, receiveMessageByteBuffer.Length).WaitAsync(cts.Token);
 
-                                var message = receivedMessage.Replace("\0", string.Empty);
+                                if (bytesReceivedFromServer > 0 && networkStream.CanRead)
+                                {
+                                    receivedMessage = Encoding.UTF8.GetString(receiveMessageByteBuffer);
 
-                                success = ProcessAckMessage(message);
+                                    var message = receivedMessage.Replace("\0", string.Empty);
+
+                                    //success = ProcessAckMessage(message);
+
+                                    successRate = ProcessAckMessage(message) ? successRate++ : successRate;
+                                }
                             }
-                        }
 
-                        if (success)
+                        }
+                        catch (TaskCanceledException cancelled)
                         {
-                            VCheckAPI vCheckAPI = new VCheckAPI();
-                            var UpdateStatus = await vCheckAPI.UpdateScheduleStatus(scheduleTest.LocationID, scheduleTest.PatientID, scheduleTest.ScheduleUniqueID.Split("-")[1], scheduleTest.CreatedBy, 1);
-                            var updateAnalyzer = await vCheckAPI.UpdateScheduleAnalyzer(DeviceTypeName, scheduleTest.ScheduleUniqueID);
+
+                        }
+                        catch (Exception ex)
+                        {
+
                         }
 
                     }
-                    catch (TaskCanceledException cancelled)
-                    {
-
-                    }
-                    catch (Exception ex)
-                    {
-
-                    }
-
+                }
+                catch (Exception ex)
+                {
+                    //display any exceptions that occur to console
+                    Console.WriteLine(ex.Message);
+                }
+                finally
+                {
+                    //close the IO strem and the TCP connection
+                    networkStream?.Close();
+                    ourTcpClient?.Close();
                 }
             }
-            catch (Exception ex)
+
+            if (successRate > 0)
             {
-                //display any exceptions that occur to console
-                Console.WriteLine(ex.Message);
+                VCheckAPI vCheckAPI = new VCheckAPI();
+                var UpdateStatus = await vCheckAPI.UpdateScheduleStatus(scheduleTest.LocationID, scheduleTest.PatientID, scheduleTest.ScheduleUniqueID.Split("-")[1], scheduleTest.CreatedBy, 1);
+                var updateAnalyzer = await vCheckAPI.UpdateScheduleAnalyzer(DeviceTypeName, scheduleTest.ScheduleUniqueID);
             }
-            finally
-            {
-                //close the IO strem and the TCP connection
-                networkStream?.Close();
-                ourTcpClient?.Close();
-            }
+
         }
 
         private static bool ProcessAckMessage(string message)

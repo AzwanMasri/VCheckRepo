@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using VCheck.Lib.Data;
 using VCheck.Lib.Data.Models;
 using VCheckViewer_Others.Lib.Function;
 
@@ -18,6 +19,7 @@ namespace VCheckViewer_Others.Views.Pages.Dashboard
 
         public void initializeData()
         {
+            ScheduledTestRepository.RefreshData();
             List<ScheduledTestModel> sScheduledList = VCheck.Lib.Data.ScheduledTestRepository.GetCurrentScheduledTestList(ConfigSettings.GetConfigurationSettings());
 
             if (sScheduledList != null && sScheduledList.Count > 0)

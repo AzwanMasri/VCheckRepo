@@ -40,7 +40,7 @@ namespace VCheckViewer.Views.Pages.Dashboard
             DataContext = this;
 
             cbConnectionType = new ObservableCollection<ComboBoxItem>();
-            LoadConnectionTypeOptions();
+            //LoadConnectionTypeOptions();
 
             if (App.MainViewModel.CurrentUsers.Role == "Lab User")
             {
@@ -150,6 +150,8 @@ namespace VCheckViewer.Views.Pages.Dashboard
 
 
             RefreshButton.IsEnabled = true;
+
+            App.RefreshMaintenanceHandler(null, (APIRunning, ListenerRunning));
         }
 
         public async Task<bool> CheckAPI()
@@ -179,7 +181,7 @@ namespace VCheckViewer.Views.Pages.Dashboard
         /// <summary>
         /// Resolve Listener IP using Connection_Type (same rules as VCheckListenerWorker).
         /// </summary>
-        public static string GetIPAddressAccordingToType()
+        public string GetIPAddressAccordingToType()
         {
             try
             {
@@ -202,8 +204,20 @@ namespace VCheckViewer.Views.Pages.Dashboard
                     return ip;
                 }
 
-                string fallbackType = preferredType == "ethernet" ? "wifi" : "ethernet";
-                return FindIpByConnectionType(fallbackType);
+                //preferredType = SelectedcbConnectionType != null ? SelectedcbConnectionType.Tag.ToString() : "";
+                //configDBContext.UpdateConfiguration("Connection_Type", preferredType);
+
+                //if (string.IsNullOrEmpty(preferredType))
+                //{
+                //    StopListener();
+                //    return "";
+                //}
+
+                //RefreshButton_Click(null, null);
+
+                preferredType = preferredType == "ethernet" ? "wifi" : "ethernet";
+
+                return FindIpByConnectionType(preferredType);
             }
             catch
             {
@@ -280,7 +294,8 @@ namespace VCheckViewer.Views.Pages.Dashboard
             {
                 ProcessStartInfo psi = new ProcessStartInfo
                 {
-                    FileName = "C:\\Users\\SVRITL-0003\\source\\repos\\VCheckRepo\\VCheckListenerWorker\\bin\\Debug\\net8.0\\VCheckListenerWorker.exe", // Replace with your executable or script
+                    FileName = "C:\\VCheck\\VCheckListenerWorker\\VCheckListenerWorker.exe", // Replace with your executable or script
+                    //FileName = "C:\\Users\\SVRITL-0003\\source\\repos\\VCheckRepo\\VCheckListenerWorker\\bin\\Debug\\net8.0\\VCheckListenerWorker.exe", // Replace with your executable or script
                     UseShellExecute = true,   // Required for 'runas'
                     Verb = "runas",           // Triggers UAC prompt for admin rights
                     Arguments = ""            // Optional: pass arguments here
@@ -291,6 +306,27 @@ namespace VCheckViewer.Views.Pages.Dashboard
             else
             {
                 PingPortAsync(processes, GetIPAddressAccordingToType(), 8585);
+            }
+        }
+
+        private void StopListener()
+        {
+            Process[] processes = Process.GetProcessesByName("VCheckListenerWorker");
+
+            if (processes.Any())
+            {
+                foreach (Process proc in processes)
+                {
+                    try
+                    {
+                        proc.Kill(); // Forcefully terminate
+                        proc.WaitForExit(); // Wait until it exits
+                    }
+                    catch (Exception ex)
+                    {
+
+                    }
+                }
             }
         }
 
@@ -320,8 +356,8 @@ namespace VCheckViewer.Views.Pages.Dashboard
                             }
                         }
 
-                        //string exePath = @"C:\VCheck\VCheckListenerWorker\VCheckListenerWorker.exe";
-                        string exePath = "C:\\Users\\SVRITL-0003\\source\\repos\\VCheckRepo\\VCheckListenerWorker\\bin\\Debug\\net8.0\\VCheckListenerWorker.exe";
+                        string exePath = @"C:\VCheck\VCheckListenerWorker\VCheckListenerWorker.exe";
+                        //string exePath = "C:\\Users\\SVRITL-0003\\source\\repos\\VCheckRepo\\VCheckListenerWorker\\bin\\Debug\\net8.0\\VCheckListenerWorker.exe";
 
                         ProcessStartInfo psi = new ProcessStartInfo
                         {
@@ -341,6 +377,7 @@ namespace VCheckViewer.Views.Pages.Dashboard
 
             }
         }
+
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {

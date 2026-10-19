@@ -25,7 +25,9 @@ using VCheckViewer.Lib.Culture;
 using VCheckViewer.Services;
 using VCheckViewer.Services.MessageBox;
 using VCheckViewer.ViewModels.Windows;
+using VCheckViewer.Views.Pages;
 using VCheckViewer.Views.Pages.Login;
+using VCheckViewer.Views.Pages.Schedule;
 using VCheckViewer.Views.Windows;
 using Wpf.Ui;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
@@ -38,7 +40,7 @@ namespace VCheckViewer
     public partial class App
     {
         public static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        private string currentVersion = "1.6";
+        private string currentVersion = "1.7";
         public static MainViewModel MainViewModel { get; } = new MainViewModel();
 
         public static event EventHandler GoPreviousPage;
@@ -69,7 +71,7 @@ namespace VCheckViewer
         public static string LatestAppVersionFolder { get; set; }
         public static long TestResultID { get; set; }
         public static ScheduledTestModel ScheduleTestInfo { set; get; }
-        public static ScheduledTestModelExtended ScheduleTestInfoExtended { set; get; }
+        public static VCheck.Lib.Data.Models.ScheduledTestModelExtended ScheduleTestInfoExtended { set; get; }
         public static int AnalyzerID { set; get; }
         public static List<string> Parameters { get; set; }
         public static List<TestDeviceName> Device { get; set; }
@@ -440,6 +442,8 @@ namespace VCheckViewer
         {
             try
             {
+                Views.Windows.Main.DisposeTimerHandler(e, sender);
+
                 await _host.StopAsync();
 
                 _host.Dispose();

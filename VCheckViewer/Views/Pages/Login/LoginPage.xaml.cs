@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using VCheck.Interface.API;
 using VCheck.Lib.Data.DBContext;
+using VCheck.Lib.Data.Models;
 using VCheckViewer.Views.Windows;
 using Brushes = System.Windows.Media.Brushes;
 using TextBox = System.Windows.Controls.TextBox;
@@ -22,6 +23,9 @@ namespace VCheckViewer.Views.Pages.Login
         static ConfigurationDBContext ConfigurationContext = App.GetService<ConfigurationDBContext>();
 
         public static event EventHandler GoToResetPasswordPage;
+
+        public static ConfigurationModel PMSInfo;
+        public static VCheckAPI VcheckAPI = new VCheckAPI();
 
         public LoginPage()
         {
@@ -219,15 +223,15 @@ namespace VCheckViewer.Views.Pages.Login
 
         public async Task CheckPMSUser()
         {
-            var PMSInfo = ConfigurationContext.GetConfigurationData("InterfaceSettingsPMS").FirstOrDefault();
+            PMSInfo = ConfigurationContext.GetConfigurationData("InterfaceSettingsPMS").FirstOrDefault();
 
             if (PMSInfo != null)
             {
                 if (PMSInfo.ConfigurationValue == "Other")
                 {
-                    var PMSIP = ConfigurationContext.GetConfigurationData("InterfaceSettingsIP").FirstOrDefault();
+                    PMSInfo = ConfigurationContext.GetConfigurationData("InterfaceSettingsIP").FirstOrDefault();
 
-                    if (PMSIP == null)
+                    if (PMSInfo == null)
                     {
                         App.PMSFunction = "Collapsed";
                     }
@@ -238,8 +242,7 @@ namespace VCheckViewer.Views.Pages.Login
                 }
                 else if (PMSInfo.ConfigurationValue == "Greywind")
                 {
-                    var ClinicID = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
-                    VCheckAPI VcheckAPI = new VCheckAPI();
+                    PMSInfo = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
                     var url = await VcheckAPI.GetPMSUrl(2);
 
                     if (string.IsNullOrEmpty(url))
@@ -248,10 +251,10 @@ namespace VCheckViewer.Views.Pages.Login
                     }
                     else
                     {
-                        if (ClinicID != null && !string.IsNullOrEmpty(ClinicID.ConfigurationValue))
+                        if (PMSInfo != null && !string.IsNullOrEmpty(PMSInfo.ConfigurationValue))
                         {
                             App.PMSFunction = "Visible";
-                            App.ClinicID = ClinicID.ConfigurationValue;
+                            App.ClinicID = PMSInfo.ConfigurationValue;
                         }
                         else
                         {

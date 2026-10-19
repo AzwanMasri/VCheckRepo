@@ -5,7 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using VCheck.Interface.API;
+//using VCheck.Interface.API;
 using VCheck.Lib.Data.DBContext;
 using VCheckViewer_Others.Views.Windows;
 using Brushes = System.Windows.Media.Brushes;
@@ -236,29 +236,29 @@ namespace VCheckViewer_Others.Views.Pages.Login
                         App.PMSFunction = "Visible";
                     }
                 }
-                else if (PMSInfo.ConfigurationValue == "Greywind")
-                {
-                    var ClinicID = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
-                    VCheckAPI VcheckAPI = new VCheckAPI();
-                    var url = await VcheckAPI.GetPMSUrl(2);
+                //else if (PMSInfo.ConfigurationValue == "Greywind")
+                //{
+                //    var ClinicID = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
+                //    VCheckAPI VcheckAPI = new VCheckAPI();
+                //    var url = await VcheckAPI.GetPMSUrl(2);
 
-                    if (string.IsNullOrEmpty(url))
-                    {
-                        App.PMSFunction = "Collapsed";
-                    }
-                    else
-                    {
-                        if (ClinicID != null && !string.IsNullOrEmpty(ClinicID.ConfigurationValue))
-                        {
-                            App.PMSFunction = "Visible";
-                            App.ClinicID = ClinicID.ConfigurationValue;
-                        }
-                        else
-                        {
-                            App.PMSFunction = "Collapsed";
-                        }
-                    }
-                }
+                //    if (string.IsNullOrEmpty(url))
+                //    {
+                //        App.PMSFunction = "Collapsed";
+                //    }
+                //    else
+                //    {
+                //        if (ClinicID != null && !string.IsNullOrEmpty(ClinicID.ConfigurationValue))
+                //        {
+                //            App.PMSFunction = "Visible";
+                //            App.ClinicID = ClinicID.ConfigurationValue;
+                //        }
+                //        else
+                //        {
+                //            App.PMSFunction = "Collapsed";
+                //        }
+                //    }
+                //}
                 else
                 {
                     App.PMSFunction = "Collapsed";

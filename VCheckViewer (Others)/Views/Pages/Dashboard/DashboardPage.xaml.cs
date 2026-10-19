@@ -26,6 +26,8 @@ namespace VCheckViewer_Others.Views.Pages
     /// </summary>
     public partial class DashboardPage : Page
     {
+        public static event EventHandler? DisposeTimer;
+
         List<DeviceModel> deviceList = DeviceRepository.GetDeviceList(ConfigSettings.GetConfigurationSettings());
         List<DeviceTypeModel> deviceTypeList = DeviceRepository.GetDeviceTypeList(ConfigSettings.GetConfigurationSettings());
 
@@ -48,6 +50,9 @@ namespace VCheckViewer_Others.Views.Pages
             //{
             //    VersionUpdate.Visibility = Visibility.Visible;
             //}
+
+            DisposeTimer = null;
+            DisposeTimer += DisposeAllTimer;
 
             _timer = new DispatcherTimer
             {
@@ -393,6 +398,24 @@ namespace VCheckViewer_Others.Views.Pages
             App.AnalyzerID = int.Parse(sDeviceID);
 
             App.GoToResultPageHandler(null, null);
+        }
+
+        public void DisposeAllTimer(object sender, EventArgs e)
+        {
+            if (_timer != null)
+            {
+                _timer.Stop();
+                _timer.Tick -= Timer_Tick;
+                _timer = null;
+            }
+        }
+
+        public static void DisposeTimerHandler(EventArgs e, object sender)
+        {
+            if (DisposeTimer != null)
+            {
+                DisposeTimer(sender, e);
+            }
         }
     }
 }

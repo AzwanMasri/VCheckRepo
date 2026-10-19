@@ -62,36 +62,7 @@
             <ColumnDefinition Width="2*"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <!--<Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" MaxWidth="600">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="auto" MinWidth="90"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="auto" MinWidth="90"/>
-                    <ColumnDefinition Width="auto" MinWidth="90"/>
-                    <ColumnDefinition Width="auto" MinWidth="90"/>
-                    <ColumnDefinition Width="auto" MinWidth="90"/>
-                </Grid.ColumnDefinitions>
-                <Border Grid.Column="0" Margin="2">
-                    <Button Content="{Binding Path=Setting_Label_User, Source={StaticResource Resources}}" Name="btnUser" Background="Black" BorderThickness="0" Foreground="White" HorizontalAlignment="Stretch" Style="{DynamicResource RoundButton}" Click="btnUser_Click"></Button>
-                </Border>
-                <Border Grid.Column="1" Margin="2">
-                    <Button Content="{Binding Path=Setting_Label_LanguageCountry, Source={StaticResource Resources}}" Name="btnLanguage" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnLanguage_Click"></Button>
-                </Border>
-                <Border Grid.Column="2" Margin="2">
-                    <Button Content="PMS/LIS/HIS" Background="{DynamicResource Themes_ButtonColor}" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Style="{DynamicResource RoundButton}"></Button>
-                </Border>
-                <Border Grid.Column="3" Margin="2">
-                    <Button Content="{Binding Path=Setting_Label_Device, Source={StaticResource Resources}}" Name="btnDevice" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnDevice_Click"></Button>
-                </Border>
-                <Border Grid.Column="4" Margin="2">
-                    <Button Content="{Binding Path=Report_Label_Report, Source={StaticResource Resources}}" Name="btnReport" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="btnReport_Click"></Button>
-                </Border>
-                <Border Grid.Column="5" Margin="2">
-                    <Button Content="{Binding Path=ClinicInfo_Label_ClinicInfo, Source={StaticResource Resources}}" Name="btnClinic" Foreground="White" HorizontalAlignment="Stretch" BorderThickness="0" Background="Black" Style="{DynamicResource RoundButton}" Click="ClinicInfoPage"></Button>
-                </Border>
-            </Grid>
-        </Border>-->
+        
         <Border Grid.Column="1" Grid.ColumnSpan="2" Height="45" CornerRadius="7" BorderThickness="1" BorderBrush="Black" Background="Black" MaxWidth="600">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -120,7 +91,7 @@
                         <RowDefinition Height="auto" />
                     </Grid.RowDefinitions>
 
-                    <RadioButton Name="Greywind" Grid.Row="0" Foreground="{DynamicResource Themes_FontColor}" Content="Greywind PMS" Margin="10, 30, 0, 10" Checked="RadioButton_Checked"/>
+                    <RadioButton Name="Greywind" Grid.Row="0" Foreground="{DynamicResource Themes_FontColor}" Content="Greywind PMS" Margin="10, 30, 0, 10" Checked="RadioButton_Checked" Visibility="Collapsed"/>
                     <RadioButton Name="Other" Grid.Row="1" Foreground="{DynamicResource Themes_FontColor}" Content="Other PMS" Margin="10, 10, 0, 10" Checked="RadioButton_Checked"/>
                     <RadioButton Name="None" Grid.Row="2" Foreground="{DynamicResource Themes_FontColor}" Content="PC Mode" Margin="10, 10, 0, 10" Checked="RadioButton_Checked"/>
 
@@ -157,9 +128,6 @@
                     <Border Name="borderClinicPhoneNum" Grid.Row="6" Background="White" Padding="5" BorderBrush="Black" BorderThickness="1" CornerRadius="7" Visibility="Collapsed">
                         <TextBox x:Name="txtClinicPhoneNum" VerticalAlignment="Center" BorderThickness="0" IsEnabled="False"/>
                     </Border>
-
-                    <!--<Button x:Name="btnConnect" Grid.Row="7" Content="{Binding Path=ClinicInfo_Button_Connect, Source={StaticResource Resources}}" VerticalAlignment="Bottom" HorizontalAlignment="Right" Foreground="White" Background="#0ed145" Margin="0,10,0,0" Visibility="Collapsed" Click="btnConnect_Click" IsEnabled="False"/>-->
-                    
 
                     <TextBlock Name="UsernameLabel" Text="{Binding Path=Configuration_Label_UsernameClientID, Source={StaticResource Resources}}" Foreground="{DynamicResource Themes_FontColor}" Grid.Row="5" VerticalAlignment="Bottom" FontFamily="Noto Sans" FontSize="13" FontWeight="Bold" Margin="10, 10, 0, 10"></TextBlock>
                     <Border Name="borderUsername" Grid.Row="6" Background="White" Padding="5" BorderBrush="Black" BorderThickness="1" CornerRadius="7">

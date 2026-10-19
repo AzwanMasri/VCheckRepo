@@ -1,18 +1,19 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 using VCheck.Lib.Data.Models;
 
 namespace VCheck.Lib.Data.DBContext
 {
     public class TestResultDBContext : DbContext
     {
-        private readonly IConfiguration config;
+        private readonly IConfiguration config = Host.CreateApplicationBuilder().Configuration;
 
         public DbSet<TestResultModel> txn_testResults { get; set; }
         public DbSet<TestResultDetailsModel> txn_testresults_details { get; set; }

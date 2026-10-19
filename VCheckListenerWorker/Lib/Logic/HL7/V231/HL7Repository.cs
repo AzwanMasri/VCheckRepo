@@ -666,9 +666,11 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V231
                     U3TestType = "Vcheck U UC Vet 13 Plus";
                 }
 
+                sResultTestType = string.IsNullOrEmpty(U3TestType) ? sResultTestType : U3TestType;
+
                 txn_testresults sTestResultObj = new txn_testresults();
                 sTestResultObj.TestResultDateTime = dAnalysisDateTime;
-                sTestResultObj.TestResultType = string.IsNullOrEmpty(U3TestType) ? sResultTestType : U3TestType;
+                sTestResultObj.TestResultType = sResultTestType;
                 sTestResultObj.OperatorID = sOperatorID;
                 sTestResultObj.PatientID = sPatientID;
                 sTestResultObj.PatientName = sPatientName;

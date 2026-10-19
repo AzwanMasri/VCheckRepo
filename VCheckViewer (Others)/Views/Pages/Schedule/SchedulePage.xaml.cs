@@ -1,4 +1,6 @@
-﻿using Microsoft.Win32;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System.CodeDom;
 using System.Windows;
@@ -6,21 +8,23 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Threading;
-using VCheck.Interface.API;
+//using VCheck.Interface.API;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.DBContext;
 using VCheck.Lib.Data.Models;
 using VCheckViewer_Others.Lib.Function;
 using VCheckViewer_Others.Views.Pages.Login;
+using Border = System.Windows.Controls.Border;
 
 namespace VCheckViewer_Others.Views.Pages.Schedule
 {
     /// <summary>
     /// Interaction logic for SchedulePage.xaml
     /// </summary>
-    public partial class SchedulePage : Page
+    public partial class SchedulePage : System.Windows.Controls.Page
     {
         public static event EventHandler? ReloadSchedule;
+        public static event EventHandler? DisposeTimer;
 
         private DispatcherTimer _timer;
 
@@ -39,6 +43,9 @@ namespace VCheckViewer_Others.Views.Pages.Schedule
 
             ReloadSchedule = null;
             ReloadSchedule += ReloadTestSchedule;
+
+            DisposeTimer = null;
+            DisposeTimer += DisposeAllTimer;
 
             // Initialize the timer
             _timer = new DispatcherTimer
@@ -61,13 +68,16 @@ namespace VCheckViewer_Others.Views.Pages.Schedule
             var sConfigObj = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
             var listString = "";
 
-            if (sConfigObj != null)
-            {
-                VCheckAPI vcheckAPI = new VCheckAPI();
-                listString = await vcheckAPI.GetScheduleList(sConfigObj.ConfigurationValue, false, false);
-            }
+            //if (sConfigObj != null)
+            //{
+            //    VCheckAPI vcheckAPI = new VCheckAPI();
+            //    listString = await vcheckAPI.GetScheduleList(sConfigObj.ConfigurationValue, false, false);
+            //}
 
-            List<ScheduledTestModel> sScheduledList = string.IsNullOrEmpty(listString) ? new List<ScheduledTestModel>() : JsonConvert.DeserializeObject<List<ScheduledTestModel>>(listString);
+            ScheduledTestRepository.RefreshData();
+            List<ScheduledTestModel>  sScheduledList = ScheduledTestRepository.GetScheduleListByLocation(ConfigSettings.GetConfigurationSettings(), "Local", true);
+
+            //List<ScheduledTestModel> sScheduledList = string.IsNullOrEmpty(listString) ? new List<ScheduledTestModel>() : JsonConvert.DeserializeObject<List<ScheduledTestModel>>(listString);
 
             if (sScheduledList != null && sScheduledList.Count > 0)
             {
@@ -253,6 +263,7 @@ namespace VCheckViewer_Others.Views.Pages.Schedule
 
         private async void CancelSchedule_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            ScheduledTestRepository.RefreshData();
             TextBlock schedule = sender as TextBlock;
             App.ScheduleTestInfo = ScheduledTestRepository.GetScheduledTestByID(ConfigSettings.GetConfigurationSettings(), long.Parse(schedule.Tag.ToString()));
 
@@ -267,8 +278,19 @@ namespace VCheckViewer_Others.Views.Pages.Schedule
 
         public void ReloadTestSchedule(object sender, EventArgs e)
         {
+            ScheduledTestRepository.RefreshData();
             LoadScheduledTestList();
             LoadTestResultList();
+        }
+
+        public void DisposeAllTimer(object sender, EventArgs e)
+        {
+            if (_timer != null)
+            {
+                _timer.Stop();
+                _timer.Tick -= ReloadTestSchedule;
+                _timer = null;
+            }
         }
 
         private async void ViewReport_MouseDown(object sender, MouseButtonEventArgs e)
@@ -284,11 +306,7 @@ namespace VCheckViewer_Others.Views.Pages.Schedule
             MenuItem schedule = sender as MenuItem;
             var ClinicIDObject = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
             var ClinicID = ClinicIDObject != null ? ClinicIDObject.ConfigurationValue : "";
-            VCheckAPI vCheckAPI = new VCheckAPI();
-            //var scheduleString = await vCheckAPI.GetSchedule(ClinicID, null, null, schedule.Tag.ToString());
-            //App.ScheduleTestInfo = JsonConvert.DeserializeObject<ScheduledTestModel>(scheduleString);
-            var scheduleString = await vCheckAPI.GetScheduleListNotSent(ClinicID, schedule.Tag.ToString());
-            List<VCheck.Lib.Data.Models.ScheduledTestModelExtended> scheduleList = JsonConvert.DeserializeObject<List<VCheck.Lib.Data.Models.ScheduledTestModelExtended>>(scheduleString);
+            List<VCheck.Lib.Data.Models.ScheduledTestModelExtended> scheduleList = ScheduledTestRepository.GetScheduleListByLocationNotSent(ConfigSettings.GetConfigurationSettings(), "Local", schedule.Tag.ToString());
             App.ScheduleTestInfoExtended = scheduleList.FirstOrDefault();
 
             App.MainViewModel.Origin = "SendToAnalyzer";
@@ -300,9 +318,11 @@ namespace VCheckViewer_Others.Views.Pages.Schedule
             MenuItem schedule = sender as MenuItem;
             var ClinicIDObject = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
             var ClinicID = ClinicIDObject != null ? ClinicIDObject.ConfigurationValue : "";
-            VCheckAPI vCheckAPI = new VCheckAPI();
-            var scheduleString = await vCheckAPI.GetSchedule(ClinicID, null, null, schedule.Tag.ToString());
-            App.ScheduleTestInfo = JsonConvert.DeserializeObject<ScheduledTestModel>(scheduleString);
+            //VCheckAPI vCheckAPI = new VCheckAPI();
+            //var scheduleString = await vCheckAPI.GetSchedule(ClinicID, null, null, schedule.Tag.ToString());
+            //App.ScheduleTestInfo = JsonConvert.DeserializeObject<ScheduledTestModel>(scheduleString);
+            ScheduledTestRepository.RefreshData();
+            App.ScheduleTestInfo = ScheduledTestRepository.GetScheduledTestByUniqueID(ConfigSettings.GetConfigurationSettings(), schedule.Tag.ToString(), "Unique");
 
             App.MainViewModel.Origin = "CancelSchedule";
             App.PopupHandler(e, sender);
@@ -331,6 +351,14 @@ namespace VCheckViewer_Others.Views.Pages.Schedule
             if (ReloadSchedule != null)
             {
                 ReloadSchedule(sender, e);
+            }
+        }
+
+        public static void DisposeTimerHandler(EventArgs e, object sender)
+        {
+            if (DisposeTimer != null)
+            {
+                DisposeTimer(sender, e);
             }
         }
 

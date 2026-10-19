@@ -33,6 +33,10 @@ namespace VCheckListenerWorker.Lib.Logic.HL7.V26
             //return await GenerateMultiOrderMessageRSPDummy(queryId, messageID);
 
             var clinicID = TestResultRepository.GetConfigurationByKey("ClinicID");
+            var PMS = TestResultRepository.GetConfigurationByKey("InterfaceSettingsPMS");
+
+            if (clinicID == null || PMS == null || PMS.ConfigurationValue == "None") { return GenerateNoOrderMessageRSP(queryId); }
+
             var schedulesString = await vCheckAPI.GetScheduleListNotSent(clinicID.ConfigurationValue);
             var schedulesExtended = string.IsNullOrEmpty(schedulesString) ? new List<ScheduledTestModelExtended>() : JsonConvert.DeserializeObject<List<ScheduledTestModelExtended>>(schedulesString);
 

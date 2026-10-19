@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -46,37 +47,50 @@ namespace VCheckViewer.Views.Windows
     /// </summary>
     public partial class Main : Window
     {
+        public static event EventHandler? DisposeTimer;
+
         static MasterCodeDataDBContext sContext = App.GetService<MasterCodeDataDBContext>();
         static RolesDBContext rolesContext = App.GetService<RolesDBContext>();
         static UserDBContext usersContext = App.GetService<UserDBContext>();
         static CountryDBContext countryContext = App.GetService<CountryDBContext>();
 
-        ConfigurationDBContext ConfigurationContext = App.GetService<ConfigurationDBContext>();
-        TemplateDBContext TemplateContext = App.GetService<TemplateDBContext>();
-        NotificationDBContext NotificationContext = App.GetService<NotificationDBContext>();
+        static ConfigurationDBContext ConfigurationContext = App.GetService<ConfigurationDBContext>();
+        static TemplateDBContext TemplateContext = App.GetService<TemplateDBContext>();
+        static NotificationDBContext NotificationContext = App.GetService<NotificationDBContext>();
 
         public static event EventHandler InitializedUserPage;
         public static event EventHandler ResetCurrentPassword;
 
         private static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public ObservableCollection<ComboBoxItem> deviceComboList = new ObservableCollection<ComboBoxItem>();
-        public ObservableCollection<CheckedListItem> ParameterList = new ObservableCollection<CheckedListItem>();
+        public static ObservableCollection<ComboBoxItem> deviceComboList = new ObservableCollection<ComboBoxItem>();
+        public static ObservableCollection<CheckedListItem> ParameterList = new ObservableCollection<CheckedListItem>();
 
-        public string PMS;
-        public string url;
-        public string port;
-        public string username;
-        public string password;
-        public bool isIP;
-        public System.Net.IPAddress iIP;
-        private DispatcherTimer _timer;
-        private TestResultModel sTestResultObj;
-        public string CurrentPage;
+        public static string PMS;
+        public static string url;
+        public static string port;
+        public static string username;
+        public static string password;
+        public static bool isIP;
+        public static System.Net.IPAddress iIP;
+        private static DispatcherTimer _timer;
+        private static TestResultModel sTestResultObj;
+        public static string CurrentPage;
+        static ConfigurationModel clinicInfo;
+        static string errorListString;
+        static List<APIErrorModel> errorList;
+        static List<NotificationModel> errorNotification = new List<NotificationModel>();
+        static VCheck.Lib.Data.Models.ResponseModel responseModel;
+        static CreateScheduledDataRequest scheduledModel;
+        static string content;
+        static int totalNotification;
+        public bool _isRunning;
 
         private static readonly string subscriptDigits = "₀₁₂₃₄₅₆₇₈₉₋₊";
         private static readonly string superscriptDigits = "⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺";
         private static readonly string normalDigits = "0123456789-+";
         private static readonly string[] calItems = { "A/G", "B/C", "GLOB", "Na/K" };
+
+        static VCheckAPI sAPI = new VCheckAPI();
 
         public class CheckedListItem
         {
@@ -115,7 +129,7 @@ namespace VCheckViewer.Views.Windows
             //popup
             App.Popup += new EventHandler(Popup);
             App.GoPreviousPage += new EventHandler(PreviousPage);
-            App.RefreshMaintenance += new EventHandler(Timer_Tick);
+            App.RefreshMaintenance += new EventHandler(ReloadStatus);
             App.RefreshUnreadNotification += new EventHandler(CheckUnReadNotification);
 
             this.SizeChanged += MainWindow_SizeChanged;
@@ -145,6 +159,9 @@ namespace VCheckViewer.Views.Windows
             CheckUnReadNotificationAsync(true);
             CheckExpiredSchedule();
 
+            DisposeTimer = null;
+            DisposeTimer += DisposeMainTimer;
+
             // Initialize the timer
             _timer = new DispatcherTimer
             {
@@ -157,21 +174,55 @@ namespace VCheckViewer.Views.Windows
 
         private void Timer_Tick(object sender, EventArgs e)
         {
-            CheckStatus();
-            CheckUnReadNotificationAsync(true);
-            CheckExpiredSchedule();
+            if (_isRunning)
+                return;
+
+            _isRunning = true;
+
+            try
+            {
+                CheckStatus();
+                CheckUnReadNotificationAsync(true);
+                CheckExpiredSchedule();
+
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                GC.Collect();
+            }
+            catch (Exception ex)
+            {
+                // Log exception
+            }
+            finally
+            {
+                _isRunning = false;
+            }            
+        }
+
+        private void ReloadStatus(object sender, EventArgs e)
+        {
+            try
+            {
+                (bool, bool)? status = sender as (bool, bool)?;
+
+                APIStatus.Fill = status.Value.Item1 ? Brushes.LightGreen : Brushes.Red;
+                ListenerStatus.Fill = status.Value.Item2 ? Brushes.LightGreen : Brushes.Red;
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         private async Task CheckStatus()
         {
             try
             {
-                VCheckAPI sAPI = new VCheckAPI();
                 var apiStatus = await sAPI.TestConnection();
                 var listenerStatus = Process.GetProcessesByName("VCheckListenerWorker").Any();
 
-                ListenerStatus.Fill = listenerStatus ? Brushes.LightGreen : Brushes.Red;
                 APIStatus.Fill = apiStatus ? Brushes.LightGreen : Brushes.Red;
+                ListenerStatus.Fill = listenerStatus ? Brushes.LightGreen : Brushes.Red;
 
                 //ListenerStatusText.Foreground = listenerStatus ? Brushes.LightGreen : Brushes.Red;
                 //APIStatusText.Foreground = apiStatus ? Brushes.Green : Brushes.Red;
@@ -193,17 +244,16 @@ namespace VCheckViewer.Views.Windows
 
             if (Sync)
             {
-                var clinicInfo = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
+                clinicInfo = ConfigurationContext.GetConfigurationData("ClinicID").FirstOrDefault();
 
                 if (clinicInfo != null)
                 {
-                    VCheckAPI sAPI = new VCheckAPI();
-                    string errorListString = await sAPI.GetAllErrorNotSync(clinicInfo.ConfigurationValue);
+                    errorListString = await sAPI.GetAllErrorNotSync(clinicInfo.ConfigurationValue);
 
                     if (errorListString != null)
                     {
-                        var errorList = JsonConvert.DeserializeObject<List<APIErrorModel>>(errorListString);
-                        List<NotificationModel> errorNotification = new List<NotificationModel>();
+                        errorList = JsonConvert.DeserializeObject<List<APIErrorModel>>(errorListString);
+                        
 
                         ConfigurationModel sLangCode = ConfigurationContext.GetConfigurationData("SystemSettings_Language").FirstOrDefault();
                         var notificationTemplate = TemplateContext.GetTemplateByCodeLang("SE01", (sLangCode != null ? sLangCode.ConfigurationValue : ""));
@@ -211,10 +261,10 @@ namespace VCheckViewer.Views.Windows
 
                         foreach (var error in errorList)
                         {
-                            VCheck.Lib.Data.Models.ResponseModel responseModel = JsonConvert.DeserializeObject<VCheck.Lib.Data.Models.ResponseModel>(error.ErrorMessage);
-                            CreateScheduledDataRequest scheduledModel = JsonConvert.DeserializeObject<CreateScheduledDataRequest>(error.ScheduleData);
+                            responseModel = JsonConvert.DeserializeObject<VCheck.Lib.Data.Models.ResponseModel>(error.ErrorMessage);
+                            scheduledModel = JsonConvert.DeserializeObject<CreateScheduledDataRequest>(error.ScheduleData);
                             //var content = "Order test [" + scheduledModel.body.ScheduledTestName + "] for " + scheduledModel.body.PatientName + "(" + scheduledModel.body.PatientID + ") failed to be created. Error ''" + responseModel.Body.ResponseMessage + "''. \nPlease create the schedule again with correct information.";
-                            var content = temp.TemplateContent.Replace("###<testname>###", scheduledModel.body.ScheduledTestName).Replace("###<name>###", scheduledModel.body.PatientName).Replace("###<id>###", scheduledModel.body.PatientID).Replace("###<message>###", responseModel.Body.ResponseMessage);
+                            content = temp.TemplateContent.Replace("###<testname>###", scheduledModel.body.ScheduledTestName).Replace("###<name>###", scheduledModel.body.PatientName).Replace("###<id>###", scheduledModel.body.PatientID).Replace("###<message>###", responseModel.Body.ResponseMessage);
 
                             errorNotification.Add(new NotificationModel()
                             {
@@ -231,7 +281,7 @@ namespace VCheckViewer.Views.Windows
                 }
             }
 
-            var totalNotification = NotificationContext.GetTotalUnreadNotification();
+            totalNotification = NotificationContext.GetTotalUnreadNotification();
 
             UnreadCount.Text = totalNotification == 0 ? "" : " (" + totalNotification + ")";
             UnreadCountMinimize.Text = totalNotification == 0 ? "" : " (" + totalNotification + ")";
@@ -307,6 +357,8 @@ namespace VCheckViewer.Views.Windows
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
 
             GoToViewUserPage(sender, e);
+
+            DisposeAllTimer(e, sender);
         }
 
         private void ResetPassword(object sender, RoutedEventArgs e)
@@ -318,6 +370,8 @@ namespace VCheckViewer.Views.Windows
             System.Windows.Data.Binding b = new System.Windows.Data.Binding("ResetPassword_Title_PageTitle");
             b.Source = System.Windows.Application.Current.TryFindResource("Resources");
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
+
+            DisposeAllTimer(e, sender);
         }
 
         private void MaintenanceButton_Click(object sender, RoutedEventArgs e)
@@ -327,16 +381,20 @@ namespace VCheckViewer.Views.Windows
             PageTitle.SetBinding(System.Windows.Controls.TextBlock.TextProperty, b);
 
             GoToMaintenancePage(sender, e);
+
+            DisposeAllTimer(e, sender);
         }
 
         private void LogoutButton_Click(object sender, RoutedEventArgs e)
         {
+            DisposeAllTimer(e, sender);
             App.MainViewModel.Origin = "Logout";
             Popup(sender, e);
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
+            DisposeAllTimer(e, sender);
             Environment.Exit(0);
         }
 
@@ -408,6 +466,8 @@ namespace VCheckViewer.Views.Windows
         {
             frameContent.Content = new ResultPage();
 
+            DisposeAllTimer(e, sender);
+
             refreshMenuItemStyle(mnResults);
 
             CurrentPage = "";
@@ -416,6 +476,8 @@ namespace VCheckViewer.Views.Windows
         void SettingUserPage(object sender, EventArgs e)
         {
             checklanguage();
+
+            DisposeAllTimer(e, sender);
 
             frameContent.Content = new UserPage();
         }
@@ -799,7 +861,7 @@ namespace VCheckViewer.Views.Windows
                     parameterList.Items.Add(stackPanel);
                 }
 
-                PopupContent.Text = "Select Test Result";
+                PopupContent.Text = "Select Additional Test Result";
             }
             if (App.MainViewModel.Origin == "SelectParameters")
             {
@@ -2297,6 +2359,8 @@ namespace VCheckViewer.Views.Windows
             refreshMenuItemStyle(mnDashboard);
 
             CurrentPage = "";
+
+            DisposeAllTimer(e, sender, "ScheduleTimer");
         }
 
         private void mnConnection_Click(object sender, RoutedEventArgs e)
@@ -2310,6 +2374,8 @@ namespace VCheckViewer.Views.Windows
             refreshMenuItemStyle(mnConnection);
 
             CurrentPage = "";
+
+            DisposeAllTimer(e, sender);
         }
 
         private void mnSchedule_Click(object sender, RoutedEventArgs e)
@@ -2325,6 +2391,8 @@ namespace VCheckViewer.Views.Windows
             refreshMenuItemStyle(mnSchedule);
 
             CurrentPage = "";
+
+            DisposeAllTimer(e, sender, "DashboardTimer");
         }
 
         private void mnResults_Click(object sender, RoutedEventArgs e)
@@ -2341,6 +2409,8 @@ namespace VCheckViewer.Views.Windows
             refreshMenuItemStyle(mnResults);
 
             CurrentPage = "";
+
+            DisposeAllTimer(e, sender);
         }
 
         private void mnNotifications_Click(object sender, RoutedEventArgs e)
@@ -2362,6 +2432,8 @@ namespace VCheckViewer.Views.Windows
             thumbNotification.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
 
             CurrentPage = "Notification";
+
+            DisposeAllTimer(e, sender);
         }
 
         private void thumbNotification_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -2383,6 +2455,8 @@ namespace VCheckViewer.Views.Windows
             thumbNotification.Background = new BrushConverter().ConvertFrom(sColor) as SolidColorBrush;
 
             CurrentPage = "Notification";
+
+            DisposeAllTimer(e, sender);
         }
 
         private void thumbNotification_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -2418,6 +2492,8 @@ namespace VCheckViewer.Views.Windows
             refreshMenuItemStyle(mnSettings);
 
             CurrentPage = "";
+
+            DisposeAllTimer(e, sender);
         }
 
         private void btnCollapse_Click(object sender, RoutedEventArgs e)
@@ -2871,7 +2947,53 @@ namespace VCheckViewer.Views.Windows
             return result.ToString();
         }
 
+        public void DisposeAllTimer(EventArgs e, object sender, string target = "")
+        {
+            if (string.IsNullOrEmpty(target) || target.ToLower() == "ScheduleTimer" || target.ToLower() == "MainTimer")
+            {
+                SchedulePage.DisposeTimerHandler(e, sender);
+            }
+
+            if (string.IsNullOrEmpty(target) || target.ToLower() == "DashboardTimer" || target.ToLower() == "MainTimer")
+            {
+                DashboardPage.DisposeTimerHandler(e, sender);
+            }
+
+            if (target.ToLower() == "MainTimer")
+            {
+                if (_timer != null)
+                {
+                    _timer.Stop();
+                    _timer.Tick -= Timer_Tick;
+                    _timer = null;
+                }
+            }
+        }
+
+        public void DisposeMainTimer(object sender, EventArgs e)
+        {
+            DisposeAllTimer(e, sender, "MainTimer");
+        }
+
+        public static void DisposeTimerHandler(EventArgs e, object sender)
+        {
+            if (DisposeTimer != null)
+            {
+                DisposeTimer(sender, e);
+            }
+        }
+
         private void mnDashboard_Click(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void mnResults_Click(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void mnSchedule_Click(object sender, MouseButtonEventArgs e)
         {
 
         }

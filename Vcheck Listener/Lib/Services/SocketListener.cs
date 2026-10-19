@@ -31,7 +31,7 @@ namespace Vcheck_Listener.Lib.Services
 
         public void Start(string sIPAddress, int sPort)
         {
-            //OnError?.Invoke("Listening for analyzer " + App.DeviceType);
+            OnError?.Invoke("Listening for analyzer " + App.DeviceType);
 
             try
             {
@@ -74,7 +74,7 @@ namespace Vcheck_Listener.Lib.Services
             }
             finally
             {
-                sListener.Dispose();
+                if(sListener != null) { sListener.Dispose(); }
             }
         }
 

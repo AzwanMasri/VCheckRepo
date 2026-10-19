@@ -613,7 +613,8 @@ namespace VCheckViewer_Others.Lib.DocumentTemplate
                                             }
                                         }
 
-                                        if (garphPerRow != 3) { totalRow = test.TestResultsGraph.Count(); }
+                                        if (test.TestResultsGraph.Count() == 4) { totalRow = 2; }
+                                        else if (garphPerRow != 3) { totalRow = test.TestResultsGraph.Count(); }
                                         else
                                         {
                                             totalRow = Math.DivRem(test.TestResultsGraph.Count(), garphPerRow, out remainder);

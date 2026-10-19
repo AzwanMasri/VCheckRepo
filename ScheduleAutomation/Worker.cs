@@ -19,17 +19,29 @@ namespace ScheduleAutomation
     {
         ScheduleAutomation.Log.Logger sLogger;
 
+        static string schedulesString;
+        static string clinicID;
+        static string PMS;
+        static bool TwoWayDeviceExist;
+        static List<string> tempAnalyzers;
+        static string tempAnalyzersListString;
+
+        static List<DeviceTypeModel> twoWayCommDeviceType = new List<DeviceTypeModel>();
+        static List<ScheduledTestModelExtended> schedulesExtended = new List<ScheduledTestModelExtended>();
+        static VCheckAPI vCheckAPI = new VCheckAPI();
+
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
             XmlConfigurator.Configure(log4net.LogManager.GetRepository(Assembly.GetEntryAssembly()),
                                       new FileInfo("log4Net.config"));
-            sLogger = new Log.Logger();
+            sLogger = new Log.Logger();            
+            
 
             while (true)
             {
                 try
                 {
-                    var PMS = ScheduleRepository.GetConfigurationInfoByKey("InterfaceSettingsPMS");
+                    PMS = ScheduleRepository.GetConfigurationInfoByKey("InterfaceSettingsPMS");
 
                     if(string.IsNullOrEmpty(PMS) || PMS == "None")
                     {
@@ -37,14 +49,13 @@ namespace ScheduleAutomation
                         continue;
                     }
 
-                    var clinicID = ScheduleRepository.GetConfigurationInfoByKey("ClinicID");
+                    clinicID = ScheduleRepository.GetConfigurationInfoByKey("ClinicID");
 
-                    VCheckAPI vCheckAPI = new VCheckAPI();
-
-                    var twoWayCommDeviceType = ScheduleRepository.GetTwoWayCommunicationDeviceTypeList();
-                    var schedulesString = await vCheckAPI.GetScheduleListNotSent(clinicID);
-                    var schedulesExtended = string.IsNullOrEmpty(schedulesString) ? new List<ScheduledTestModelExtended>() : JsonConvert.DeserializeObject<List<ScheduledTestModelExtended>>(schedulesString);
-                    bool TwoWayDeviceExist = ScheduleRepository.TwoWayDeviceExist();
+                    
+                    twoWayCommDeviceType = ScheduleRepository.GetTwoWayCommunicationDeviceTypeList();
+                    schedulesString = await vCheckAPI.GetScheduleListNotSent(clinicID);
+                    schedulesExtended = string.IsNullOrEmpty(schedulesString) ? new List<ScheduledTestModelExtended>() : JsonConvert.DeserializeObject<List<ScheduledTestModelExtended>>(schedulesString);
+                    TwoWayDeviceExist = ScheduleRepository.TwoWayDeviceExist();
                     //List<DeviceTypeModel> deviceTypes = ScheduleRepository.GetDeviceTypeList();
 
                     if (TwoWayDeviceExist && schedulesExtended.Any())
@@ -54,8 +65,7 @@ namespace ScheduleAutomation
                             //var selectedDevice = ScheduleRepository.GetAnalyzerByParameterAllowed(schedule.Parameters);
                             //string[] deviceList = schedule.IDAnalyzers.FirstOrDefault().Analyzers.Split(",");
 
-                            var tempAnalyzers = schedule.IDAnalyzers.Select(x => x.Analyzers).ToList();
-                            var tempAnalyzersListString = "";
+                            tempAnalyzers = schedule.IDAnalyzers.Select(x => x.Analyzers).ToList();
 
                             foreach (var analyzerType in tempAnalyzers)
                             {
@@ -65,6 +75,8 @@ namespace ScheduleAutomation
                                 {
                                     if(tempAnalyzer == "C10") { tempAnalyzersListString = string.IsNullOrEmpty(tempAnalyzersListString) ? tempAnalyzer : tempAnalyzersListString + "," + tempAnalyzer; }
                                 }
+
+                                Array.Clear(tempAnalyzerArray, 0, tempAnalyzerArray.Length);
                             }
 
                             string[] deviceList = tempAnalyzersListString.Split(",");
@@ -92,7 +104,11 @@ namespace ScheduleAutomation
                                     {
                                         var targetDeviceTypeName = targetDeviceType.TypeName;
                                         await HL7.SendMessage(schedule.IDAnalyzers.Where(x => x.Analyzers.Contains(targetDeviceTypeName)).ToList(), schedule.Schedule, targetDevice, targetDeviceTypeName);
+
+                                        targetDeviceTypeName = null;
                                     }
+
+                                    targetDevice = null;
                                 }
                             }
                             else
@@ -101,16 +117,27 @@ namespace ScheduleAutomation
                                 //await vCheckAPI.UpdateScheduleAnalyzer("N/A", schedule.Schedule.ScheduleUniqueID);
                             }
 
+                            tempAnalyzersListString = null;
+                            twoWayCommDeviceType.Clear();
+                            Array.Clear(deviceList, 0, deviceList.Length);
+                            targetDeviceTypes = null;
+
                         }
                     }
+
+                    schedulesExtended.Clear();
                 }
                 catch (Exception e)
                 {
                     sLogger.Error("Error >> ", e);
                 }
 
-                //Thread.Sleep(TimeSpan.FromMinutes(5));
-                Thread.Sleep(TimeSpan.FromSeconds(5));
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+                GC.Collect();
+
+                Thread.Sleep(TimeSpan.FromMinutes(1));
+                //Thread.Sleep(TimeSpan.FromSeconds(5));
 
             }
         }

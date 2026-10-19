@@ -266,7 +266,7 @@ namespace VCheckListenerWorker.Lib.Logic.HL7
                         {
                             var normalZone = rangeList[0].Split("-");
 
-                            if (resultValue > float.Parse(normalZone[0], CultureInfo.InvariantCulture) && resultValue < float.Parse(normalZone[1], CultureInfo.InvariantCulture))
+                            if (resultValue >= float.Parse(normalZone[0], CultureInfo.InvariantCulture) && resultValue <= float.Parse(normalZone[1], CultureInfo.InvariantCulture))
                             {
                                 sStatus = "Normal";
                             }

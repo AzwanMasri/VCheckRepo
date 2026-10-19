@@ -5,6 +5,7 @@ using System.Configuration;
 using System.Data;
 using System.Diagnostics;
 using System.Net;
+using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Threading;
 using System.Windows;
@@ -53,17 +54,20 @@ namespace Vcheck_Listener
 
             _localizationService.SetCulture("en");
 
-            var host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (var ip in host.AddressList)
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork && ip.ToString() != "127.0.0.1")
-                {
-                    IPAddress = ip.ToString();
-                }
-            }
-
             var listenerConfig = App.db.GetCollection<ListenerConfig>("ListenerConfig");
             var result = listenerConfig.FindOne(x => x.Id == 1);
+            var connectionType = result.ConnectionType;
+            IPAddress = GetIPAddressAccordingToType();
+
+            //var host = Dns.GetHostEntry(Dns.GetHostName());
+            //foreach (var ip in host.AddressList)
+            //{
+            //    if (ip.AddressFamily == AddressFamily.InterNetwork && ip.ToString() != "127.0.0.1")
+            //    {
+            //        IPAddress = ip.ToString();
+            //    }
+            //}
+
             var deviceType = result != null && !string.IsNullOrEmpty(result.AnalyzerType) ? result.AnalyzerType : "";
             bool activateScheduleAutomation = result != null && result.IsScheduleAutomationActive == 1 && result.AnalyzerType == "C10" ? true : false;
 
@@ -128,7 +132,15 @@ namespace Vcheck_Listener
             configurationWindow.OnReRunSocketListenernProcess = msg =>
             {
                 if (msg) { ReRunSocketListenerProcess(); }
-                else { PingPortAsync(IPAddress, 8585); }
+                else
+                {
+                    if (string.IsNullOrEmpty(IPAddress))
+                    {
+                        trayIcon.UpdateTooltip($"{_localizationService.GetString("General_Message_VCheckListener")} (No Ip Address found) — 0 connection(s)");
+                    }
+
+                    PingPortAsync(IPAddress, 8585);
+                }
             };
 
             configurationWindow.OnRunScheduleAutomationProcess = msg =>
@@ -284,17 +296,10 @@ namespace Vcheck_Listener
 
                     if (completedTask == timeoutTask || completedTask.Status == TaskStatus.Faulted)
                     {
-                        var host = Dns.GetHostEntry(Dns.GetHostName());
-                        foreach (var ip in host.AddressList)
-                        {
-                            if (ip.AddressFamily == AddressFamily.InterNetwork && ip.ToString() != "127.0.0.1")
-                            {
-                                IPAddress = ip.ToString();
-                            }
-                        }
+                        IPAddress = GetIPAddressAccordingToType();
 
                         Task.Run(() => listener.Start(IPAddress, Port));
-                        configurationWindow.LoadListenerInfo();
+                        configurationWindow.LoadListenerInfo(null, null);
                         trayIcon.ShowBalloon(_localizationService.GetString("General_Message_VCheckListener"), _localizationService.GetString("General_Message_ServerNowListen") + Port + ".", BalloonIcon.Info);
                         trayIcon.UpdateTooltip($"{_localizationService.GetString("General_Message_VCheckListener")} ({IPAddress}) — 0 connection(s)");
                     }
@@ -304,6 +309,81 @@ namespace Vcheck_Listener
             {
                 log.Error("Error when checking listener >>> " + ex.ToString());
             }
+        }
+
+        public string GetIPAddressAccordingToType()
+        {
+            try
+            {
+                var listenerConfig = App.db.GetCollection<ListenerConfig>("ListenerConfig");
+                var result = listenerConfig.FindOne(x => x.Id == 1);
+                var connectionType = result.ConnectionType;
+                string preferredType = "ethernet";
+
+                if (!string.IsNullOrEmpty(connectionType))
+                {
+                    var value = connectionType.Trim().ToLowerInvariant();
+                    if (value == "wifi" || value == "ethernet")
+                    {
+                        preferredType = value;
+                    }
+                }
+
+                string ip = FindIpByConnectionType(preferredType);
+                if (!string.IsNullOrEmpty(ip))
+                {
+                    return ip;
+                }
+
+                preferredType = preferredType == "ethernet" ? "wifi" : "ethernet";
+                ip = FindIpByConnectionType(preferredType);
+
+                listenerConfig.Update(new ListenerConfig { Id = 1, IsScheduleAutomationActive = result.IsScheduleAutomationActive, AnalyzerIP = result.AnalyzerIP, AnalyzerPort = result.AnalyzerPort, AnalyzerType = result.AnalyzerType, PIMSIP = result.PIMSIP, PIMSPort = result.PIMSPort, PIMSUsername = result.PIMSUsername, PIMSPassword = result.PIMSPassword, ConversionChart = result.ConversionChart, ClinicID = result.ClinicID, ConnectionType = string.IsNullOrEmpty(ip) ? "" : preferredType });
+
+                return ip;
+            }
+            catch
+            {
+                return "";
+            }
+        }
+
+        private static string FindIpByConnectionType(string connectionType)
+        {
+            if (string.IsNullOrEmpty(connectionType)) { return ""; }
+
+            NetworkInterfaceType networkType = connectionType == "ethernet"
+                ? NetworkInterfaceType.Ethernet
+                : NetworkInterfaceType.Wireless80211;
+
+            foreach (NetworkInterface ni in NetworkInterface.GetAllNetworkInterfaces())
+            {
+                if (ni.OperationalStatus != OperationalStatus.Up)
+                    continue;
+
+                if (ni.NetworkInterfaceType != networkType)
+                    continue;
+
+                var ipv4 = ni.GetIPProperties().UnicastAddresses
+                    .Select(x => x.Address)
+                    .FirstOrDefault(a =>
+                        a.AddressFamily == AddressFamily.InterNetwork &&
+                        !System.Net.IPAddress.IsLoopback(a) &&
+                        !IsApipaAddress(a));
+
+                if (ipv4 != null)
+                {
+                    return ipv4.ToString();
+                }
+            }
+
+            return "";
+        }
+
+        private static bool IsApipaAddress(IPAddress address)
+        {
+            byte[] bytes = address.GetAddressBytes();
+            return bytes.Length == 4 && bytes[0] == 169 && bytes[1] == 254;
         }
     }
 

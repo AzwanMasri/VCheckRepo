@@ -8,6 +8,20 @@
       d:DesignHeight="450" d:DesignWidth="800"
       Title="ConnectionPage">
 
+    <Page.Resources>
+        <Style TargetType="TextBox">
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Foreground" Value="{DynamicResource Themes_FontColor}"/>
+            <Setter Property="IsReadOnly" Value="True"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="IsReadOnlyCaretVisible" Value="False"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+    </Page.Resources>
+
     <Grid Margin="0, 10, 0, 10">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -42,6 +56,7 @@
         <Border Name="borderPMSSelection" Grid.Column="1" Grid.Row="2" Grid.ColumnSpan="2" BorderBrush="Transparent" BorderThickness="0" Margin="30,30,30,0">
             <Grid Grid.Row="1" Margin="0,10,0,0">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="auto"/>
@@ -92,17 +107,42 @@
                         <TextBlock Grid.Row="1" Grid.Column="1" x:Name="ListenerIP" HorizontalAlignment="Center"/>
                         <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Path=Maintenance_Label_ListenerPortNo, Source={StaticResource Resources}}" FontWeight="ExtraBold" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
                         <TextBlock Grid.Row="2" Grid.Column="1" x:Name="ListenerPort" HorizontalAlignment="Center"/>
-                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Connection Type" FontWeight="ExtraBold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
-                        <ComboBox Grid.Row="3" Grid.Column="1" x:Name="ConnectionType" ItemsSource="{Binding cbConnectionType}" SelectedItem="{Binding SelectedcbConnectionType}" BorderThickness="0" VerticalAlignment="Center" Foreground="Black"/>
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="Connection Type" FontWeight="ExtraBold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}" Visibility="Collapsed"/>
+                        <ComboBox Grid.Row="3" Grid.Column="1" x:Name="ConnectionType" ItemsSource="{Binding cbConnectionType}" SelectedItem="{Binding SelectedcbConnectionType}" BorderThickness="0" VerticalAlignment="Center" Foreground="Black" Visibility="Collapsed"/>
 
 
                         <Button Name="SaveButton" Grid.Row="4" Grid.Column="1" Width="60" HorizontalAlignment="Right" Foreground="White" Content="{Binding Path=General_Label_Save, Source={StaticResource Resources}}" Margin="0,5,0,0" Click="SaveButton_Click"
-                        Background="{DynamicResource Themes_ButtonColor}" BorderBrush="{DynamicResource Themes_ButtonColor}" Style="{DynamicResource RoundButton}" />
+                        Background="{DynamicResource Themes_ButtonColor}" BorderBrush="{DynamicResource Themes_ButtonColor}" Style="{DynamicResource RoundButton}" Visibility="Collapsed"/>
 
                     </Grid>
                 </Border>
 
                 <Border Grid.Row="2" VerticalAlignment="Top" BorderThickness="1" BorderBrush="{DynamicResource Themes_InterfaceFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_InterfaceFrameBackground}" Margin="0,10,0,0">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                            <RowDefinition Height="auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.ColumnSpan="2" Text="API Information" FontWeight="ExtraBold" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="API Base URL" FontWeight="ExtraBold" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
+                        <TextBox  Grid.Row="1" Grid.Column="1" Text="http://localhost:8080/API/"/>
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="API Key" FontWeight="ExtraBold" HorizontalAlignment="Center" Foreground="{DynamicResource Themes_FontColor}"/>
+                        <TextBox  Grid.Row="2" Grid.Column="1" x:Name="APIClientKey"/>
+
+                        <Button Name="GenerateButton" Grid.Row="3" Grid.Column="1" Width="120" HorizontalAlignment="Right" Foreground="White" Content="Generate New Key" Margin="0,5,0,0" Click="GenerateButton_Click"
+                        Background="{DynamicResource Themes_ButtonColor}" BorderBrush="{DynamicResource Themes_ButtonColor}" Style="{DynamicResource RoundButton}"/>
+
+                    </Grid>
+                </Border>
+
+                <Border Grid.Row="3" VerticalAlignment="Top" BorderThickness="1" BorderBrush="{DynamicResource Themes_InterfaceFrameBackground}" Padding="10" CornerRadius="7" Background="{DynamicResource Themes_InterfaceFrameBackground}" Margin="0,10,0,0">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>

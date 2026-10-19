@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http.Headers;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.Rewrite;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using System;
 using System.CodeDom;
 using System.Drawing;
 using System.Globalization;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Xml;
@@ -151,18 +153,70 @@ namespace VCheckViewerAPI.Controllers
                     {
                         ClientModel sAuthProfile = _apiRepository.GetClientProfileByClientKey(request.Header.clientKey);
 
-                        var latestVersionSplit = sAuthProfile.Version.Split(".");
-                        var currentVersionSplit = request.Body.Version.Split(".");
+                        string[] latestVersionSplit = sAuthProfile.Version.Split(".");
+                        string[] currentVersionSplit = request.Body.Version.Split(".");
                         var isLatestVersion = true;
 
-                        for(int i = 0; i < latestVersionSplit.Count(); i++)
+                        if (latestVersionSplit.Length != currentVersionSplit.Length)
                         {
-                            if (int.Parse(currentVersionSplit[i]) < int.Parse(latestVersionSplit[i])) { isLatestVersion = false; break; }
+
+                            if (latestVersionSplit.Length > currentVersionSplit.Length)
+                            {
+                                int currentMax = currentVersionSplit.Length;
+                                string[] tempVersionSplit = currentVersionSplit;
+                                currentVersionSplit = Array.Empty<string>();
+                                string[] temp = new string[latestVersionSplit.Length];
+
+                                for (int i = 0; i < latestVersionSplit.Length; i++)
+                                {
+                                    if(i < currentMax)
+                                    {
+                                        Array.Copy(tempVersionSplit, i, temp, i, 1);
+                                    }
+                                    else
+                                    {
+                                        temp[i] = "0";
+                                    }
+                                }
+
+                                currentVersionSplit = temp;
+                            }
+                            else
+                            {
+                                int currentMax = latestVersionSplit.Length;
+                                string[] tempVersionSplit = latestVersionSplit;
+                                latestVersionSplit = Array.Empty<string>();
+                                string[] temp = new string[currentVersionSplit.Length];
+
+                                for (int i = 0; i < currentVersionSplit.Length; i++)
+                                {
+                                    if (i < currentMax)
+                                    {
+                                        Array.Copy(tempVersionSplit, i, temp, i, 1);
+                                    }
+                                    else
+                                    {
+                                        temp[i] = "0";
+                                    }
+                                }
+
+                                latestVersionSplit = temp;
+                            }
                         }
+
+                        if (sAuthProfile.Version != request.Body.Version && !ignoreVersion.Contains(request.Body.Version))
+                        {
+                            for (int i = 0; i < latestVersionSplit.Count(); i++)
+                            {
+                                if (int.Parse(currentVersionSplit[i]) < int.Parse(latestVersionSplit[i])) { isLatestVersion = false; break; }
+
+                                if (int.Parse(currentVersionSplit[i]) > int.Parse(latestVersionSplit[i])) { break; }
+                            }
+                        }                  
 
                         responseCode = "VV.0001";
                         responseMessage = "Success";
-                        sResult = ignoreVersion.Contains(request.Body.Version) || isLatestVersion;
+                        sResult = isLatestVersion;
                     }
                     else
                     {
@@ -196,10 +250,10 @@ namespace VCheckViewerAPI.Controllers
                 response.Body = responseBody;
 
                 //--------- Log Payload -------//
-                VCheck.APILogging.CallLogging.InsertAPiLog("IsLatestVersion", Guid.NewGuid().ToString(), request.Header.timestamp,
-                                               Newtonsoft.Json.JsonConvert.SerializeObject(request), responseHeader.timestamp,
-                                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
-                                               responseMessage);
+                //VCheck.APILogging.CallLogging.InsertAPiLog("IsLatestVersion", Guid.NewGuid().ToString(), request.Header.timestamp,
+                //                               Newtonsoft.Json.JsonConvert.SerializeObject(request), responseHeader.timestamp,
+                //                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
+                //                               responseMessage);
             }
             catch (Exception ex)
             {
@@ -280,10 +334,10 @@ namespace VCheckViewerAPI.Controllers
                 };
 
                 //--------- Log Payload -------//
-                VCheck.APILogging.CallLogging.InsertAPiLog("UpdateScheduledTest", Guid.NewGuid().ToString(), request.Header.timestamp,
-                                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
-                                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
-                                               responseMessage);
+                //VCheck.APILogging.CallLogging.InsertAPiLog("UpdateScheduledTest", Guid.NewGuid().ToString(), request.Header.timestamp,
+                //                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
+                //                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
+                //                               responseMessage);
             }
             catch (Exception ex)
             {
@@ -467,9 +521,9 @@ namespace VCheckViewerAPI.Controllers
                 sResp.Body.ResponseMessage = sRespMessage;
 
                 //--------- Log Payload -------//
-                VCheck.APILogging.CallLogging.InsertAPiLog("CreateScheduledTest", Guid.NewGuid().ToString(), request.Header.timestamp,
-                                                           Newtonsoft.Json.JsonConvert.SerializeObject(request), sResp.Header.timestamp,
-                                                           Newtonsoft.Json.JsonConvert.SerializeObject(sResp), sRespCode, sRespStatus, sRespMessage);
+                //VCheck.APILogging.CallLogging.InsertAPiLog("CreateScheduledTest", Guid.NewGuid().ToString(), request.Header.timestamp,
+                //                                           Newtonsoft.Json.JsonConvert.SerializeObject(request), sResp.Header.timestamp,
+                //                                           Newtonsoft.Json.JsonConvert.SerializeObject(sResp), sRespCode, sRespStatus, sRespMessage);
             }
             catch (Exception ex)
             {
@@ -511,6 +565,7 @@ namespace VCheckViewerAPI.Controllers
             int isMismatchedWrongUniqueIDError = 0;
             string TestName = "";
             string clientName = "Unauthorized User";
+            request.body.LocationID = "Local";
 
             try
             {
@@ -694,6 +749,7 @@ namespace VCheckViewerAPI.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost(Name = "GetScheduleListByLocation")]
+        //[EnableRateLimiting("IpRateLimit")]
         public ResponseModel GetScheduleListByLocation(ScheduleDataRequest request)
         {
             var response = new ResponseModel();
@@ -816,6 +872,7 @@ namespace VCheckViewerAPI.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost(Name = "GetScheduleListByLocationNotSent")]
+        [EnableRateLimiting("IpRateLimit")]
         public ResponseModel GetScheduleListByLocationNotSent(ScheduleDataRequest request)
         {
             var response = new ResponseModel();
@@ -825,6 +882,21 @@ namespace VCheckViewerAPI.Controllers
             String responseCode = "";
             String responseMessage = "";
             String responseStatus = "";
+
+            //var remoteIpAddress = Request.HttpContext.Connection.RemoteIpAddress?.ToString();
+
+            //if (_apiRepository.CheckLastRequest(remoteIpAddress))
+            //{
+            //    response.Header.timestamp = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ssZ");
+            //    response.Header.clientKey = request.Header.clientKey;
+
+            //    response.Body.ResponseCode = "VV.0004";
+            //    response.Body.ResponseStatus = "Fail";
+            //    response.Body.ResponseMessage = "Request too frequently (max once per minute)";
+            //    response.Body.Results = null;
+
+            //    return response;
+            //}
 
             List<ScheduledTestModelExtended> result = new List<ScheduledTestModelExtended>();
 
@@ -930,9 +1002,9 @@ namespace VCheckViewerAPI.Controllers
             response.Body.Results = result;
 
             //--------- Log Payload -------//
-            VCheck.APILogging.CallLogging.InsertAPiLog("GetScheduleByLocationPatientID", Guid.NewGuid().ToString(), request.Header.timestamp,
-                                                       Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
-                                                       Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus, responseMessage);
+            //VCheck.APILogging.CallLogging.InsertAPiLog("GetScheduleByLocationPatientID", Guid.NewGuid().ToString(), request.Header.timestamp,
+            //                                           Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
+            //                                           Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus, responseMessage);
 
             return response;
         }
@@ -1003,9 +1075,9 @@ namespace VCheckViewerAPI.Controllers
             response.Body.Results = clinicID;
 
             //--------- Log Payload -------//
-            VCheck.APILogging.CallLogging.InsertAPiLog("UpdateLocation", Guid.NewGuid().ToString(), request.Header.timestamp,
-                                                       Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
-                                                       Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus, responseMessage);
+            //VCheck.APILogging.CallLogging.InsertAPiLog("UpdateLocation", Guid.NewGuid().ToString(), request.Header.timestamp,
+            //                                           Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
+            //                                           Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus, responseMessage);
 
             return response;
         }
@@ -1016,6 +1088,7 @@ namespace VCheckViewerAPI.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost(Name = "GetLocationList")]
+        [EnableRateLimiting("IpRateLimit")]
         public ResponseModel GetLocationList(LocationDataRequest request)
         {
             var response = new ResponseModel();
@@ -1084,10 +1157,10 @@ namespace VCheckViewerAPI.Controllers
                 response.Body.Results = sResultList;
 
                 //--------- Log Payload -------//
-                VCheck.APILogging.CallLogging.InsertAPiLog("GetLocationList", Guid.NewGuid().ToString(), request.header.timestamp,
-                                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
-                                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
-                                               responseMessage);
+                //VCheck.APILogging.CallLogging.InsertAPiLog("GetLocationList", Guid.NewGuid().ToString(), request.header.timestamp,
+                //                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
+                //                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
+                //                               responseMessage);
             }
             catch (Exception ex)
             {
@@ -1379,6 +1452,8 @@ namespace VCheckViewerAPI.Controllers
         [HttpGet(Name = "TestConnection")]
         public ActionResult<ResponseModel> TestConnection()
         {
+            var remoteIpAddress = Request.HttpContext.Connection.RemoteIpAddress?.ToString();
+
             var response = new ResponseModel();
             response.Header = new HeaderModel();
             response.Body = new ResponseBody();
@@ -1389,7 +1464,7 @@ namespace VCheckViewerAPI.Controllers
             response.Body.ResponseCode = "VV.0001";
             response.Body.ResponseStatus = "Success";
             response.Body.ResponseMessage = "Success";
-            response.Body.Results = null;
+            response.Body.Results = remoteIpAddress;
 
             return response;
         }
@@ -1449,10 +1524,10 @@ namespace VCheckViewerAPI.Controllers
                 response.Body.Results = sResultList;
 
                 //--------- Log Payload -------//
-                VCheck.APILogging.CallLogging.InsertAPiLog("GetTestList", Guid.NewGuid().ToString(), request.Header.timestamp,
-                                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
-                                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
-                                               responseMessage);
+                //VCheck.APILogging.CallLogging.InsertAPiLog("GetTestList", Guid.NewGuid().ToString(), request.Header.timestamp,
+                //                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
+                //                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
+                //                               responseMessage);
             }
             catch (Exception ex)
             {
@@ -1529,10 +1604,10 @@ namespace VCheckViewerAPI.Controllers
                 response.Body.Results = sResultList;
 
                 //--------- Log Payload -------//
-                VCheck.APILogging.CallLogging.InsertAPiLog("GetFullInfoTestList", Guid.NewGuid().ToString(), request.Header.timestamp,
-                                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
-                                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
-                                               responseMessage);
+                //VCheck.APILogging.CallLogging.InsertAPiLog("GetFullInfoTestList", Guid.NewGuid().ToString(), request.Header.timestamp,
+                //                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
+                //                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
+                //                               responseMessage);
             }
             catch (Exception ex)
             {
@@ -1882,10 +1957,10 @@ namespace VCheckViewerAPI.Controllers
                 response.Body.Results = sResultList;
 
                 //--------- Log Payload -------//
-                VCheck.APILogging.CallLogging.InsertAPiLog("GetTestByNameOrCode", Guid.NewGuid().ToString(), request.Header.timestamp,
-                                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
-                                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
-                                               responseMessage);
+                //VCheck.APILogging.CallLogging.InsertAPiLog("GetTestByNameOrCode", Guid.NewGuid().ToString(), request.Header.timestamp,
+                //                               Newtonsoft.Json.JsonConvert.SerializeObject(request), response.Header.timestamp,
+                //                               Newtonsoft.Json.JsonConvert.SerializeObject(response), responseCode, responseStatus,
+                //                               responseMessage);
             }
             catch (Exception ex)
             {

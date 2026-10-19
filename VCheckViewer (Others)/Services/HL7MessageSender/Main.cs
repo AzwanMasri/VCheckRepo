@@ -1,11 +1,13 @@
 ﻿using DocumentFormat.OpenXml.InkML;
+using DocumentFormat.OpenXml.Office2016.Excel;
+using DocumentFormat.OpenXml.Spreadsheet;
 using Newtonsoft.Json;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Text.Json;
-using VCheck.Interface.API;
+//using VCheck.Interface.API;
 using VCheck.Lib.Data;
 using VCheck.Lib.Data.Models;
 using VCheckViewer_Others.Lib.Function;
@@ -23,18 +25,20 @@ namespace VCheckViewer_Others.Services.HL7MessageSender
         {
             DeviceModel device = DeviceRepository.GetDeviceByID(App.AnalyzerID, ConfigSettings.GetConfigurationSettings());
             DeviceTypeModel deviceType = DeviceRepository.GetDeviceTypeByID(ConfigSettings.GetConfigurationSettings(), device.DeviceTypeID.Value);
-            VCheckAPI VcheckAPI = new VCheckAPI();
+            //VCheckAPI VcheckAPI = new VCheckAPI();
             List<(string, string)> sContents = new List<(string, string)>();
             if(deviceType.TypeName == "C10")
             {
                 List<(string, string)> testCodeName = new List<(string, string)>();
                 foreach (var testInfo in scheduleTest.IDAnalyzers)
                 {
-                    var testResponseString = await VcheckAPI.GetTestByNameOrCode(null, testInfo.TestID);
-                    var TestName = string.IsNullOrEmpty(testResponseString) ? "VCheck" : JsonConvert.DeserializeObject<VCheck.Lib.Data.Models.TestDataObject>(testResponseString).testname.Replace(" (C10)", "");
+                    //var testResponseString = await VcheckAPI.GetTestByNameOrCode(null, testInfo.TestID);
+                    //var TestName = string.IsNullOrEmpty(testResponseString) ? "VCheck" : JsonConvert.DeserializeObject<VCheck.Lib.Data.Models.TestDataObject>(testResponseString).testname.Replace(" (C10)", "");
+
+                    var testListInfo = TestResultsRepository.GetTestByUniqueID(ConfigSettings.GetConfigurationSettings(), testInfo.TestID);
+                    var TestName = testListInfo == null ? "VCheck" : testListInfo.TestName.Replace(" (C10)", "");
 
                     //testCodeName.Add((testInfo.TestID, TestName));
-
 
                     sContents.Add((TestName, MessageGenerator.GenerateOMLO33Message(new List<(string, string)>() { (testInfo.TestID, TestName) }, scheduleTest.Schedule)));
                 }
@@ -118,8 +122,21 @@ namespace VCheckViewer_Others.Services.HL7MessageSender
 
                 if (successRate > 0)
                 {
-                    VCheckAPI vCheckAPI = new VCheckAPI();
-                    var test = await vCheckAPI.UpdateScheduleStatus(scheduleTest.Schedule.LocationID, scheduleTest.Schedule.PatientID, scheduleTest.Schedule.ScheduleUniqueID.Split("-")[1], scheduleTest.Schedule.CreatedBy, 1);
+                    //VCheckAPI vCheckAPI = new VCheckAPI();
+                    //var test = await vCheckAPI.UpdateScheduleStatus(scheduleTest.Schedule.LocationID, scheduleTest.Schedule.PatientID, scheduleTest.Schedule.ScheduleUniqueID.Split("-")[1], scheduleTest.Schedule.CreatedBy, 1);
+
+                    ScheduledTestRepository.RefreshData();
+                    var data = ScheduledTestRepository.GetScheduledTestByOrderID(ConfigSettings.GetConfigurationSettings(), scheduleTest.Schedule.ScheduleUniqueID.Split("-")[1], scheduleTest.Schedule.CreatedBy, "Local");
+                    
+                    if(data != null && data.ScheduleTestStatus != 1)
+                    {
+                        data.ScheduleTestStatus = 1;
+                        data.UpdatedBy = scheduleTest.Schedule.CreatedBy;
+                        data.UpdatedDate = DateTime.Now;
+
+                        ScheduledTestRepository.UpdateScheduledTestStatus(ConfigSettings.GetConfigurationSettings(), data, scheduleTest.Schedule.CreatedBy);
+                    }
+
                     App.MainViewModel.Origin = "SentToAnalyzer";
                 }
                 else

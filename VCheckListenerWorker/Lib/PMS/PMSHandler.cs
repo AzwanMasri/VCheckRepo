@@ -33,6 +33,10 @@ namespace VCheckListenerWorker.Lib.PMS
         private static readonly string normalDigits = "0123456789-+";
         private static readonly string[] calItems = { "A/G", "B/C", "GLOB", "Na/K"};
 
+        public static GreywindAPI sAPI = new GreywindAPI();
+        public static VCheckAPI VcheckAPI = new VCheckAPI();
+        public static GeneralAPI sGeneralAPI = new GeneralAPI();
+
         public async Task<bool> SendToPMS(txn_testresults sTestResults, List<txn_testresults_details> sTestResultDetails, ScheduledTestModel sScheduledTestObj, string sTestCode, string sNotes = "")
         {
             VCheck.Interface.API.Greywind.RequestMessage.UpdateResultRequest sRequestAPI = new VCheck.Interface.API.Greywind.RequestMessage.UpdateResultRequest();
@@ -202,12 +206,10 @@ namespace VCheckListenerWorker.Lib.PMS
 
             GetInterfaceInfo();
 
-            var sRespAPI = false;
-            VCheckAPI VcheckAPI = new VCheckAPI();
+            var sRespAPI = false;            
 
             if (PMS == "Greywind")
             {
-                GreywindAPI sAPI = new GreywindAPI();
                 url = await VcheckAPI.GetPMSUrl(2);
                 sRespAPI = sAPI.UpdateResult(sRequestAPI, sOrderID, url);
             }
@@ -235,8 +237,7 @@ namespace VCheckListenerWorker.Lib.PMS
                         url = string.Join("/", splitURL);
                     }
 
-                    GeneralAPI sAPI = new GeneralAPI();
-                    sRespAPI = await sAPI.SendData(url, sRequestAPI, username, password);
+                    sRespAPI = await sGeneralAPI.SendData(url, sRequestAPI, username, password);
                 }
             }
 
@@ -245,10 +246,12 @@ namespace VCheckListenerWorker.Lib.PMS
                 sTestResults.PMSFunction = "Collapsed";
 
                 TestResultRepository.createTestResult(sTestResults);
-                return true;
             }
 
-            return false;
+            sPanelListing = null;
+            sResultListing = null;
+
+            return sRespAPI;
 
         }
 

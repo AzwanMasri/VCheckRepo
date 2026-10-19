@@ -12,11 +12,19 @@ using VCheck.Interface.API.Lib.General;
 
 namespace VCheck.Interface.API
 {
+    public static class ApiClient
+    {
+        private static readonly HttpClient _client = new HttpClient();
+
+        public static HttpClient Client => _client;
+    }
+
     public class VCheckAPI
     {
-        //private string url = "https://localhost:7245/"; // local
-        private string url = "http://vcheckcentral.inteleon.xyz/"; // Testing
-        //private string url = "http://vcheckstaging.inteleon.xyz/"; // Staging
+        //private string url = "https://localhost:7247/"; // local API
+        //private string url = "https://localhost:7245/"; // local VV API
+        //private string url = "http://vcheckcentral.inteleon.xyz/"; // Testing
+        private string url = "http://vcheckstaging.inteleon.xyz/"; // Staging
         //private string url = "https://www.vcheckviewer.com/"; // prod with SSL
 
         private string clientKey = "qwertyuiop123asdfghjkl456zxcvbnm789";
@@ -87,7 +95,6 @@ namespace VCheck.Interface.API
                 {
                     client.DefaultRequestHeaders.Accept.Clear();
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("*/*"));
-
 
                     var resp = await client.GetAsync(url + "Api/testconnection");
                     string content = await resp.Content.ReadAsStringAsync();
@@ -349,22 +356,26 @@ namespace VCheck.Interface.API
                     client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("*/*"));
 
 
-                    HttpResponseMessage resp = await client.PostAsync(url + "Api/GetScheduleListByLocationNotSent", content);
+                    using HttpResponseMessage resp = await client.PostAsync(url + "Api/GetScheduleListByLocationNotSent", content);
                     if (resp.IsSuccessStatusCode)
                     {
-                        var resultString = resp.Content.ReadAsStringAsync().Result;
+                        var resultString = await resp.Content.ReadAsStringAsync();
                         var results = JsonConvert.DeserializeObject<ResponseModel>(resultString);
+                        request = null;
+                        resultString = null;
 
                         return JsonConvert.SerializeObject(results.Body.Results);
                     }
                     else
                     {
+                        request = null;
                         return null;
                     }
                 }
             }
             catch (Exception ex)
             {
+                request = null;
                 return null;
             }
         }
