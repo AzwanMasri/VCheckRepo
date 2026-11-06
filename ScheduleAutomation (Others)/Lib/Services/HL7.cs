@@ -109,6 +109,23 @@ namespace ScheduleAutomation_Others.Lib.Services
                 VCheckAPI vCheckAPI = new VCheckAPI();
                 var UpdateStatus = await vCheckAPI.UpdateScheduleStatus(scheduleTest.LocationID, scheduleTest.PatientID, scheduleTest.ScheduleUniqueID.Split("-")[1], scheduleTest.CreatedBy, 1);
                 var updateAnalyzer = await vCheckAPI.UpdateScheduleAnalyzer(DeviceTypeName, scheduleTest.ScheduleUniqueID);
+
+                ScheduledTestRepository.RefreshData();
+                var data = ScheduledTestRepository.GetScheduledTestByOrderID(ScheduleRepository.GetConfigurationSettings(), scheduleTest.ScheduleUniqueID.Split("-")[1], scheduleTest.CreatedBy, "Local");
+
+                if (data != null && data.ScheduleTestStatus != 1)
+                {
+                    data.ScheduleTestStatus = 1;
+                    data.UpdatedBy = scheduleTest.CreatedBy;
+                    data.UpdatedDate = DateTime.Now;
+
+                    if (data.SentToAnalyzer == null || !data.SentToAnalyzer.Split(",").Contains("C10"))
+                    {
+                        data.SentToAnalyzer = data.SentToAnalyzer == null ? "C10" : data.SentToAnalyzer + "," + "C10";
+                    }
+
+                    ScheduledTestRepository.UpdateScheduledTestStatus(ScheduleRepository.GetConfigurationSettings(), data, scheduleTest.CreatedBy);
+                }
             }
 
 

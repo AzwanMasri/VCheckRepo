@@ -21,7 +21,7 @@ namespace VCheck.Interface.API
 
     public class VCheckAPI
     {
-        //private string url = "https://localhost:7247/"; // local API
+        //private string url = "https://localhost:7247/"; // global API
         //private string url = "https://localhost:7245/"; // local VV API
         //private string url = "http://vcheckcentral.inteleon.xyz/"; // Testing
         private string url = "http://vcheckstaging.inteleon.xyz/"; // Staging
