@@ -250,7 +250,7 @@ namespace VCheckViewer.Views.Windows
                 {
                     errorListString = await sAPI.GetAllErrorNotSync(clinicInfo.ConfigurationValue);
 
-                    if (errorListString != null)
+                    if (!string.IsNullOrEmpty(errorListString) && errorListString != "null")
                     {
                         errorList = JsonConvert.DeserializeObject<List<APIErrorModel>>(errorListString);
                         

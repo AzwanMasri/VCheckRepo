@@ -51,6 +51,8 @@ namespace VCheckListenerWorker
 
         public static VCheckAPI vCheckAPI = new VCheckAPI();
 
+        public static bool ShowConsole = true;
+
         public Worker(ILogger<Worker> logger)
         {
             _logger = logger;
@@ -83,7 +85,7 @@ namespace VCheckListenerWorker
 
                     clientIpAddress = remoteIpEndPoint.Address.ToString();
                     clientIpPort = remoteIpEndPoint.Port.ToString();
-                    //Console.WriteLine("Client connected from " + clientIpAddress + ":" + clientIpPort + ".");
+                    if (ShowConsole) { Console.WriteLine("Client connected from " + clientIpAddress + ":" + clientIpPort + "."); }
                     device = TestResultRepository.GetDeviceByIPSerialNo(clientIpAddress, null, out deviceType);
                     clinicID = TestResultRepository.GetConfigurationByKey("ClinicID");
 
@@ -252,7 +254,8 @@ namespace VCheckListenerWorker
 
                         sClient.Close();
                         sClient = null;
-                        //Console.WriteLine("Client disconnected from " + clientIpAddress + ":" + clientIpPort + ".");
+                        
+                        if (ShowConsole) { Console.WriteLine("Client disconnected from " + clientIpAddress + ":" + clientIpPort + "."); }
 
                     });
 
@@ -745,7 +748,7 @@ namespace VCheckListenerWorker
             try
             {
                 long currentMemory = GC.GetTotalMemory(forceFullCollection: false);
-                Console.WriteLine($"Current memory usage: {currentMemory / (1024 * 1024)} MB");
+                //Console.WriteLine($"Current memory usage: {currentMemory / (1024 * 1024)} MB");
 
                 if (currentMemory > MemoryThresholdBytes)
                 {
@@ -763,7 +766,7 @@ namespace VCheckListenerWorker
                 }
                 else
                 {
-                    Console.WriteLine("Memory usage below threshold — skipping GC.");
+                    //Console.WriteLine("Memory usage below threshold — skipping GC.");
                 }
             }
             catch (Exception ex)

@@ -104,7 +104,7 @@ namespace VCheckViewer_Others.Views.Pages.Schedule
 
                     var status = "";
 
-                    if (t.ScheduleTestStatus == 1 && t.SentToAnalyzer != "N/A" && !string.IsNullOrEmpty(t.SentToAnalyzer))
+                    if (t.ScheduleTestStatus == 1 && t.SentToAnalyzer != "N/A")
                     {
                         status = Properties.Resources.Schedule_Label_SentToAnalyzer;
                     }

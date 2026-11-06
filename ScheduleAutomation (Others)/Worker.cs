@@ -109,11 +109,6 @@ namespace ScheduleAutomation_Others
                                     data.UpdatedBy = schedule.Schedule.CreatedBy;
                                     data.UpdatedDate = DateTime.Now;
 
-                                    if (data.SentToAnalyzer == null || !data.SentToAnalyzer.Split(",").Contains("H6"))
-                                    {
-                                        data.SentToAnalyzer = data.SentToAnalyzer == null ? "H6" : data.SentToAnalyzer + "," + "H6";
-                                    }
-
                                     ScheduledTestRepository.UpdateScheduledTestByUniqueID(Host.CreateApplicationBuilder().Configuration, data);
                                 }
                             }
